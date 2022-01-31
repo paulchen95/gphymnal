@@ -1,6 +1,7 @@
 # gphymnal
 version 0.0.5:
 - simple typographical cleanup
+- added the option to prompt user to update to the latest version in app store
 
 version 0.0.4:
 - added the option to long-press and copy hymn text to clipboard
