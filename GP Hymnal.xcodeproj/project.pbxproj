@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377D26B3CEA2002603EA /* Hymn.swift */; };
 		C38F378026B3D04D002603EA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377F26B3D04D002603EA /* DetailsView.swift */; };
 		C38F378226B3D478002603EA /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F378126B3D478002603EA /* Data.swift */; };
+		C3F7CCB727A887A000B54E5C /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C3F7CCB627A887A000B54E5C /* Siren */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3F7CCB727A887A000B54E5C /* Siren in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +96,9 @@
 			dependencies = (
 			);
 			name = "GP Hymnal";
+			packageProductDependencies = (
+				C3F7CCB627A887A000B54E5C /* Siren */,
+			);
 			productName = "GP Hymnal";
 			productReference = C38F376B26B3CE2D002603EA /* GP Hymnal.app */;
 			productType = "com.apple.product-type.application";
@@ -121,6 +126,9 @@
 				Base,
 			);
 			mainGroup = C38F376226B3CE2D002603EA;
+			packageReferences = (
+				C3F7CCB527A887A000B54E5C /* XCRemoteSwiftPackageReference "Siren" */,
+			);
 			productRefGroup = C38F376C26B3CE2D002603EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -344,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C3F7CCB527A887A000B54E5C /* XCRemoteSwiftPackageReference "Siren" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ArtSabintsev/Siren.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C3F7CCB627A887A000B54E5C /* Siren */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3F7CCB527A887A000B54E5C /* XCRemoteSwiftPackageReference "Siren" */;
+			productName = Siren;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C38F376326B3CE2D002603EA /* Project object */;
 }
