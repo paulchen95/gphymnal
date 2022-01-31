@@ -10,5 +10,5 @@ version 0.0.3:
 - text only
 - nothing else
 
-Taken from one of GP's mini hymnals, removed hymns that are still copyrighted and not in Public Domain
+Taken from one of GP's mini hymnals
 
