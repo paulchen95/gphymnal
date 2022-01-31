@@ -1,11 +1,11 @@
 # gphymnal
-0.0.5 version of GP Hymnal
+version 0.0.5:
 - simple typographical cleanup
 
-0.0.4 version of GP Hymnal
+version 0.0.4:
 - added the option to long-press and copy hymn text to clipboard
 
-0.0.3 version of GP Hymnal
+version 0.0.3:
 - simple, dumb, iOS App with 2 Screens
 - text only
 - nothing else
