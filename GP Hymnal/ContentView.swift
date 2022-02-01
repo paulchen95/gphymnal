@@ -9,16 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Text("GP Hymnal v0.0.3")
-            NavigationView {
-                List {
-                    ForEach(hymnalData.hymns, content: {
-                        hymn in
-                        NavigationLink(hymn.name, destination:
-                                        DetailsView(hymn: hymn))
-                    })
-                }
+        NavigationView {
+            List {
+                ForEach(hymnalData.hymns, content: {
+                    hymn in
+                    NavigationLink(hymn.name, destination:
+                                    DetailsView(hymn: hymn))
+                })
             }
         }
     }

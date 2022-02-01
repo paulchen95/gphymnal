@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import Siren
 
 @main
 struct GP_HymnalApp: App {
+    init() {
+        Siren.shared.wail()
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
