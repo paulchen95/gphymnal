@@ -12,21 +12,27 @@ struct DetailsView: View {
     
     var body: some View {
         VStack {
-            Text(hymn.name).fontWeight(.heavy).foregroundColor(Color.blue)
-            Spacer()
             ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
-                Text(hymn.text)
+                VStack {
+                    Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue)
+                    Spacer()
+                    Text(hymn.text).padding(.bottom)
+                    Spacer()
+                    Divider()
+                    VStack(alignment: .leading) {
+                        if (hymn.author.count > 0) {
+                            Text("Author: " + hymn.author)
+                        }
+                        if (hymn.translator.count > 0) {
+                            Text("Translator: " + hymn.translator)
+                        }
+                        if (hymn.composer.count > 0) {
+                            Text("Composer: " + hymn.composer)
+                        }
+                    }
+                }
             })
-            Spacer()
-            if (hymn.author.count > 0) {
-                Text("Author: " + hymn.author)
-            }
-            if (hymn.translator.count > 0) {
-                Text("Translator: " + hymn.translator)
-            }
-            if (hymn.composer.count > 0) {
-                Text("Composer: " + hymn.composer)
-            }
+            
         }
     }
 }

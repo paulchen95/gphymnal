@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0072D02227A77E300096D33C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 0072D02127A77E300096D33C /* Data */; };
+		009F744D27A9204B00580D62 /* HymnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009F744C27A9204B00580D62 /* HymnList.swift */; };
 		C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */; };
 		C38F377126B3CE2D002603EA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377026B3CE2D002603EA /* ContentView.swift */; };
 		C38F377326B3CE2E002603EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377226B3CE2E002603EA /* Assets.xcassets */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0072D02127A77E300096D33C /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
+		009F744C27A9204B00580D62 /* HymnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnList.swift; sourceTree = "<group>"; };
 		C38F376B26B3CE2D002603EA /* GP Hymnal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GP Hymnal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GP_HymnalApp.swift; sourceTree = "<group>"; };
 		C38F377026B3CE2D002603EA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,11 +62,13 @@
 		C38F376D26B3CE2D002603EA /* GP Hymnal */ = {
 			isa = PBXGroup;
 			children = (
+				0072D02127A77E300096D33C /* Data */,
 				C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */,
 				C38F377026B3CE2D002603EA /* ContentView.swift */,
 				C38F378126B3D478002603EA /* Data.swift */,
 				C38F377F26B3D04D002603EA /* DetailsView.swift */,
 				C38F377D26B3CEA2002603EA /* Hymn.swift */,
+				009F744C27A9204B00580D62 /* HymnList.swift */,
 				C38F377226B3CE2E002603EA /* Assets.xcassets */,
 				C38F377726B3CE2E002603EA /* Info.plist */,
 				C38F377426B3CE2E002603EA /* Preview Content */,
@@ -137,6 +143,7 @@
 			files = (
 				C38F377626B3CE2E002603EA /* Preview Assets.xcassets in Resources */,
 				C38F377326B3CE2E002603EA /* Assets.xcassets in Resources */,
+				0072D02227A77E300096D33C /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C38F377126B3CE2D002603EA /* ContentView.swift in Sources */,
+				009F744D27A9204B00580D62 /* HymnList.swift in Sources */,
 				C38F378226B3D478002603EA /* Data.swift in Sources */,
 				C38F378026B3D04D002603EA /* DetailsView.swift in Sources */,
 				C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */,

@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct GP_HymnalApp: App {
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
