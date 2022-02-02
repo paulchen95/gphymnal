@@ -2,8 +2,8 @@
 //  HymnList.swift
 //  GP Hymnal
 //
-//  Created by Park, Jay on 2/1/22.
-//
+//  Created by Jay Park on 2/1/22.
+
 
 import Foundation
 
@@ -44,8 +44,8 @@ struct HymnList {
                 textValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
             }
         }
-        let hymn = Hymn(name: nameValue, author: authorValue, translator: translatorValue, composer: composerValue, text: textValue)
-        return hymn
+
+        return Hymn(name: nameValue, author: authorValue, translator: translatorValue, composer: composerValue, text: textValue)
     }
 }
 

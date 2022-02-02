@@ -1,4 +1,4 @@
-name:: ABIDE WITH ME
+name:: Abide With Me
 ---
 author:: Henry F. Lyte
 ---
