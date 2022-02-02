@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(hymnalData.hymns, content: {
+                let hymnList = HymnList()
+                ForEach(hymnList.hymns, content: {
                     hymn in
                     NavigationLink(hymn.name, destination:
                                     DetailsView(hymn: hymn))

@@ -12,9 +12,8 @@ struct DetailsView: View {
     
     var body: some View {
         ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
-            Text(hymn.name).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
-            Spacer()
-            Text(hymn.text)
+            Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
+            Text(hymn.text).padding()
                 .contextMenu {
                 Button(action: {
                     UIPasteboard.general.string = hymn.text
@@ -24,14 +23,17 @@ struct DetailsView: View {
                 }
             }
             Spacer()
-            if (hymn.author.count > 0) {
-                Text("Author: " + hymn.author)
-            }
-            if (hymn.translator.count > 0) {
-                Text("Translator: " + hymn.translator)
-            }
-            if (hymn.composer.count > 0) {
-                Text("Composer: " + hymn.composer)
+            Divider()
+            VStack(alignment: .leading) {
+                if (hymn.author.count > 0) {
+                    Text("Author: " + hymn.author)
+                }
+                if (hymn.translator.count > 0) {
+                    Text("Translator: " + hymn.translator)
+                }
+                if (hymn.composer.count > 0) {
+                    Text("Composer: " + hymn.composer)
+                }
             }
         })
     }
