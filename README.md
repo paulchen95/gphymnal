@@ -1,4 +1,7 @@
 # gphymnal
+version 0.0.6:
+- decoupled hymn data from code
+
 version 0.0.5:
 - simple typographical cleanup
 - added the option to prompt user to update to the latest version in app store
