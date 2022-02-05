@@ -36,13 +36,10 @@ struct HymnList {
                     .replacingOccurrences(of: "\n", with: "")
             } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "author::") {
                 authorValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
-                    .replacingOccurrences(of: "\n", with: "")
             } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "translator::") {
                 translatorValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
-                    .replacingOccurrences(of: "\n", with: "")
             } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "composer::") {
                 composerValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
-                    .replacingOccurrences(of: "\n", with: "")
             } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "text::") {
                 textValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
             }
