@@ -31,21 +31,32 @@ struct HymnList {
         var textValue = ""
         
         for line in lines {
-            if line.replacingOccurrences(of: "\n", with: "").starts(with: "name::") {
-                nameValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
-                    .replacingOccurrences(of: "\n", with: "")
-            } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "author::") {
-                authorValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
-            } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "translator::") {
-                translatorValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
-            } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "composer::") {
-                composerValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
-            } else if line.replacingOccurrences(of: "\n", with: "").starts(with: "text::") {
-                textValue = line.components(separatedBy: "::")[1].trimmingCharacters(in: .whitespaces)
+            if doesLineStartWith(line: line, string: "name::") {
+                nameValue = getAttributeValueWithoutSpecialChars(line: line)
+            } else if doesLineStartWith(line: line, string: "author::") {
+                authorValue = getAttributeValueWithoutSpecialChars(line: line)
+            } else if doesLineStartWith(line: line, string: "translator::") {
+                translatorValue = getAttributeValueWithoutSpecialChars(line: line)
+            } else if doesLineStartWith(line: line, string: "composer::") {
+                composerValue = getAttributeValueWithoutSpecialChars(line: line)
+            } else if doesLineStartWith(line: line, string: "text::") {
+                textValue = line.components(separatedBy: "::")[1]
+                    .trimmingCharacters(in: .whitespaces)
             }
         }
 
         return Hymn(name: nameValue, author: authorValue, translator: translatorValue, composer: composerValue, text: textValue)
+    }
+    
+    func doesLineStartWith(line: String, string: String) -> Bool {
+        line.replacingOccurrences(of: "\n", with: "").starts(with: string)
+    }
+    
+    // Get the attribute without special characters, such as "\n" or leading/trailing spaces.
+    func getAttributeValueWithoutSpecialChars(line: String) -> String {
+        line.components(separatedBy: "::")[1]
+            .replacingOccurrences(of: "\n", with: "")
+            .trimmingCharacters(in: .whitespaces)
     }
 }
 

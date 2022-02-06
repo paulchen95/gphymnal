@@ -34,7 +34,7 @@ struct DetailsView: View {
                 if (hymn.composer.count > 0) {
                     Text("Composer: " + hymn.composer)
                 }
-            }
+            }.padding()
         })
     }
 }
