@@ -1,4 +1,4 @@
-name:: This is my Father's World
+name:: This is My Father's World
 ---
 author:: Maltbie D. Babcock
 ---
