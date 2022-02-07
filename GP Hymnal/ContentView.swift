@@ -19,7 +19,7 @@ struct ContentView: View {
                 HStack {
                     HStack {
                         Image(systemName: "magnifyingglass")
-                        TextField("Search...", text: $searchText, onEditingChanged: { isEditing in
+                        TextField("Search in lyrics...", text: $searchText, onEditingChanged: { isEditing in
                             self.showCancelButton = true
                             self.showHymnList = false
                         }, onCommit: {
@@ -59,7 +59,7 @@ struct ContentView: View {
                     } else {
                         // Filtered list of names
                         ForEach(hymnList.hymns.filter {
-                            $0.name.lowercased().contains(searchText.lowercased())
+                            $0.text.lowercased().contains(searchText.lowercased())
                         }, content: {
                             hymn in
                             NavigationLink(hymn.name, destination: DetailsView(hymn: hymn))
