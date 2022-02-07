@@ -1,4 +1,4 @@
-name:: Trust and Obey
+name:: Trust And Obey
 ---
 author:: J. H. Sammis
 ---

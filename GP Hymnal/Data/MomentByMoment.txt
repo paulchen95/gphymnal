@@ -1,4 +1,4 @@
-name:: Moment by Moment
+name:: Moment By Moment
 ---
 author:: Daniel Webster Whittle
 ---

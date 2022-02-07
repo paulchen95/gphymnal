@@ -1,4 +1,4 @@
-name:: Nothing but the Blood
+name:: Nothing But the Blood
 ---
 author:: Robert Lowry
 ---

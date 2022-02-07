@@ -1,4 +1,4 @@
-name:: There is a Fountain
+name:: There Is a Fountain
 ---
 author:: William Cowper
 ---

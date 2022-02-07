@@ -1,4 +1,4 @@
-name:: Whiter than Snow
+name:: Whiter Than Snow
 ---
 author:: James Nicholson
 ---

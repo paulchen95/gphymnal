@@ -1,4 +1,4 @@
-name:: Softly and Tenderly
+name:: Softly And Tenderly
 ---
 author:: Will L. Thompson
 ---
