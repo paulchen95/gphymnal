@@ -1,6 +1,6 @@
 name:: I Have Decided To Follow Jesus
 ---
-author:: Unknown
+author:: John Clark
 ---
 composer:: Traditional Indian tune
 ---
