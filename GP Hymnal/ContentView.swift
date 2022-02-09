@@ -27,6 +27,7 @@ struct ContentView: View {
                         }).foregroundColor(.primary)
                         
                         Button(action: {
+                            UIApplication.shared.endEditing(true) // this must be placed before the other commands here
                             self.searchText = ""
                             self.showHymnList = true
                         }) {
@@ -78,6 +79,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 extension UIApplication {
+    // This method will force the end of editing of any currently focused text field.
     func endEditing(_ force: Bool) {
         self.windows
             .filter{$0.isKeyWindow}
