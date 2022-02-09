@@ -1,6 +1,7 @@
 # gphymnal
 version 0.0.6:
-- decoupled hymn data from code
+- decoupled hymn data from code (now hymns sorted by 1st letter, including articles)
+- ability to search by lyrics
 
 version 0.0.5:
 - simple typographical cleanup
