@@ -22,8 +22,6 @@ struct ContentView: View {
                         TextField("Search in lyrics...", text: $searchText, onEditingChanged: { isEditing in
                             self.showCancelButton = true
                             self.showHymnList = false
-                        }, onCommit: {
-                            print("onCommit")
                         }).foregroundColor(.primary)
                         
                         Button(action: {
@@ -38,7 +36,7 @@ struct ContentView: View {
                     .foregroundColor(.secondary)
                     .background(Color(.secondarySystemBackground))
                     .cornerRadius(10.0)
-                    
+
                     if showCancelButton  {
                         Button("Cancel") {
                             UIApplication.shared.endEditing(true) // this must be placed before the other commands here
@@ -67,7 +65,7 @@ struct ContentView: View {
                         })
                     }
                 }
-            }.navigationBarHidden(true)
+            }
         }
     }
 }
