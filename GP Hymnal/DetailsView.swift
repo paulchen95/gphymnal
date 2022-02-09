@@ -36,6 +36,7 @@ struct DetailsView: View {
                 }
             }.padding()
         })
+
     }
 }
 
