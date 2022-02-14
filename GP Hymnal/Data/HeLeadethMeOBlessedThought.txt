@@ -4,6 +4,7 @@ author:: Joseph H. Gilmore
 ---
 composer:: William B. Bradbury
 ---
+text::
 He leadeth me, o blessed thought!
 O words with heav’nly comfort fraught!
 Whate’er I do, where’er I be
