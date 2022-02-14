@@ -1,0 +1,1872 @@
+/*
+// **********************************************************************
+// Converted with SF22SFZ Converter v1.929
+// Copyright Jan 11 2021 , Plogue Art et Technologie, Inc
+// **********************************************************************
+// Conversion Date: Fri Feb 11 00:09:36 2022
+// **********************************************************************
+// Parent file    : /Users/paul.chen/Downloads/Abbey-Steinway-D-v1.9.sf2
+// Soundfont      : 2.1
+// Internal Name  : Abbey-Steinway-D-v1.9
+// Optimised for  : EMU8000
+// Intendend for  : Abbey Steinway D
+// Editor Used    : Polyphone
+// Creation Date  : Friday 20 November 2020, 10:09:04
+*/
+
+<control>
+ set_cc1=0     //Power-on Default Values: Modulation
+ set_cc11=127  //Power-on Default Values: Expression
+ set_cc64=0    //Power-on Default Values: Sustain Pedal
+
+<global>
+ sample=sf2_smpl.wav
+ //8.4.2 MIDI Note-On Velocity to Filter Cutoff
+ //8.4.8 MIDI Continuous Controller 91 to Reverb Effects Send
+ //8.4.9 MIDI Continuous Controller 93 to Chorus Effects Send
+ //8.4.10 MIDI Pitch Wheel to Initial Pitch Controlled by MIDI Pitch Wheel Sensitivity
+ lfo06_wave=0
+ lfo06_pitch=0 lfo06_pitch_oncc129=50 lfo06_pitch_oncc1=50
+ lfo06_freq=8.176
+
+ amplitude_oncc11=100 amplitude_curvecc11=7
+
+
+<master>
+ lokey=21 hikey=33
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ pitch_keycenter=31 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.80042
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-1L
+ tune=0 offset=0 end=739736
+ loop_start=672460 loop_end=739727
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.80042
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-1R
+ tune=0 offset=739782 end=1495195
+ loop_start=1423995 loop_end=1495186
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.89978
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-2L
+ tune=0 offset=1495241 end=2362501
+ loop_start=2277593 loop_end=2362492
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.89978
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-2R
+ tune=0 offset=2362547 end=3235452
+ loop_start=3160873 loop_end=3235443
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.80042
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-1L
+ tune=0 offset=0 end=739736
+ loop_start=672460 loop_end=739727
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.80042
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-1L
+ tune=0 offset=0 end=739736
+ loop_start=672460 loop_end=739727
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.89978
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-2L
+ tune=0 offset=1495241 end=2362501
+ loop_start=2277593 loop_end=2362492
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.89978
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-2R
+ tune=0 offset=2362547 end=3235452
+ loop_start=3160873 loop_end=3235443
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.89978
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-2L
+ tune=0 offset=1495241 end=2362501
+ loop_start=2277593 loop_end=2362492
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.89978
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-2R
+ tune=0 offset=2362547 end=3235452
+ loop_start=3160873 loop_end=3235443
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.80042
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-1R
+ tune=0 offset=739782 end=1495195
+ loop_start=1423995 loop_end=1495186
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.80042
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-1R
+ tune=0 offset=739782 end=1495195
+ loop_start=1423995 loop_end=1495186
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=34 hikey=40
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ pitch_keycenter=38 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-4L
+ tune=0 offset=3235498 end=3883314
+ loop_start=3835749 loop_end=3883305
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-4R
+ tune=0 offset=3883360 end=4527163
+ loop_start=4461981 loop_end=4527154
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.70035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-5L
+ tune=0 offset=4527209 end=5203814
+ loop_start=5156252 loop_end=5203805
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.70035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-5R
+ tune=0 offset=5203860 end=5932734
+ loop_start=5878986 loop_end=5932725
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-4L
+ tune=0 offset=3235498 end=3883314
+ loop_start=3835749 loop_end=3883305
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-4R
+ tune=0 offset=3883360 end=4527163
+ loop_start=4461981 loop_end=4527154
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.70035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-5L
+ tune=0 offset=4527209 end=5203814
+ loop_start=5156252 loop_end=5203805
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.70035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-5R
+ tune=0 offset=5203860 end=5932734
+ loop_start=5878986 loop_end=5932725
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.70035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-5L
+ tune=0 offset=4527209 end=5203814
+ loop_start=5156252 loop_end=5203805
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.70035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-5R
+ tune=0 offset=5203860 end=5932734
+ loop_start=5878986 loop_end=5932725
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-4R
+ tune=0 offset=3883360 end=4527163
+ loop_start=4461981 loop_end=4527154
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-4L
+ tune=0 offset=3235498 end=3883314
+ loop_start=3835749 loop_end=3883305
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=41 hikey=47
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ volume=-2
+ pitch_keycenter=45 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-7L
+ tune=0 offset=5932780 end=6480475
+ loop_start=6359522 loop_end=6480466
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-7R
+ tune=0 offset=6480521 end=7040418
+ loop_start=6902373 loop_end=7040409
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-8L
+ tune=0 offset=7040464 end=7750352
+ loop_start=7600768 loop_end=7750343
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-8R
+ tune=0 offset=7750398 end=8311289
+ loop_start=8170627 loop_end=8311280
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-7R
+ tune=0 offset=6480521 end=7040418
+ loop_start=6902373 loop_end=7040409
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-7R
+ tune=0 offset=6480521 end=7040418
+ loop_start=6902373 loop_end=7040409
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-8L
+ tune=0 offset=7040464 end=7750352
+ loop_start=7600768 loop_end=7750343
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-8R
+ tune=0 offset=7750398 end=8311289
+ loop_start=8170627 loop_end=8311280
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-8L
+ tune=0 offset=7040464 end=7750352
+ loop_start=7600768 loop_end=7750343
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-8R
+ tune=0 offset=7750398 end=8311289
+ loop_start=8170627 loop_end=8311280
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-7L
+ tune=0 offset=5932780 end=6480475
+ loop_start=6359522 loop_end=6480466
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-7L
+ tune=0 offset=5932780 end=6480475
+ loop_start=6359522 loop_end=6480466
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=48 hikey=54
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ pitch_keycenter=52 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-10L
+ tune=0 offset=8311335 end=8822462
+ loop_start=8785317 loop_end=8822453
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-10R
+ tune=0 offset=8822508 end=9364049
+ loop_start=9274962 loop_end=9364040
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-11L
+ tune=0 offset=9364095 end=9881175
+ loop_start=9841710 loop_end=9881166
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-11R
+ tune=0 offset=9881221 end=10422574
+ loop_start=10374250 loop_end=10422565
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-10R
+ tune=0 offset=8822508 end=9364049
+ loop_start=9274962 loop_end=9364040
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-10R
+ tune=0 offset=8822508 end=9364049
+ loop_start=9274962 loop_end=9364040
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-11L
+ tune=0 offset=9364095 end=9881175
+ loop_start=9841710 loop_end=9881166
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-11R
+ tune=0 offset=9881221 end=10422574
+ loop_start=10374250 loop_end=10422565
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-11L
+ tune=0 offset=9364095 end=9881175
+ loop_start=9841710 loop_end=9881166
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.60029
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-11R
+ tune=0 offset=9881221 end=10422574
+ loop_start=10374250 loop_end=10422565
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-10L
+ tune=0 offset=8311335 end=8822462
+ loop_start=8785317 loop_end=8822453
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-10L
+ tune=0 offset=8311335 end=8822462
+ loop_start=8785317 loop_end=8822453
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=55 hikey=61
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ volume=-2.5
+ pitch_keycenter=59 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-13L
+ tune=0 offset=10422620 end=10912980
+ loop_start=10871808 loop_end=10912971
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-13R
+ tune=0 offset=10913026 end=11347182
+ loop_start=11281918 loop_end=11347173
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-14L
+ tune=0 offset=11347228 end=11881598
+ loop_start=11794679 loop_end=11881589
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-14R
+ tune=0 offset=11881644 end=12311579
+ loop_start=12263399 loop_end=12311570
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-13R
+ tune=0 offset=10913026 end=11347182
+ loop_start=11281918 loop_end=11347173
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-13R
+ tune=0 offset=10913026 end=11347182
+ loop_start=11281918 loop_end=11347173
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-14L
+ tune=0 offset=11347228 end=11881598
+ loop_start=11794679 loop_end=11881589
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-14R
+ tune=0 offset=11881644 end=12311579
+ loop_start=12263399 loop_end=12311570
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-14L
+ tune=0 offset=11347228 end=11881598
+ loop_start=11794679 loop_end=11881589
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-14R
+ tune=0 offset=11881644 end=12311579
+ loop_start=12263399 loop_end=12311570
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-13L
+ tune=0 offset=10422620 end=10912980
+ loop_start=10871808 loop_end=10912971
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-13L
+ tune=0 offset=10422620 end=10912980
+ loop_start=10871808 loop_end=10912971
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=62 hikey=68
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ pitch_keycenter=66 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-16L
+ tune=0 offset=12311625 end=12723561
+ loop_start=12700815 loop_end=12723552
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-16R
+ tune=0 offset=12723607 end=13070989
+ loop_start=12982238 loop_end=13070980
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-17L
+ tune=0 offset=13071035 end=13487688
+ loop_start=13459242 loop_end=13487679
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-17R
+ tune=0 offset=13487734 end=13966673
+ loop_start=13843457 loop_end=13966664
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-16R
+ tune=0 offset=12723607 end=13070989
+ loop_start=12982238 loop_end=13070980
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-16R
+ tune=0 offset=12723607 end=13070989
+ loop_start=12982238 loop_end=13070980
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-17L
+ tune=0 offset=13071035 end=13487688
+ loop_start=13459242 loop_end=13487679
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-17R
+ tune=0 offset=13487734 end=13966673
+ loop_start=13843457 loop_end=13966664
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-17L
+ tune=0 offset=13071035 end=13487688
+ loop_start=13459242 loop_end=13487679
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-17R
+ tune=0 offset=13487734 end=13966673
+ loop_start=13843457 loop_end=13966664
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-16L
+ tune=0 offset=12311625 end=12723561
+ loop_start=12700815 loop_end=12723552
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-16L
+ tune=0 offset=12311625 end=12723561
+ loop_start=12700815 loop_end=12723552
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=69 hikey=75
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ volume=-5
+ pitch_keycenter=73 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-19L
+ tune=0 offset=13966719 end=14315180
+ loop_start=14291438 loop_end=14315171
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-19R
+ tune=0 offset=14315226 end=14717181
+ loop_start=14650833 loop_end=14717172
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-20L
+ tune=0 offset=14717227 end=15080115
+ loop_start=15028332 loop_end=15080106
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-20R
+ tune=0 offset=15080161 end=15494613
+ loop_start=15407831 loop_end=15494604
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-19R
+ tune=0 offset=14315226 end=14717181
+ loop_start=14650833 loop_end=14717172
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-19R
+ tune=0 offset=14315226 end=14717181
+ loop_start=14650833 loop_end=14717172
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-20L
+ tune=0 offset=14717227 end=15080115
+ loop_start=15028332 loop_end=15080106
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-20R
+ tune=0 offset=15080161 end=15494613
+ loop_start=15407831 loop_end=15494604
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-20L
+ tune=0 offset=14717227 end=15080115
+ loop_start=15028332 loop_end=15080106
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-20R
+ tune=0 offset=15080161 end=15494613
+ loop_start=15407831 loop_end=15494604
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-19L
+ tune=0 offset=13966719 end=14315180
+ loop_start=14291438 loop_end=14315171
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-19L
+ tune=0 offset=13966719 end=14315180
+ loop_start=14291438 loop_end=14315171
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=76 hikey=82
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ pitch_keycenter=80 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.29984
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-22L
+ tune=0 offset=15494659 end=15801158
+ loop_start=15763715 loop_end=15801149
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.29984
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-22R
+ tune=0 offset=15801204 end=16123637
+ loop_start=16074193 loop_end=16123628
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-23L
+ tune=0 offset=16123683 end=16422718
+ loop_start=16398170 loop_end=16422709
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-23R
+ tune=0 offset=16422764 end=16801990
+ loop_start=16759256 loop_end=16801981
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.29984
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-22R
+ tune=0 offset=15801204 end=16123637
+ loop_start=16074193 loop_end=16123628
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.29984
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-22R
+ tune=0 offset=15801204 end=16123637
+ loop_start=16074193 loop_end=16123628
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-23L
+ tune=0 offset=16123683 end=16422718
+ loop_start=16398170 loop_end=16422709
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-23R
+ tune=0 offset=16422764 end=16801990
+ loop_start=16759256 loop_end=16801981
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-23L
+ tune=0 offset=16123683 end=16422718
+ loop_start=16398170 loop_end=16422709
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-23R
+ tune=0 offset=16422764 end=16801990
+ loop_start=16759256 loop_end=16801981
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.29984
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-22L
+ tune=0 offset=15494659 end=15801158
+ loop_start=15763715 loop_end=15801149
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.29984
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-22L
+ tune=0 offset=15494659 end=15801158
+ loop_start=15763715 loop_end=15801149
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=83 hikey=89
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ pitch_keycenter=87 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-25L
+ tune=0 offset=16802036 end=17079640
+ loop_start=17039242 loop_end=17079631
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-25R
+ tune=0 offset=17079686 end=17384145
+ loop_start=17359288 loop_end=17384136
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-26L
+ tune=0 offset=17384191 end=17668374
+ loop_start=17638187 loop_end=17668365
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-26R
+ tune=0 offset=17668420 end=17978855
+ loop_start=17943551 loop_end=17978846
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-25R
+ tune=0 offset=17079686 end=17384145
+ loop_start=17359288 loop_end=17384136
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-25R
+ tune=0 offset=17079686 end=17384145
+ loop_start=17359288 loop_end=17384136
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-26L
+ tune=0 offset=17384191 end=17668374
+ loop_start=17638187 loop_end=17668365
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-26R
+ tune=0 offset=17668420 end=17978855
+ loop_start=17943551 loop_end=17978846
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-26L
+ tune=0 offset=17384191 end=17668374
+ loop_start=17638187 loop_end=17668365
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=1.50004
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-26R
+ tune=0 offset=17668420 end=17978855
+ loop_start=17943551 loop_end=17978846
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-25L
+ tune=0 offset=16802036 end=17079640
+ loop_start=17039242 loop_end=17079631
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=1.40039
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-25L
+ tune=0 offset=16802036 end=17079640
+ loop_start=17039242 loop_end=17079631
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=90 hikey=96
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ volume=-2.3
+ pitch_keycenter=94 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=3.00008
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-28L
+ tune=0 offset=17978901 end=18225145
+ loop_start=18192035 loop_end=18225136
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=3.00008
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-28R
+ tune=0 offset=18225191 end=18505504
+ loop_start=18470335 loop_end=18505495
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=3.50035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-29L
+ tune=0 offset=18505550 end=18798874
+ loop_start=18775077 loop_end=18798865
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=3.50035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-29R
+ tune=0 offset=18798920 end=19127239
+ loop_start=19090455 loop_end=19127230
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=3.00008
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-28R
+ tune=0 offset=18225191 end=18505504
+ loop_start=18470335 loop_end=18505495
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=3.00008
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-28R
+ tune=0 offset=18225191 end=18505504
+ loop_start=18470335 loop_end=18505495
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=3.50035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-29L
+ tune=0 offset=18505550 end=18798874
+ loop_start=18775077 loop_end=18798865
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=3.50035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-29R
+ tune=0 offset=18798920 end=19127239
+ loop_start=19090455 loop_end=19127230
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=3.50035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-29L
+ tune=0 offset=18505550 end=18798874
+ loop_start=18775077 loop_end=18798865
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=3.50035
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-29R
+ tune=0 offset=18798920 end=19127239
+ loop_start=19090455 loop_end=19127230
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=3.00008
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-28L
+ tune=0 offset=17978901 end=18225145
+ loop_start=18192035 loop_end=18225136
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=3.00008
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-28L
+ tune=0 offset=17978901 end=18225145
+ loop_start=18192035 loop_end=18225136
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<master>
+ lokey=97 hikey=108
+ lovel=0 hivel=127
+<group>
+ ampeg_hold=4
+ ampeg_decay=84.9868
+ ampeg_sustain=3.16228
+ pitch_keycenter=101 //overridingRootKey
+<region>
+ lovel=69 hivel=85
+ pan=-100
+ ampeg_release=7.0007
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-31L
+ tune=0 offset=19127285 end=19387993
+ loop_start=19362123 loop_end=19387984
+<region>
+ lovel=69 hivel=85
+ pan=100
+ ampeg_release=7.0007
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-31R
+ tune=0 offset=19388039 end=19662096
+ loop_start=19621706 loop_end=19662087
+<region>
+ lovel=101 hivel=127
+ pan=-100
+ ampeg_release=8
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-32L
+ tune=0 offset=19662142 end=19875623
+ loop_start=19855810 loop_end=19875614
+<region>
+ lovel=101 hivel=127
+ pan=100
+ ampeg_release=8
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-32R
+ tune=0 offset=19875669 end=20118483
+ loop_start=20098159 loop_end=20118474
+<region>
+ lovel=0 hivel=58
+ pan=100
+ ampeg_release=7.0007
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-31R
+ tune=0 offset=19388039 end=19662096
+ loop_start=19621706 loop_end=19662087
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=100
+ ampeg_release=7.0007
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-31R
+ tune=0 offset=19388039 end=19662096
+ loop_start=19621706 loop_end=19662087
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=-100
+ ampeg_release=8
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-32L
+ tune=0 offset=19662142 end=19875623
+ loop_start=19855810 loop_end=19875614
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=93 hivel=100
+ pan=100
+ ampeg_release=8
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-32R
+ tune=0 offset=19875669 end=20118483
+ loop_start=20098159 loop_end=20118474
+ fil_type=lpf_2p
+ cutoff=3499.81
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=-100
+ ampeg_release=8
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-32L
+ tune=0 offset=19662142 end=19875623
+ loop_start=19855810 loop_end=19875614
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=86 hivel=92
+ pan=100
+ ampeg_release=8
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-32R
+ tune=0 offset=19875669 end=20118483
+ loop_start=20098159 loop_end=20118474
+ fil_type=lpf_2p
+ cutoff=1999.69
+ resonance=0.5
+
+<region>
+ lovel=0 hivel=58
+ pan=-100
+ ampeg_release=7.0007
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-31L
+ tune=0 offset=19127285 end=19387993
+ loop_start=19362123 loop_end=19387984
+ fil_type=lpf_2p
+ cutoff=1200.06
+ resonance=0.5
+
+<region>
+ lovel=59 hivel=68
+ pan=-100
+ ampeg_release=7.0007
+ loop_mode=loop_continuous
+ region_label=SteinwayAB-31L
+ tune=0 offset=19127285 end=19387993
+ loop_start=19362123 loop_end=19387984
+ fil_type=lpf_2p
+ cutoff=1749.91
+ resonance=0.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<curve>//7 GMCurves::ConvaveLin
+ v000=0            v001=6.20001e-05  v002=0.000248     v003=0.000558001  v004=0.000992002 
+ v005=0.00155      v006=0.002232     v007=0.00303801   v008=0.00396801   v009=0.00502201  
+ v010=0.00620001   v011=0.00750202   v012=0.00892802   v013=0.010478     v014=0.012152    
+ v015=0.01395      v016=0.015872     v017=0.017918     v018=0.020088     v019=0.022382    
+ v020=0.0248       v021=0.0273421    v022=0.0300081    v023=0.0327981    v024=0.0357121   
+ v025=0.0387501    v026=0.0419121    v027=0.0451981    v028=0.0486081    v029=0.0521421   
+ v030=0.0558001    v031=0.0595821    v032=0.0634881    v033=0.0675181    v034=0.0716721   
+ v035=0.0759502    v036=0.0803522    v037=0.0848782    v038=0.0895282    v039=0.0943022   
+ v040=0.0992002    v041=0.104222     v042=0.109368     v043=0.114638     v044=0.120032    
+ v045=0.12555      v046=0.131192     v047=0.136958     v048=0.142848     v049=0.148862    
+ v050=0.155        v051=0.161262     v052=0.167648     v053=0.174158     v054=0.180792    
+ v055=0.18755      v056=0.194432     v057=0.201438     v058=0.208568     v059=0.215822    
+ v060=0.2232       v061=0.230702     v062=0.238328     v063=0.246078     v064=0.253953    
+ v065=0.261951     v066=0.270073     v067=0.278319     v068=0.286689     v069=0.295183    
+ v070=0.303801     v071=0.312543     v072=0.321409     v073=0.330399     v074=0.339513    
+ v075=0.348751     v076=0.358113     v077=0.367599     v078=0.377209     v079=0.386943    
+ v080=0.396801     v081=0.406783     v082=0.416889     v083=0.427119     v084=0.437473    
+ v085=0.447951     v086=0.458553     v087=0.469279     v088=0.480129     v089=0.491103    
+ v090=0.502201     v091=0.513423     v092=0.524769     v093=0.536239     v094=0.547833    
+ v095=0.559551     v096=0.571393     v097=0.583359     v098=0.595449     v099=0.607663    
+ v100=0.620001     v101=0.632463     v102=0.645049     v103=0.657759     v104=0.670593    
+ v105=0.683551     v106=0.696633     v107=0.709839     v108=0.723169     v109=0.736623    
+ v110=0.750202     v111=0.763904     v112=0.77773      v113=0.79168      v114=0.805754    
+ v115=0.819952     v116=0.834274     v117=0.84872      v118=0.86329      v119=0.877984    
+ v120=0.892802     v121=0.907744     v122=0.92281      v123=0.938        v124=0.953314    
+ v125=0.968752     v126=0.984314     v127=1           
+

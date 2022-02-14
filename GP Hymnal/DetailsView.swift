@@ -6,37 +6,78 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct DetailsView: View {
+    @State var audioPlayer: AVAudioPlayer!
+    @State var midiPlayer: AVMIDIPlayer!
     let hymn: Hymn
     
     var body: some View {
-        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
-            Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
-            Text(hymn.text).padding()
-                .contextMenu {
-                Button(action: {
-                    UIPasteboard.general.string = hymn.text
-                }) {
-                    Text("Copy to clipboard")
-                    Image(systemName: "doc.on.doc")
+        VStack {
+            ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
+                Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
+                Text(hymn.text).padding()
+                    .contextMenu {
+                    Button(action: {
+                        UIPasteboard.general.string = hymn.text
+                    }) {
+                        Text("Copy to clipboard")
+                        Image(systemName: "doc.on.doc")
+                    }
+                }
+                Spacer()
+                Divider()
+                VStack(alignment: .leading) {
+                    if (hymn.author.count > 0) {
+                        Text("Author: " + hymn.author)
+                    }
+                    if (hymn.translator.count > 0) {
+                        Text("Translator: " + hymn.translator)
+                    }
+                    if (hymn.composer.count > 0) {
+                        Text("Composer: " + hymn.composer)
+                    }
+                }.padding()
+            })
+            if let midi = Bundle.main.url(forResource: hymn.name, withExtension: "mid", subdirectory: "Music"),
+               let soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music") {
+//            if let song = Bundle.main.path(forResource: hymn.name, ofType: "mp3", inDirectory: "Music") {
+                HStack {
+                    Button(action: {
+//                        self.audioPlayer.play()
+                        self.midiPlayer.play()
+                    }) {
+                        Image(systemName: "play.circle.fill").resizable()
+                            .frame(width: 50, height: 50)
+                            .aspectRatio(contentMode: .fit)
+                    }
+                    Button(action: {
+                        self.midiPlayer.stop()
+                        self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi, soundBankURL: soundBank)
+                        self.midiPlayer.prepareToPlay()
+//                        self.audioPlayer.stop()
+//                        self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: song))
+//                        self.audioPlayer.prepareToPlay()
+                    }) {
+                        Image(systemName: "stop.circle.fill").resizable()
+                            .frame(width: 50, height: 50)
+                            .aspectRatio(contentMode: .fit)
+                    }
                 }
             }
-            Spacer()
-            Divider()
-            VStack(alignment: .leading) {
-                if (hymn.author.count > 0) {
-                    Text("Author: " + hymn.author)
-                }
-                if (hymn.translator.count > 0) {
-                    Text("Translator: " + hymn.translator)
-                }
-                if (hymn.composer.count > 0) {
-                    Text("Composer: " + hymn.composer)
-                }
-            }.padding()
-        })
-
+        }
+        .onAppear {
+//            if let song = Bundle.main.path(forResource: hymn.name, ofType: "mp3", inDirectory: "Music") {
+//                self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: song))
+//                self.audioPlayer.prepareToPlay()
+//            }
+            if let midi = Bundle.main.url(forResource: hymn.name, withExtension: "mid", subdirectory: "Music"),
+               let soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music") {
+                self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi, soundBankURL: soundBank)
+                self.midiPlayer.prepareToPlay()
+            }
+        }
     }
 }
 
