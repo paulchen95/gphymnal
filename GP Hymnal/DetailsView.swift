@@ -8,12 +8,18 @@
 import SwiftUI
 import AVKit
 
+enum AudioPlayerState {
+    case Playing, Stopped
+}
+
 struct DetailsView: View {
-    @State var audioPlayer: AVAudioPlayer!
     @State var midiPlayer: AVMIDIPlayer!
+    @State var playerState: AudioPlayerState = AudioPlayerState.Stopped
     let hymn: Hymn
     
     var body: some View {
+        let midi = Bundle.main.url(forResource: hymn.name, withExtension: "mid", subdirectory: "Music")
+        
         VStack {
             ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
                 Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
@@ -40,42 +46,30 @@ struct DetailsView: View {
                     }
                 }.padding()
             })
-            if let midi = Bundle.main.url(forResource: hymn.name, withExtension: "mid", subdirectory: "Music"),
-               let soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music") {
-//            if let song = Bundle.main.path(forResource: hymn.name, ofType: "mp3", inDirectory: "Music") {
+            if (midi != nil) {
                 HStack {
-                    Button(action: {
-//                        self.audioPlayer.play()
-                        self.midiPlayer.play()
-                    }) {
-                        Image(systemName: "play.circle.fill").resizable()
-                            .frame(width: 50, height: 50)
-                            .aspectRatio(contentMode: .fit)
-                    }
-                    Button(action: {
-                        self.midiPlayer.stop()
-                        self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi, soundBankURL: soundBank)
-                        self.midiPlayer.prepareToPlay()
-//                        self.audioPlayer.stop()
-//                        self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: song))
-//                        self.audioPlayer.prepareToPlay()
-                    }) {
-                        Image(systemName: "stop.circle.fill").resizable()
-                            .frame(width: 50, height: 50)
-                            .aspectRatio(contentMode: .fit)
+                    if (playerState == AudioPlayerState.Stopped) {
+                        Button(action: {
+                            self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
+                            self.midiPlayer.prepareToPlay()
+                            self.midiPlayer.play()
+                            playerState = AudioPlayerState.Playing
+                        }) {
+                            Image(systemName: "play.circle.fill").resizable()
+                                .frame(width: 50, height: 50)
+                                .aspectRatio(contentMode: .fit)
+                        }
+                    } else {
+                        Button(action: {
+                            self.midiPlayer.stop()
+                            playerState = AudioPlayerState.Stopped
+                        }) {
+                            Image(systemName: "stop.circle.fill").resizable()
+                                .frame(width: 50, height: 50)
+                                .aspectRatio(contentMode: .fit)
+                        }
                     }
                 }
-            }
-        }
-        .onAppear {
-//            if let song = Bundle.main.path(forResource: hymn.name, ofType: "mp3", inDirectory: "Music") {
-//                self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: song))
-//                self.audioPlayer.prepareToPlay()
-//            }
-            if let midi = Bundle.main.url(forResource: hymn.name, withExtension: "mid", subdirectory: "Music"),
-               let soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music") {
-                self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi, soundBankURL: soundBank)
-                self.midiPlayer.prepareToPlay()
             }
         }
     }

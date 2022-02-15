@@ -16,7 +16,6 @@
 		C38F377626B3CE2E002603EA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377526B3CE2E002603EA /* Preview Assets.xcassets */; };
 		C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377D26B3CEA2002603EA /* Hymn.swift */; };
 		C38F378026B3D04D002603EA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377F26B3D04D002603EA /* DetailsView.swift */; };
-		C38F378226B3D478002603EA /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F378126B3D478002603EA /* Data.swift */; };
 		C3F7CCB727A887A000B54E5C /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C3F7CCB627A887A000B54E5C /* Siren */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 		C38F377726B3CE2E002603EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C38F377D26B3CEA2002603EA /* Hymn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hymn.swift; sourceTree = "<group>"; };
 		C38F377F26B3D04D002603EA /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
-		C38F378126B3D478002603EA /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +68,6 @@
 				0072D02127A77E300096D33C /* Data */,
 				C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */,
 				C38F377026B3CE2D002603EA /* ContentView.swift */,
-				C38F378126B3D478002603EA /* Data.swift */,
 				C38F377F26B3D04D002603EA /* DetailsView.swift */,
 				C38F377D26B3CEA2002603EA /* Hymn.swift */,
 				009F744C27A9204B00580D62 /* HymnList.swift */,
@@ -168,7 +165,6 @@
 			files = (
 				C38F377126B3CE2D002603EA /* ContentView.swift in Sources */,
 				009F744D27A9204B00580D62 /* HymnList.swift in Sources */,
-				C38F378226B3D478002603EA /* Data.swift in Sources */,
 				C38F378026B3D04D002603EA /* DetailsView.swift in Sources */,
 				C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */,
 				C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */,
