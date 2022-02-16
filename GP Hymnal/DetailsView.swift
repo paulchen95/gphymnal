@@ -18,7 +18,7 @@ struct DetailsView: View {
     let hymn: Hymn
     
     var body: some View {
-        let midi = Bundle.main.url(forResource: hymn.name, withExtension: "mid", subdirectory: "Music")
+        let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
         
         VStack {
             ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
@@ -77,7 +77,7 @@ struct DetailsView: View {
 
 struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailsView(hymn: Hymn(name: "Abide With Me", author: "Henry F. Lyte", translator: "", composer: "William H. Monk", text:
+        DetailsView(hymn: Hymn(name: "Abide With Me", filename: "AbideWithMe", author: "Henry F. Lyte", translator: "", composer: "William H. Monk", text:
         """
         Abide with me, fast falls the eventide;
         The darkness deepens, Lord, with me abide.
