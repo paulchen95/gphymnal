@@ -6,43 +6,78 @@
 //
 
 import SwiftUI
+import AVKit
+
+enum AudioPlayerState {
+    case Playing, Stopped
+}
 
 struct DetailsView: View {
+    @State var midiPlayer: AVMIDIPlayer!
+    @State var playerState: AudioPlayerState = AudioPlayerState.Stopped
     let hymn: Hymn
     
     var body: some View {
-        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
-            Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
-            Text(hymn.text).padding()
-                .contextMenu {
-                Button(action: {
-                    UIPasteboard.general.string = hymn.text
-                }) {
-                    Text("Copy to clipboard")
-                    Image(systemName: "doc.on.doc")
+        let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
+        
+        VStack {
+            ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
+                Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
+                Text(hymn.text).padding()
+                    .contextMenu {
+                    Button(action: {
+                        UIPasteboard.general.string = hymn.text
+                    }) {
+                        Text("Copy to clipboard")
+                        Image(systemName: "doc.on.doc")
+                    }
+                }
+                Spacer()
+                Divider()
+                VStack(alignment: .leading) {
+                    if (hymn.author.count > 0) {
+                        Text("Author: " + hymn.author)
+                    }
+                    if (hymn.translator.count > 0) {
+                        Text("Translator: " + hymn.translator)
+                    }
+                    if (hymn.composer.count > 0) {
+                        Text("Composer: " + hymn.composer)
+                    }
+                }.padding()
+            })
+            if (midi != nil) {
+                HStack {
+                    if (playerState == AudioPlayerState.Stopped) {
+                        Button(action: {
+                            self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
+                            self.midiPlayer.prepareToPlay()
+                            self.midiPlayer.play()
+                            playerState = AudioPlayerState.Playing
+                        }) {
+                            Image(systemName: "play.circle.fill").resizable()
+                                .frame(width: 50, height: 50)
+                                .aspectRatio(contentMode: .fit)
+                        }
+                    } else {
+                        Button(action: {
+                            self.midiPlayer.stop()
+                            playerState = AudioPlayerState.Stopped
+                        }) {
+                            Image(systemName: "stop.circle.fill").resizable()
+                                .frame(width: 50, height: 50)
+                                .aspectRatio(contentMode: .fit)
+                        }
+                    }
                 }
             }
-            Spacer()
-            Divider()
-            VStack(alignment: .leading) {
-                if (hymn.author.count > 0) {
-                    Text("Author: " + hymn.author)
-                }
-                if (hymn.translator.count > 0) {
-                    Text("Translator: " + hymn.translator)
-                }
-                if (hymn.composer.count > 0) {
-                    Text("Composer: " + hymn.composer)
-                }
-            }.padding()
-        })
-
+        }
     }
 }
 
 struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailsView(hymn: Hymn(name: "Abide With Me", author: "Henry F. Lyte", translator: "", composer: "William H. Monk", text:
+        DetailsView(hymn: Hymn(name: "Abide With Me", filename: "AbideWithMe", author: "Henry F. Lyte", translator: "", composer: "William H. Monk", text:
         """
         Abide with me, fast falls the eventide;
         The darkness deepens, Lord, with me abide.

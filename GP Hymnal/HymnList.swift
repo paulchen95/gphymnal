@@ -14,14 +14,14 @@ struct HymnList {
             for url in urls {
                 if let fileContent = try? String(contentsOf: url) {
                     hymns.insert(
-                        formatHymn(fileContent: fileContent), at: 0)
+                        formatHymn(fileContent: fileContent, fileName: url.deletingPathExtension().lastPathComponent), at: 0)
                 }
             }
         }
         hymns.sort(by: {$0.name < $1.name})
     }
     
-    func formatHymn(fileContent: String) -> Hymn {
+    func formatHymn(fileContent: String, fileName: String) -> Hymn {
         let lines = fileContent.components(separatedBy: "---")
 
         var nameValue = ""
@@ -45,7 +45,8 @@ struct HymnList {
             }
         }
 
-        return Hymn(name: nameValue, author: authorValue, translator: translatorValue, composer: composerValue, text: textValue)
+        return Hymn(name: nameValue, filename: fileName, author: authorValue,
+                    translator: translatorValue, composer: composerValue, text: textValue)
     }
     
     func doesLineStartWith(line: String, string: String) -> Bool {

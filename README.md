@@ -1,4 +1,7 @@
 # gphymnal
+version 0.0.7:
+- minor bug fix for "He Leadeth Me, O Blessed Thought" to reappear
+
 version 0.0.6:
 - decoupled hymn data from code (now hymns sorted by 1st letter, including articles)
 - ability to search by lyrics
