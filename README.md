@@ -1,4 +1,7 @@
 # gphymnal
+version 0.0.8:
+- added several hymn audio that can be played on the lyrics view
+
 version 0.0.7:
 - minor bug fix for "He Leadeth Me, O Blessed Thought" to reappear
 
