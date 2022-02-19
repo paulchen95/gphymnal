@@ -47,24 +47,20 @@ struct DetailsView: View {
             if (midi != nil) {
                 HStack {
                     if (playerState == AudioPlayerState.Stopped) {
-                        Button(action: {
+                        Button {
                             self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
                             self.midiPlayer.prepareToPlay()
                             self.midiPlayer.play()
                             playerState = AudioPlayerState.Playing
-                        }) {
-                            Image(systemName: "play.circle.fill").resizable()
-                                .frame(width: 25, height: 25)
-                                .aspectRatio(contentMode: .fit)
+                        } label: { // use label for accessibility
+                            Label("Play", systemImage: "play.circle.fill")
                         }
                     } else {
-                        Button(action: {
+                        Button {
                             self.midiPlayer.stop()
                             playerState = AudioPlayerState.Stopped
-                        }) {
-                            Image(systemName: "stop.circle.fill").resizable()
-                                .frame(width: 25, height: 25)
-                                .aspectRatio(contentMode: .fit)
+                        } label: {
+                            Label("Stop", systemImage: "stop.circle.fill")
                         }
                     }
                 }
