@@ -21,15 +21,15 @@ struct DetailsView: View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
         
         ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
-            Text(hymn.text).padding()
+            Text(hymn.text)
+                .padding()
                 .contextMenu {
-                Button(action: {
-                    UIPasteboard.general.string = hymn.text
-                }) {
-                    Text("Copy to clipboard")
-                    Image(systemName: "doc.on.doc")
+                    Button { // use label for accessibility
+                        UIPasteboard.general.string = hymn.text
+                    } label: {
+                        Label("Copy to clipboard", systemImage: "doc.on.doc")
+                    }
                 }
-            }
             VStack(alignment: .leading) {
                 if (hymn.author.count > 0) {
                     Text("Author: " + hymn.author)
@@ -52,7 +52,7 @@ struct DetailsView: View {
                             self.midiPlayer.prepareToPlay()
                             self.midiPlayer.play()
                             playerState = AudioPlayerState.Playing
-                        } label: { // use label for accessibility
+                        } label: {
                             Label("Play", systemImage: "play.circle.fill")
                         }
                     } else {
