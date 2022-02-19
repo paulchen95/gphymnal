@@ -20,32 +20,30 @@ struct DetailsView: View {
     var body: some View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
         
-        VStack {
-            ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
-                Text(hymn.name).font(.title3).fontWeight(.heavy).foregroundColor(Color.blue).minimumScaleFactor(0.1)
-                Text(hymn.text).padding()
-                    .contextMenu {
-                    Button(action: {
-                        UIPasteboard.general.string = hymn.text
-                    }) {
-                        Text("Copy to clipboard")
-                        Image(systemName: "doc.on.doc")
-                    }
+        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
+            Text(hymn.text).padding()
+                .contextMenu {
+                Button(action: {
+                    UIPasteboard.general.string = hymn.text
+                }) {
+                    Text("Copy to clipboard")
+                    Image(systemName: "doc.on.doc")
                 }
-                Spacer()
-                Divider()
-                VStack(alignment: .leading) {
-                    if (hymn.author.count > 0) {
-                        Text("Author: " + hymn.author)
-                    }
-                    if (hymn.translator.count > 0) {
-                        Text("Translator: " + hymn.translator)
-                    }
-                    if (hymn.composer.count > 0) {
-                        Text("Composer: " + hymn.composer)
-                    }
-                }.padding()
-            })
+            }
+            VStack(alignment: .leading) {
+                if (hymn.author.count > 0) {
+                    Text("Author: " + hymn.author)
+                }
+                if (hymn.translator.count > 0) {
+                    Text("Translator: " + hymn.translator)
+                }
+                if (hymn.composer.count > 0) {
+                    Text("Composer: " + hymn.composer)
+                }
+            }.padding()
+        })
+        .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
+        .toolbar { // show play/stop button in toolbar
             if (midi != nil) {
                 HStack {
                     if (playerState == AudioPlayerState.Stopped) {
@@ -56,7 +54,7 @@ struct DetailsView: View {
                             playerState = AudioPlayerState.Playing
                         }) {
                             Image(systemName: "play.circle.fill").resizable()
-                                .frame(width: 50, height: 50)
+                                .frame(width: 25, height: 25)
                                 .aspectRatio(contentMode: .fit)
                         }
                     } else {
@@ -65,7 +63,7 @@ struct DetailsView: View {
                             playerState = AudioPlayerState.Stopped
                         }) {
                             Image(systemName: "stop.circle.fill").resizable()
-                                .frame(width: 50, height: 50)
+                                .frame(width: 25, height: 25)
                                 .aspectRatio(contentMode: .fit)
                         }
                     }

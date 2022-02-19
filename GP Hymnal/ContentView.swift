@@ -17,37 +17,23 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 HStack {
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                        TextField("Search in lyrics...", text: $searchText, onEditingChanged: { isEditing in
-                            self.showCancelButton = true
-                            self.showHymnList = false
-                        }).foregroundColor(.primary)
-                        
-                        Button(action: {
-                            UIApplication.shared.endEditing(true) // this must be placed before the other commands here
-                            self.searchText = ""
-                            self.showHymnList = true
-                        }) {
-                            Image(systemName: "xmark.circle.fill").opacity(searchText == "" ? 0 : 1)
-                        }
-                    }
-                    .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
-                    .foregroundColor(.secondary)
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(10.0)
+                    Image(systemName: "magnifyingglass")
+                    TextField("Search in lyrics...", text: $searchText, onEditingChanged: { isEditing in
+                        self.showCancelButton = true
+                        self.showHymnList = false
+                    }).foregroundColor(.primary)
 
-                    if showCancelButton  {
-                        Button("Cancel") {
-                            UIApplication.shared.endEditing(true) // this must be placed before the other commands here
-                            self.searchText = ""
-                            self.showCancelButton = false
-                            self.showHymnList = true
-                        }.foregroundColor(Color(.systemBlue))
+                    Button(action: {
+                        UIApplication.shared.endEditing(true) // this must be placed before the other commands here
+                        self.searchText = ""
+                        self.showHymnList = true
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
                     }
-                }.padding(.horizontal)
+                }
+                .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
+                .background(Color(.secondarySystemBackground))
                 
-                Divider()
                 List {
                     let hymnList = HymnList()
                     if showHymnList {
@@ -65,6 +51,9 @@ struct ContentView: View {
                         })
                     }
                 }
+                .listStyle(.plain)
+                .navigationBarTitle("", displayMode: .automatic) // set both navigationBarTitle and navigationBarHidden to hide the bar
+                .navigationBarHidden(true)
             }
         }
     }
@@ -85,3 +74,4 @@ extension UIApplication {
             .endEditing(force)
     }
 }
+
