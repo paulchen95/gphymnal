@@ -23,12 +23,14 @@ struct ContentView: View {
                         self.showHymnList = false
                     }).foregroundColor(.primary)
 
-                    Button(action: {
-                        UIApplication.shared.endEditing(true) // this must be placed before the other commands here
-                        self.searchText = ""
-                        self.showHymnList = true
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
+                    if !self.showHymnList {
+                        Button {
+                            UIApplication.shared.endEditing(true) // this must be placed before the other commands here
+                            self.searchText = ""
+                            self.showHymnList = true
+                        } label: {
+                            Label("", systemImage: "xmark.circle.fill")
+                        }
                     }
                 }
                 .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))

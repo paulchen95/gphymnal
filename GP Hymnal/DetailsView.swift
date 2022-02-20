@@ -19,18 +19,17 @@ struct DetailsView: View {
     
     var body: some View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
-        
+
         ZoomableScrollView(content: {
             Text(hymn.text).padding()
                 .contextMenu {
-                Button(action: {
-                    UIPasteboard.general.string = hymn.text
-                }) {
-                    Text("Copy to clipboard")
-                    Image(systemName: "doc.on.doc")
+                    Button { // use label for accessibility
+                        UIPasteboard.general.string = hymn.text
+                    } label: {
+                        Label("Copy to clipboard", systemImage: "doc.on.doc")
+                    }
                 }
             }
-        
             VStack(alignment: .leading) {
                 if (hymn.author.count > 0) {
                     Text("Author: " + hymn.author)
@@ -48,24 +47,20 @@ struct DetailsView: View {
             if (midi != nil) {
                 HStack {
                     if (playerState == AudioPlayerState.Stopped) {
-                        Button(action: {
+                        Button {
                             self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
                             self.midiPlayer.prepareToPlay()
                             self.midiPlayer.play()
                             playerState = AudioPlayerState.Playing
-                        }) {
-                            Image(systemName: "play.circle.fill").resizable()
-                                .frame(width: 25, height: 25)
-                                .aspectRatio(contentMode: .fit)
+                        } label: {
+                            Label("Play", systemImage: "play.circle.fill")
                         }
                     } else {
-                        Button(action: {
+                        Button {
                             self.midiPlayer.stop()
                             playerState = AudioPlayerState.Stopped
-                        }) {
-                            Image(systemName: "stop.circle.fill").resizable()
-                                .frame(width: 25, height: 25)
-                                .aspectRatio(contentMode: .fit)
+                        } label: {
+                            Label("Stop", systemImage: "stop.circle.fill")
                         }
                     }
                 }
