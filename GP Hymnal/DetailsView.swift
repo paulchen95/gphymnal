@@ -20,7 +20,7 @@ struct DetailsView: View {
     var body: some View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
         
-        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
+        ZoomableScrollView(content: {
             Text(hymn.text).padding()
                 .contextMenu {
                 Button(action: {
@@ -30,6 +30,7 @@ struct DetailsView: View {
                     Image(systemName: "doc.on.doc")
                 }
             }
+        
             VStack(alignment: .leading) {
                 if (hymn.author.count > 0) {
                     Text("Author: " + hymn.author)

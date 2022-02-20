@@ -16,6 +16,7 @@
 		C38F377626B3CE2E002603EA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377526B3CE2E002603EA /* Preview Assets.xcassets */; };
 		C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377D26B3CEA2002603EA /* Hymn.swift */; };
 		C38F378026B3D04D002603EA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377F26B3D04D002603EA /* DetailsView.swift */; };
+		C3DFDD6327C1CD3B0004DA67 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DFDD6227C1CD3B0004DA67 /* ZoomableScrollView.swift */; };
 		C3F7CCB727A887A000B54E5C /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C3F7CCB627A887A000B54E5C /* Siren */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		C38F377726B3CE2E002603EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C38F377D26B3CEA2002603EA /* Hymn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hymn.swift; sourceTree = "<group>"; };
 		C38F377F26B3D04D002603EA /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		C3DFDD6227C1CD3B0004DA67 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				C38F377226B3CE2E002603EA /* Assets.xcassets */,
 				C38F377726B3CE2E002603EA /* Info.plist */,
 				C38F377426B3CE2E002603EA /* Preview Content */,
+				C3DFDD6227C1CD3B0004DA67 /* ZoomableScrollView.swift */,
 			);
 			path = "GP Hymnal";
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 				009F744D27A9204B00580D62 /* HymnList.swift in Sources */,
 				C38F378026B3D04D002603EA /* DetailsView.swift in Sources */,
 				C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */,
+				C3DFDD6327C1CD3B0004DA67 /* ZoomableScrollView.swift in Sources */,
 				C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
