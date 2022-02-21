@@ -30,6 +30,7 @@ struct MyUITextView: UIViewRepresentable {
         myView.isSelectable = true
         myView.showsVerticalScrollIndicator = false
         myView.showsHorizontalScrollIndicator = false
+        myView.refreshControl = nil
         return myView
     }
     

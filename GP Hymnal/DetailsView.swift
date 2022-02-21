@@ -21,7 +21,7 @@ struct DetailsView: View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
 
         MyUITextView(hymn: hymn)
-            .padding()
+            .padding(.horizontal)
             .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
             .toolbar { // show play/stop button in toolbar
                 if (midi != nil) {
