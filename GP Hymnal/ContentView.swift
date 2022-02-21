@@ -39,19 +39,35 @@ struct ContentView: View {
                 List {
                     let hymnList = HymnList()
                     if showHymnList {
-                        ForEach(hymnList.hymns, content: {
-                            hymn in NavigationLink(hymn.name, destination: DetailsView(hymn: hymn))
+                        ForEach(hymnList.hymns, content: { hymn in
+                            NavigationLink(destination: DetailsView(hymn: hymn)) {
+                               HStack {
+                                  Text(hymn.name).frame(maxWidth: .infinity, alignment: .leading)
+                                  let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
+                                  if (midi != nil) {
+                                     Image(systemName: "music.note")
+                                  }
+                               }
+                           }
                         })
                     } else {
                         // Filtered list of names
                         ForEach(hymnList.hymns.filter {
                             $0.text.lowercased().contains(searchText.lowercased())
                         }, content: { hymn in
-                            NavigationLink(hymn.name, destination: DetailsView(hymn: hymn))
+                            HStack {
+                                NavigationLink(destination: DetailsView(hymn: hymn)) {
+                                    Text(hymn.name).frame(maxWidth: .infinity, alignment: .leading)
+                                    let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
+                                    if (midi != nil) {
+              	     		     				         Image(systemName: "music.note")
+               				                 }
+                                }
+                            }
                         })
                     }
                 }
-                .listStyle(.plain)
+                .listStyle(PlainListStyle())
                 .navigationBarTitle("", displayMode: .automatic) // set both navigationBarTitle and navigationBarHidden to hide the bar
                 .navigationBarHidden(true)
             }
