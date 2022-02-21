@@ -40,15 +40,13 @@ struct ContentView: View {
                     let hymnList = HymnList()
                     if showHymnList {
                         ForEach(hymnList.hymns, content: {
-                            hymn in
-                            NavigationLink(hymn.name, destination: DetailsView(hymn: hymn))
+                            hymn in NavigationLink(hymn.name, destination: DetailsView(hymn: hymn))
                         })
                     } else {
                         // Filtered list of names
                         ForEach(hymnList.hymns.filter {
                             $0.text.lowercased().contains(searchText.lowercased())
-                        }, content: {
-                            hymn in
+                        }, content: { hymn in
                             NavigationLink(hymn.name, destination: DetailsView(hymn: hymn))
                         })
                     }
@@ -58,6 +56,7 @@ struct ContentView: View {
                 .navigationBarHidden(true)
             }
         }
+        .phoneOnlyStackNavigationView()
     }
 }
 
@@ -77,3 +76,12 @@ extension UIApplication {
     }
 }
 
+extension View {
+    func phoneOnlyStackNavigationView() -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return AnyView(self.navigationViewStyle(StackNavigationViewStyle()))
+        } else {
+            return AnyView(self)
+        }
+    }
+}

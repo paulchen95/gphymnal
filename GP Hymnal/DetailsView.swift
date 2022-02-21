@@ -16,56 +16,36 @@ struct DetailsView: View {
     @State var midiPlayer: AVMIDIPlayer!
     @State var playerState: AudioPlayerState = AudioPlayerState.Stopped
     let hymn: Hymn
-    
+
     var body: some View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
 
-        ZoomableScrollView(content: {
-            Text(hymn.text).padding()
-                .contextMenu {
-                    Button { // use label for accessibility
-                        UIPasteboard.general.string = hymn.text
-                    } label: {
-                        Label("Copy to clipboard", systemImage: "doc.on.doc")
-                    }
-                }
-            }
-            VStack(alignment: .leading) {
-                if (hymn.author.count > 0) {
-                    Text("Author: " + hymn.author)
-                }
-                if (hymn.translator.count > 0) {
-                    Text("Translator: " + hymn.translator)
-                }
-                if (hymn.composer.count > 0) {
-                    Text("Composer: " + hymn.composer)
-                }
-            }.padding()
-        })
-        .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
-        .toolbar { // show play/stop button in toolbar
-            if (midi != nil) {
-                HStack {
-                    if (playerState == AudioPlayerState.Stopped) {
-                        Button {
-                            self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
-                            self.midiPlayer.prepareToPlay()
-                            self.midiPlayer.play()
-                            playerState = AudioPlayerState.Playing
-                        } label: {
-                            Label("Play", systemImage: "play.circle.fill")
-                        }
-                    } else {
-                        Button {
-                            self.midiPlayer.stop()
-                            playerState = AudioPlayerState.Stopped
-                        } label: {
-                            Label("Stop", systemImage: "stop.circle.fill")
+        MyUITextView(hymn: hymn)
+            .padding()
+            .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
+            .toolbar { // show play/stop button in toolbar
+                if (midi != nil) {
+                    HStack {
+                        if (playerState == AudioPlayerState.Stopped) {
+                            Button {
+                                self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
+                                self.midiPlayer.prepareToPlay()
+                                self.midiPlayer.play()
+                                playerState = AudioPlayerState.Playing
+                            } label: {
+                                Label("Play", systemImage: "play.circle.fill")
+                            }
+                        } else {
+                            Button {
+                                self.midiPlayer.stop()
+                                playerState = AudioPlayerState.Stopped
+                            } label: {
+                                Label("Stop", systemImage: "stop.circle.fill")
+                            }
                         }
                     }
                 }
             }
-        }
     }
 }
 
