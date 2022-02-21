@@ -20,9 +20,9 @@ struct DetailsView: View {
     var body: some View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
         
-        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false, content: {
-            Text(hymn.text)
-                .padding()
+
+        ScrollView(.vertical, showsIndicators: false, content: {
+            Text(hymn.text).padding()
                 .contextMenu {
                     Button { // use label for accessibility
                         UIPasteboard.general.string = hymn.text
