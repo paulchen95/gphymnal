@@ -1,5 +1,6 @@
 # gphymnal
 version 0.0.8:
+- included several UI Improvements
 - added several hymn audio that can be played on the lyrics view
 
 version 0.0.7:
