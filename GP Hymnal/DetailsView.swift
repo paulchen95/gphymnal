@@ -12,13 +12,20 @@ enum AudioPlayerState {
     case Playing, Stopped
 }
 
+enum MidiPlayerState {
+    case Playing, Stopped
+}
+
 struct DetailsView: View {
     @State var midiPlayer: AVMIDIPlayer!
-    @State var playerState: AudioPlayerState = AudioPlayerState.Stopped
+    @State var audioPlayer: AVAudioPlayer!
+    @State var midiPlayerState: MidiPlayerState = MidiPlayerState.Stopped
+    @State var audioPlayerState: AudioPlayerState = AudioPlayerState.Stopped
     let hymn: Hymn
 
     var body: some View {
         let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
+        let mp3 = Bundle.main.url(forResource: hymn.filename, withExtension: "mp3", subdirectory: "Music")
 
         MyUITextView(hymn: hymn)
             .padding(.horizontal)
@@ -26,21 +33,38 @@ struct DetailsView: View {
             .toolbar { // show play/stop button in toolbar
                 if (midi != nil) {
                     HStack {
-                        if (playerState == AudioPlayerState.Stopped) {
+                        if (self.midiPlayerState == MidiPlayerState.Stopped) {
                             Button {
                                 self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
                                 self.midiPlayer.prepareToPlay()
                                 self.midiPlayer.play()
-                                playerState = AudioPlayerState.Playing
+                                self.midiPlayerState = MidiPlayerState.Playing
                             } label: {
                                 Label("Play", systemImage: "play.circle.fill")
                             }
                         } else {
                             Button {
                                 self.midiPlayer.stop()
-                                playerState = AudioPlayerState.Stopped
+                                self.midiPlayerState = MidiPlayerState.Stopped
                             } label: {
                                 Label("Stop", systemImage: "stop.circle.fill")
+                            }
+                        }
+                        if (self.audioPlayerState == AudioPlayerState.Stopped) {
+                            Button {
+                                self.audioPlayer = try! AVAudioPlayer(contentsOf: mp3!)
+                                self.audioPlayer.prepareToPlay()
+                                self.audioPlayer.play()
+                                self.audioPlayerState = AudioPlayerState.Playing
+                            } label: {
+                                Label("Play", systemImage: "play.circle")
+                            }
+                        } else {
+                            Button {
+                                self.audioPlayer.stop()
+                                self.audioPlayerState = AudioPlayerState.Stopped
+                            } label: {
+                                Label("Stop", systemImage: "stop.circle")
                             }
                         }
                     }
