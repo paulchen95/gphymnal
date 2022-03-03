@@ -13,32 +13,32 @@ enum AudioPlayerState {
 }
 
 struct DetailsView: View {
-    @State var mp3Player: AVAudioPlayer!
+    @State var midiPlayer: AVMIDIPlayer!
     @State var playerState: AudioPlayerState = AudioPlayerState.Stopped
     let hymn: Hymn
 
     var body: some View {
-        let mp3 = Bundle.main.url(forResource: hymn.filename, withExtension: "mp3", subdirectory: "Music")
+        let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
 
         MyUITextView(hymn: hymn)
             .padding(.horizontal)
             .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
             .toolbar { // show play/stop button in toolbar
-                if (mp3 != nil) {
+                if (midi != nil) {
                     HStack {
                         if (playerState == AudioPlayerState.Stopped) {
                             Button {
-                                self.mp3Player = try! AVAudioPlayer(contentsOf: mp3!)
-                                self.mp3Player.prepareToPlay()
-                                self.mp3Player.play()
-                                self.playerState = AudioPlayerState.Playing
+                                self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
+                                self.midiPlayer.prepareToPlay()
+                                self.midiPlayer.play()
+                                playerState = AudioPlayerState.Playing
                             } label: {
                                 Label("Play", systemImage: "play.circle.fill")
                             }
                         } else {
                             Button {
-                                self.mp3Player.stop()
-                                self.playerState = AudioPlayerState.Stopped
+                                self.midiPlayer.stop()
+                                playerState = AudioPlayerState.Stopped
                             } label: {
                                 Label("Stop", systemImage: "stop.circle.fill")
                             }

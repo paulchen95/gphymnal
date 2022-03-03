@@ -19,3 +19,7 @@ struct GP_HymnalApp: App {
         }
     }
 }
+
+struct audioResources {
+    static var soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music")
+}
