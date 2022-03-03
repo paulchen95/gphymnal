@@ -43,8 +43,8 @@ struct ContentView: View {
                             NavigationLink(destination: DetailsView(hymn: hymn)) {
                                HStack {
                                   Text(hymn.name).frame(maxWidth: .infinity, alignment: .leading)
-                                  let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
-                                  if (midi != nil) {
+                                  let mp3 = Bundle.main.url(forResource: hymn.filename, withExtension: "mp3", subdirectory: "Music")
+                                  if (mp3 != nil) {
                                      Image(systemName: "music.note")
                                   }
                                }
@@ -58,8 +58,8 @@ struct ContentView: View {
                             HStack {
                                 NavigationLink(destination: DetailsView(hymn: hymn)) {
                                     Text(hymn.name).frame(maxWidth: .infinity, alignment: .leading)
-                                    let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
-                                    if (midi != nil) {
+                                    let mp3 = Bundle.main.url(forResource: hymn.filename, withExtension: "mp3", subdirectory: "Music")
+                                    if (mp3 != nil) {
               	     		     				         Image(systemName: "music.note")
                				                 }
                                 }
