@@ -7,19 +7,17 @@
 
 import SwiftUI
 import Siren
+import AVKit
 
 @main
 struct GP_HymnalApp: App {
     init() {
         Siren.shared.wail()
+        try? AVAudioSession.sharedInstance().setCategory(.playback)
     }
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
     }
-}
-
-struct audioResources {
-    static var soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music")
 }

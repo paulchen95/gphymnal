@@ -1,4 +1,9 @@
 # gphymnal
+version next:
+
+version 1.0.0:
+- music will now play in Silent Mode
+
 version 0.0.8:
 - included several UI Improvements
 - added several hymn audio that can be played on the lyrics view
