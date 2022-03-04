@@ -2,10 +2,6 @@ name:: In These Dark Days
 ---
 author:: Unknown
 ---
-translator:: Unknown
----
-composer:: Unknown
----
 text::
 In these dark days lift up your eyes to Jesus
 Lift up your eyes He’s still upon the throne
