@@ -9,10 +9,8 @@ enum PlayerState {
 class MidiPlayer {
     var player: AVMIDIPlayer?
     var state: PlayerState = PlayerState.Stopped
-    var filename: String
 
     init (name: String) {
-        filename = name
         if let midiFile = Bundle.main.url(forResource: name, withExtension: "mid", subdirectory: "Music") {
             if let soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music") {
                 if let midiPlayer = try? AVMIDIPlayer(contentsOf: midiFile, soundBankURL: soundBank) {
