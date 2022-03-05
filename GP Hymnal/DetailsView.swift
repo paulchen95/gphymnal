@@ -8,10 +8,6 @@
 import SwiftUI
 import AVKit
 
-enum AudioPlayerState {
-    case Playing, Stopped
-}
-
 struct DetailsView: View {
     @State var playerState: PlayerState = PlayerState.Stopped
     var midiPlayer: MidiPlayer?

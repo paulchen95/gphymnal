@@ -14,9 +14,11 @@ class MidiPlayer {
     init (name: String) {
         filename = name
         if let midiFile = Bundle.main.url(forResource: name, withExtension: "mid", subdirectory: "Music") {
-            if let midiPlayer = try? AVMIDIPlayer(contentsOf: midiFile, soundBankURL: audioResources.soundBank) {
-                player = midiPlayer
-                player!.prepareToPlay()
+            if let soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music") {
+                if let midiPlayer = try? AVMIDIPlayer(contentsOf: midiFile, soundBankURL: soundBank) {
+                    player = midiPlayer
+                    player!.prepareToPlay()
+                }
             }
         }
     }
@@ -42,8 +44,4 @@ class MidiPlayer {
     func isAvailable() -> Bool {
         return (player != nil)
     }
-}
-
-struct audioResources {
-    static var soundBank = Bundle.main.url(forResource: "Abbey-Steinway-D-v1.9", withExtension: "sf2", subdirectory: "Music")
 }
