@@ -8,63 +8,41 @@
 import SwiftUI
 import AVKit
 
-enum AudioPlayerState {
-    case Playing, Stopped
-}
-
-enum MidiPlayerState {
-    case Playing, Stopped
-}
-
 struct DetailsView: View {
-    @State var midiPlayer: AVMIDIPlayer!
-    @State var audioPlayer: AVAudioPlayer!
-    @State var midiPlayerState: MidiPlayerState = MidiPlayerState.Stopped
-    @State var audioPlayerState: AudioPlayerState = AudioPlayerState.Stopped
-    let hymn: Hymn
+    @State var playerState: PlayerState = PlayerState.Stopped
+    var midiPlayer: MidiPlayer?
+    var hymn: Hymn
 
+    init (hymn: Hymn) {
+        self.hymn = hymn
+        self.midiPlayer = MidiPlayer(name: hymn.filename)
+    }
+    
     var body: some View {
-        let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mid", subdirectory: "Music")
-        let mp3 = Bundle.main.url(forResource: hymn.filename, withExtension: "mp3", subdirectory: "Music")
-
         MyUITextView(hymn: hymn)
             .padding(.horizontal)
+            .onDisappear(
+                perform: {
+                    if (midiPlayer != nil && midiPlayer!.isAvailable() && playerState == PlayerState.Playing) {
+                        playerState = midiPlayer!.stop()
+                    }
+                }
+            )
             .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
             .toolbar { // show play/stop button in toolbar
-                if (midi != nil) {
+                if (midiPlayer != nil && midiPlayer!.isAvailable()) {
                     HStack {
-                        if (self.midiPlayerState == MidiPlayerState.Stopped) {
+                        if (playerState == PlayerState.Stopped) {
                             Button {
-                                self.midiPlayer = try! AVMIDIPlayer(contentsOf: midi!, soundBankURL: audioResources.soundBank)
-                                self.midiPlayer.prepareToPlay()
-                                self.midiPlayer.play()
-                                self.midiPlayerState = MidiPlayerState.Playing
+                                playerState = midiPlayer!.play()
                             } label: {
                                 Label("Play", systemImage: "play.circle.fill")
                             }
                         } else {
                             Button {
-                                self.midiPlayer.stop()
-                                self.midiPlayerState = MidiPlayerState.Stopped
+                                playerState = midiPlayer!.stop()
                             } label: {
                                 Label("Stop", systemImage: "stop.circle.fill")
-                            }
-                        }
-                        if (self.audioPlayerState == AudioPlayerState.Stopped) {
-                            Button {
-                                self.audioPlayer = try! AVAudioPlayer(contentsOf: mp3!)
-                                self.audioPlayer.prepareToPlay()
-                                self.audioPlayer.play()
-                                self.audioPlayerState = AudioPlayerState.Playing
-                            } label: {
-                                Label("Play", systemImage: "play.circle")
-                            }
-                        } else {
-                            Button {
-                                self.audioPlayer.stop()
-                                self.audioPlayerState = AudioPlayerState.Stopped
-                            } label: {
-                                Label("Stop", systemImage: "stop.circle")
                             }
                         }
                     }

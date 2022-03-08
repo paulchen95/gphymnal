@@ -10,6 +10,7 @@
 		0072D02227A77E300096D33C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 0072D02127A77E300096D33C /* Data */; };
 		009F744D27A9204B00580D62 /* HymnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009F744C27A9204B00580D62 /* HymnList.swift */; };
 		C304781A27B776A10050F755 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = C304781927B776A10050F755 /* Music */; };
+		C347255427D28D730053A72E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C347255327D28D730053A72E /* MusicPlayer.swift */; };
 		C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */; };
 		C38F377126B3CE2D002603EA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377026B3CE2D002603EA /* ContentView.swift */; };
 		C38F377326B3CE2E002603EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377226B3CE2E002603EA /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 		0072D02127A77E300096D33C /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		009F744C27A9204B00580D62 /* HymnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnList.swift; sourceTree = "<group>"; };
 		C304781927B776A10050F755 /* Music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Music; sourceTree = "<group>"; };
+		C347255327D28D730053A72E /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		C38F376B26B3CE2D002603EA /* GP Hymnal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GP Hymnal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GP_HymnalApp.swift; sourceTree = "<group>"; };
 		C38F377026B3CE2D002603EA /* ContentView.swift */ = {isa = PBXFileReference; indentWidth = 0; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; tabWidth = 1; usesTabs = 0; wrapsLines = 0; };
@@ -77,6 +79,7 @@
 				C38F377726B3CE2E002603EA /* Info.plist */,
 				C38F377426B3CE2E002603EA /* Preview Content */,
 				C3B3574E27C36C72008D1FFE /* MyUITextView.swift */,
+				C347255327D28D730053A72E /* MusicPlayer.swift */,
 			);
 			path = "GP Hymnal";
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C347255427D28D730053A72E /* MusicPlayer.swift in Sources */,
 				C38F377126B3CE2D002603EA /* ContentView.swift in Sources */,
 				C3B3574F27C36C72008D1FFE /* MyUITextView.swift in Sources */,
 				009F744D27A9204B00580D62 /* HymnList.swift in Sources */,
