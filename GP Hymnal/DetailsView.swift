@@ -10,12 +10,12 @@ import AVKit
 
 struct DetailsView: View {
     @State var playerState: PlayerState = PlayerState.Stopped
-    var midiPlayer: MidiPlayer?
+    var mp3Player: Mp3Player?
     var hymn: Hymn
 
     init (hymn: Hymn) {
         self.hymn = hymn
-        self.midiPlayer = MidiPlayer(name: hymn.filename)
+        self.mp3Player = Mp3Player(name: hymn.filename)
     }
     
     var body: some View {
@@ -23,24 +23,24 @@ struct DetailsView: View {
             .padding(.horizontal)
             .onDisappear(
                 perform: {
-                    if (midiPlayer != nil && midiPlayer!.isAvailable() && playerState == PlayerState.Playing) {
-                        playerState = midiPlayer!.stop()
+                    if (mp3Player != nil && mp3Player!.isAvailable() && playerState == PlayerState.Playing) {
+                        playerState = mp3Player!.stop()
                     }
                 }
             )
             .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
             .toolbar { // show play/stop button in toolbar
-                if (midiPlayer != nil && midiPlayer!.isAvailable()) {
+                if (mp3Player != nil && mp3Player!.isAvailable()) {
                     HStack {
                         if (playerState == PlayerState.Stopped) {
                             Button {
-                                playerState = midiPlayer!.play()
+                                playerState = mp3Player!.play()
                             } label: {
                                 Label("Play", systemImage: "play.circle.fill")
                             }
                         } else {
                             Button {
-                                playerState = midiPlayer!.stop()
+                                playerState = mp3Player!.stop()
                             } label: {
                                 Label("Stop", systemImage: "stop.circle.fill")
                             }
