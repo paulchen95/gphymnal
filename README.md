@@ -1,7 +1,8 @@
 # gphymnal
 
-version 1.0:
+version 1.3:
 - music will now play in Silent Mode
+- switch msuic from MIDI to MP3s for a better experience
 
 version 0.0.8:
 - included several UI Improvements
