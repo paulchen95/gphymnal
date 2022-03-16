@@ -1,5 +1,8 @@
 # gphymnal
 
+version 2.0:
+- 10 more hymns now have audio
+
 version 1.3:
 - music will now play in Silent Mode
 - switch msuic from MIDI to MP3s for a better experience
