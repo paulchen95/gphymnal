@@ -1,5 +1,9 @@
 # gphymnal
 
+version 3.0:
+- added "O Sacred Head Now Wounded"
+- 8 more hymns now have audio
+
 version 2.0:
 - 10 more hymns now have audio
 
