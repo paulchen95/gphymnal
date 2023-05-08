@@ -28,6 +28,8 @@ struct HymnList {
         var authorValue = ""
         var translatorValue = ""
         var composerValue = ""
+        var arrangerValue = ""
+        var tuneValue = ""
         var textValue = ""
         
         for line in lines {
@@ -39,6 +41,10 @@ struct HymnList {
                 translatorValue = getAttributeValueWithoutSpecialChars(line: line)
             } else if doesLineStartWith(line: line, string: "composer::") {
                 composerValue = getAttributeValueWithoutSpecialChars(line: line)
+            } else if doesLineStartWith(line: line, string: "arranger::") {
+                arrangerValue = getAttributeValueWithoutSpecialChars(line: line)
+            } else if doesLineStartWith(line: line, string: "tune::") {
+                tuneValue = getAttributeValueWithoutSpecialChars(line: line)
             } else if doesLineStartWith(line: line, string: "text::") {
                 textValue = line.components(separatedBy: "::")[1]
                     .trimmingCharacters(in: .whitespaces)
@@ -46,7 +52,7 @@ struct HymnList {
         }
 
         return Hymn(name: nameValue, filename: fileName, author: authorValue,
-                    translator: translatorValue, composer: composerValue, text: textValue)
+                    translator: translatorValue, composer: composerValue, arranger: arrangerValue, tune: tuneValue, text: textValue)
     }
     
     func doesLineStartWith(line: String, string: String) -> Bool {
@@ -60,4 +66,3 @@ struct HymnList {
             .trimmingCharacters(in: .whitespaces)
     }
 }
-

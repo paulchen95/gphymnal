@@ -2,7 +2,9 @@ name:: Blessed Assurance, Jesus Is Mine
 ---
 author:: Fanny Crosby
 ---
-composer:: Phoebe Palmer Knapp (Tune: Assurance)
+composer:: Phoebe Palmer Knapp
+---
+tune:: Assurance
 ---
 text::
 Blessed assurance, Jesus is mine!

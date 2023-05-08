@@ -2,7 +2,11 @@ name:: This is My Father's World
 ---
 author:: Maltbie D. Babcock
 ---
-composer:: Traditional English Melody, Arr. by Franklin L. Sheppard
+composer:: Unknown
+---
+arranger:: Franklin L. Sheppard
+---
+tune:: Traditional English Melody
 ---
 text::
 This is my Father's world, and to my listening ears

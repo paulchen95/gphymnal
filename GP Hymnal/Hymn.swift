@@ -14,5 +14,45 @@ struct Hymn: Identifiable {
     let author: String
     let translator: String
     let composer: String
+    let arranger: String
+    let tune: String
     let text: String
+    
+    init(name: String, filename: String, author: String, translator: String = "", composer: String, arranger: String = "", tune: String = "", text: String) {
+        self.name = name
+        self.filename = filename
+        self.author = author
+        self.translator = translator
+        self.composer = composer
+        self.arranger = arranger
+        self.tune = tune
+        self.text = text
+    }
+    
+    func formatText() -> String {
+        var formatted = text
+        if ((author.count > 0) ||
+            (translator.count > 0) ||
+            (composer.count > 0) ||
+            (arranger.count > 0) ||
+            (tune.count > 0)) {
+            formatted.append("\n\n")
+        }
+        if (author.count > 0) {
+            formatted.append("Author: " + author + "\n")
+        }
+        if (translator.count > 0) {
+            formatted.append("Translator: " + translator + "\n")
+        }
+        if (composer.count > 0) {
+            formatted.append("Composer: " + composer + "\n")
+        }
+        if (arranger.count > 0) {
+            formatted.append("Arranger: " + arranger + "\n")
+        }
+        if (tune.count > 0) {
+            formatted.append("Tune: " + tune + "\n")
+        }
+        return formatted
+    }
 }

@@ -1,5 +1,10 @@
 # gphymnal
 
+version 4.0:
+- Applied a workaround to restore PinchZoom feature which was an iOS 15 regression
+- Added a few hymn metadata to accommodate arranger and tune information
+- Added a few more hymns
+
 version 3.0:
 - added "O Sacred Head Now Wounded"
 - 8 more hymns now have audio
