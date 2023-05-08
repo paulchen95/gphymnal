@@ -19,41 +19,44 @@ struct DetailsView: View {
     }
     
     var body: some View {
-        MyUITextView(hymn: hymn)
-            .padding(.horizontal)
-            .onDisappear(
-                perform: {
-                    if (mp3Player != nil && mp3Player!.isAvailable() && playerState == PlayerState.Playing) {
-                        playerState = mp3Player!.stop()
-                    }
-                }
-            )
-            .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
-            .toolbar { // show play/stop button in toolbar
-                if (mp3Player != nil && mp3Player!.isAvailable()) {
-                    HStack {
-                        if (playerState == PlayerState.Stopped) {
-                            Button {
-                                playerState = mp3Player!.play()
-                            } label: {
-                                Label("Play", systemImage: "play.circle.fill")
+        ZoomableScrollView {
+            Text(hymn.formatText())
+                .padding(.horizontal)
+                .onDisappear(
+                    perform: {
+                        if (mp3Player != nil && mp3Player!.isAvailable() && playerState == PlayerState.Playing) {
+                            playerState = mp3Player!.stop()
+                        } // if
+                    } // perform
+                ) // .onDisappear
+                .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
+                .textSelection(.enabled)
+                .toolbar { // show play/stop button in toolbar
+                    if (mp3Player != nil && mp3Player!.isAvailable()) {
+                        HStack {
+                            if (playerState == PlayerState.Stopped) {
+                                Button {
+                                    playerState = mp3Player!.play()
+                                } label: {
+                                    Label("Play", systemImage: "play.circle.fill")
+                                }
+                            } else {
+                                Button {
+                                    playerState = mp3Player!.stop()
+                                } label: {
+                                    Label("Stop", systemImage: "stop.circle.fill")
+                                }
                             }
-                        } else {
-                            Button {
-                                playerState = mp3Player!.stop()
-                            } label: {
-                                Label("Stop", systemImage: "stop.circle.fill")
-                            }
-                        }
-                    }
-                }
-            }
-    }
+                        } // HStack
+                    } // if mp3Player
+                } // .toolbar
+        } //  ZoomableScrollView
+    } // var body
 }
 
 struct DetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailsView(hymn: Hymn(name: "Abide With Me", filename: "AbideWithMe", author: "Henry F. Lyte", translator: "", composer: "William H. Monk", text:
+        DetailsView(hymn: Hymn(name: "Abide With Me", filename: "AbideWithMe", author: "Henry F. Lyte", composer: "William H. Monk", text:
         """
         Abide with me, fast falls the eventide;
         The darkness deepens, Lord, with me abide.

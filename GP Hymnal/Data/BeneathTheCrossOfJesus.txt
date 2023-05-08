@@ -2,7 +2,9 @@ name:: Beneath the Cross of Jesus
 ---
 author:: Elizabeth C. Clephane
 ---
-translator:: Frederick C. Maker (Tune: St. Christopher)
+translator:: Frederick C. Maker
+---
+tune: St. Christopher
 ---
 text::
 Beneath the cross of Jesus

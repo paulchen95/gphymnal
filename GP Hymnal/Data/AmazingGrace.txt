@@ -2,7 +2,9 @@ name:: Amazing Grace
 ---
 author:: John Newton
 ---
-composer:: Unknown (tune: New Britain)
+composer:: Unknown
+---
+tune: New Britain
 ---
 text::
 Amazing grace! How sweet the sound

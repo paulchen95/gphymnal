@@ -4,7 +4,9 @@ author:: Eleanor H. Hull
 ---
 translator:: Mary E. Byrne
 ---
-composer:: Traditional Irish Folk (Tune: Slane)
+composer:: Traditional Irish Folk
+---
+tune: Slane
 ---
 text::
 Be Thou my Vision, O Lord of my heart;

@@ -70,6 +70,7 @@ struct ContentView: View {
                 .listStyle(PlainListStyle())
                 .navigationBarTitle("", displayMode: .automatic) // set both navigationBarTitle and navigationBarHidden to hide the bar
                 .navigationBarHidden(true)
+
             }
         }
         .phoneOnlyStackNavigationView()

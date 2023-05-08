@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0072D02227A77E300096D33C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 0072D02127A77E300096D33C /* Data */; };
 		009F744D27A9204B00580D62 /* HymnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009F744C27A9204B00580D62 /* HymnList.swift */; };
+		193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */; };
 		C304781A27B776A10050F755 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = C304781927B776A10050F755 /* Music */; };
 		C347255427D28D730053A72E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C347255327D28D730053A72E /* MusicPlayer.swift */; };
 		C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */; };
@@ -17,13 +18,13 @@
 		C38F377626B3CE2E002603EA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377526B3CE2E002603EA /* Preview Assets.xcassets */; };
 		C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377D26B3CEA2002603EA /* Hymn.swift */; };
 		C38F378026B3D04D002603EA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377F26B3D04D002603EA /* DetailsView.swift */; };
-		C3B3574F27C36C72008D1FFE /* MyUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3574E27C36C72008D1FFE /* MyUITextView.swift */; };
 		C3F7CCB727A887A000B54E5C /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C3F7CCB627A887A000B54E5C /* Siren */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0072D02127A77E300096D33C /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		009F744C27A9204B00580D62 /* HymnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnList.swift; sourceTree = "<group>"; };
+		193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		C304781927B776A10050F755 /* Music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Music; sourceTree = "<group>"; };
 		C347255327D28D730053A72E /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		C38F376B26B3CE2D002603EA /* GP Hymnal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GP Hymnal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,7 +35,6 @@
 		C38F377726B3CE2E002603EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C38F377D26B3CEA2002603EA /* Hymn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hymn.swift; sourceTree = "<group>"; };
 		C38F377F26B3D04D002603EA /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
-		C3B3574E27C36C72008D1FFE /* MyUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUITextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +78,8 @@
 				C38F377226B3CE2E002603EA /* Assets.xcassets */,
 				C38F377726B3CE2E002603EA /* Info.plist */,
 				C38F377426B3CE2E002603EA /* Preview Content */,
-				C3B3574E27C36C72008D1FFE /* MyUITextView.swift */,
 				C347255327D28D730053A72E /* MusicPlayer.swift */,
+				193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */,
 			);
 			path = "GP Hymnal";
 			sourceTree = "<group>";
@@ -171,10 +171,10 @@
 			files = (
 				C347255427D28D730053A72E /* MusicPlayer.swift in Sources */,
 				C38F377126B3CE2D002603EA /* ContentView.swift in Sources */,
-				C3B3574F27C36C72008D1FFE /* MyUITextView.swift in Sources */,
 				009F744D27A9204B00580D62 /* HymnList.swift in Sources */,
 				C38F378026B3D04D002603EA /* DetailsView.swift in Sources */,
 				C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */,
+				193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */,
 				C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,7 +233,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -288,7 +288,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -304,17 +304,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022.0908;
+				CURRENT_PROJECT_VERSION = 2023.0508;
 				DEVELOPMENT_ASSET_PATHS = "\"GP Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "GP Hymnal/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "GP Hymnal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -328,17 +330,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022.0908;
+				CURRENT_PROJECT_VERSION = 2023.0508;
 				DEVELOPMENT_ASSET_PATHS = "\"GP Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "GP Hymnal/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "GP Hymnal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
