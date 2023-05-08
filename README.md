@@ -1,7 +1,7 @@
 # gphymnal
 
 version 4.0:
-- Applied a workaround to restore PinchZoom feature which Apple broke since iOS 15
+- Applied a workaround to restore PinchZoom feature which was an iOS 15 regression
 - Added a few hymn metadata to accommodate arranger and tune information
 - Added a few more hymns
 
