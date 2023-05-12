@@ -1,4 +1,4 @@
-name:: Facing a Task Unfinished
+name:: Facing A Task Unfinished
 ---
 author:: Frank Houghton et al.
 ---
