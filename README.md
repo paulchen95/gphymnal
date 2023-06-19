@@ -1,5 +1,11 @@
 # gphymnal
 
+version 4.0.2:
+- added music for "I Need Thee Every Hour" and "Take My Life And Let It Be Consecreated"
+
+version 4.0.1:
+- 5 more hymns now have audio
+
 version 4.0:
 - Applied a workaround to restore PinchZoom feature which was an iOS 15 regression
 - Added a few hymn metadata to accommodate arranger and tune information
