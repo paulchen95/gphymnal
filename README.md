@@ -1,4 +1,6 @@
 # gphymnal
+version 4.0.3:
+- added music for "Trust And Obey"
 
 version 4.0.2:
 - added music for "I Need Thee Every Hour" and "Take My Life And Let It Be Consecreated"
