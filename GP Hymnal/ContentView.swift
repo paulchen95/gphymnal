@@ -86,7 +86,9 @@ struct ContentView_Previews: PreviewProvider {
 extension UIApplication {
     // This method will force the end of editing of any currently focused text field.
     func endEditing(_ force: Bool) {
-        self.windows
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        windowScene?.windows
             .filter{$0.isKeyWindow}
             .first?
             .endEditing(force)

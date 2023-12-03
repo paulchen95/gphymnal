@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,7 @@
 		009F744D27A9204B00580D62 /* HymnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009F744C27A9204B00580D62 /* HymnList.swift */; };
 		193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */; };
 		C304781A27B776A10050F755 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = C304781927B776A10050F755 /* Music */; };
+		C32870212B1C4FF0001A6549 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C32870202B1C4FF0001A6549 /* Siren */; };
 		C347255427D28D730053A72E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C347255327D28D730053A72E /* MusicPlayer.swift */; };
 		C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */; };
 		C38F377126B3CE2D002603EA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377026B3CE2D002603EA /* ContentView.swift */; };
@@ -18,7 +19,6 @@
 		C38F377626B3CE2E002603EA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377526B3CE2E002603EA /* Preview Assets.xcassets */; };
 		C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377D26B3CEA2002603EA /* Hymn.swift */; };
 		C38F378026B3D04D002603EA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377F26B3D04D002603EA /* DetailsView.swift */; };
-		C3F7CCB727A887A000B54E5C /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C3F7CCB627A887A000B54E5C /* Siren */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		C304781927B776A10050F755 /* Music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Music; sourceTree = "<group>"; };
 		C347255327D28D730053A72E /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
-		C38F376B26B3CE2D002603EA /* GP Hymnal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GP Hymnal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C38F376B26B3CE2D002603EA /* A2N Hymnal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "A2N Hymnal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GP_HymnalApp.swift; sourceTree = "<group>"; };
 		C38F377026B3CE2D002603EA /* ContentView.swift */ = {isa = PBXFileReference; indentWidth = 0; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; tabWidth = 1; usesTabs = 0; wrapsLines = 0; };
 		C38F377226B3CE2E002603EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3F7CCB727A887A000B54E5C /* Siren in Frameworks */,
+				C32870212B1C4FF0001A6549 /* Siren in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,7 +60,7 @@
 		C38F376C26B3CE2D002603EA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C38F376B26B3CE2D002603EA /* GP Hymnal.app */,
+				C38F376B26B3CE2D002603EA /* A2N Hymnal.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C38F376A26B3CE2D002603EA /* GP Hymnal */ = {
+		C38F376A26B3CE2D002603EA /* A2N Hymnal */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C38F377A26B3CE2E002603EA /* Build configuration list for PBXNativeTarget "GP Hymnal" */;
+			buildConfigurationList = C38F377A26B3CE2E002603EA /* Build configuration list for PBXNativeTarget "A2N Hymnal" */;
 			buildPhases = (
 				C38F376726B3CE2D002603EA /* Sources */,
 				C38F376826B3CE2D002603EA /* Frameworks */,
@@ -107,12 +107,12 @@
 			);
 			dependencies = (
 			);
-			name = "GP Hymnal";
+			name = "A2N Hymnal";
 			packageProductDependencies = (
-				C3F7CCB627A887A000B54E5C /* Siren */,
+				C32870202B1C4FF0001A6549 /* Siren */,
 			);
 			productName = "GP Hymnal";
-			productReference = C38F376B26B3CE2D002603EA /* GP Hymnal.app */;
+			productReference = C38F376B26B3CE2D002603EA /* A2N Hymnal.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -121,15 +121,16 @@
 		C38F376326B3CE2D002603EA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					C38F376A26B3CE2D002603EA = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
 				};
 			};
-			buildConfigurationList = C38F376626B3CE2D002603EA /* Build configuration list for PBXProject "GP Hymnal" */;
+			buildConfigurationList = C38F376626B3CE2D002603EA /* Build configuration list for PBXProject "A2N Hymnal" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -139,13 +140,13 @@
 			);
 			mainGroup = C38F376226B3CE2D002603EA;
 			packageReferences = (
-				C3F7CCB527A887A000B54E5C /* XCRemoteSwiftPackageReference "Siren" */,
+				C328701F2B1C4FF0001A6549 /* XCRemoteSwiftPackageReference "Siren" */,
 			);
 			productRefGroup = C38F376C26B3CE2D002603EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C38F376A26B3CE2D002603EA /* GP Hymnal */,
+				C38F376A26B3CE2D002603EA /* A2N Hymnal */,
 			);
 		};
 /* End PBXProject section */
@@ -186,6 +187,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -219,6 +221,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -247,6 +250,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -280,6 +284,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -304,19 +309,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.0619;
+				CURRENT_PROJECT_VERSION = 2023.1203;
 				DEVELOPMENT_ASSET_PATHS = "\"GP Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "GP Hymnal/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "GP Hymnal";
+				INFOPLIST_KEY_CFBundleDisplayName = "A2N Hymnal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.2;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -330,19 +335,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.0619;
+				CURRENT_PROJECT_VERSION = 2023.1203;
 				DEVELOPMENT_ASSET_PATHS = "\"GP Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "GP Hymnal/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "GP Hymnal";
+				INFOPLIST_KEY_CFBundleDisplayName = "A2N Hymnal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.2;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -353,7 +358,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C38F376626B3CE2D002603EA /* Build configuration list for PBXProject "GP Hymnal" */ = {
+		C38F376626B3CE2D002603EA /* Build configuration list for PBXProject "A2N Hymnal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C38F377826B3CE2E002603EA /* Debug */,
@@ -362,7 +367,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C38F377A26B3CE2E002603EA /* Build configuration list for PBXNativeTarget "GP Hymnal" */ = {
+		C38F377A26B3CE2E002603EA /* Build configuration list for PBXNativeTarget "A2N Hymnal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C38F377B26B3CE2E002603EA /* Debug */,
@@ -374,20 +379,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C3F7CCB527A887A000B54E5C /* XCRemoteSwiftPackageReference "Siren" */ = {
+		C328701F2B1C4FF0001A6549 /* XCRemoteSwiftPackageReference "Siren" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ArtSabintsev/Siren.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				minimumVersion = 6.1.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C3F7CCB627A887A000B54E5C /* Siren */ = {
+		C32870202B1C4FF0001A6549 /* Siren */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C3F7CCB527A887A000B54E5C /* XCRemoteSwiftPackageReference "Siren" */;
+			package = C328701F2B1C4FF0001A6549 /* XCRemoteSwiftPackageReference "Siren" */;
 			productName = Siren;
 		};
 /* End XCSwiftPackageProductDependency section */
