@@ -1,4 +1,7 @@
 # gphymnal
+version 4.1.1:
+- made A2N App Icon 10% smaller
+
 version 4.1.0:
 - Renamed to A2N Hymnal
 - Changed App Icon
