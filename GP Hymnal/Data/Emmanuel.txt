@@ -1,0 +1,11 @@
+name:: Emmanuel
+---
+author:: Bob McGee
+---
+composer:: Bob McGee
+---
+text::
+Emmanuel Emmanuel
+His name is called Emmanuel
+God with us revealed in us
+His name is called Emmanuel
