@@ -1,4 +1,10 @@
 # gphymnal
+version 4.1.0:
+- Renamed to A2N Hymnal
+- Changed App Icon
+- Added 13 Christmas hymns
+- Added 2 audio files
+- Fixed a deprecated warning
 
 version 4.0.2:
 - added music for "I Need Thee Every Hour" and "Take My Life And Let It Be Consecrated"
