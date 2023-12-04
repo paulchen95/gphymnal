@@ -1,9 +1,16 @@
 # gphymnal
-version 4.0.3:
-- added music for "Trust And Obey"
+version 4.1.1:
+- made A2N App Icon 10% smaller
+
+version 4.1.0:
+- Renamed to A2N Hymnal
+- Changed App Icon
+- Added 13 Christmas hymns
+- Added 2 audio files
+- Fixed a deprecated warning
 
 version 4.0.2:
-- added music for "I Need Thee Every Hour" and "Take My Life And Let It Be Consecreated"
+- added music for "I Need Thee Every Hour" and "Take My Life And Let It Be Consecrated"
 
 version 4.0.1:
 - 5 more hymns now have audio

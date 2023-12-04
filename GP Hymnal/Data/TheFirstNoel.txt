@@ -1,0 +1,34 @@
+name:: The First Noel
+---
+author:: Traditional English carol
+---
+composer:: Traditional English carol
+---
+text::
+The first Nowell the angel did say,
+Was to certain poor shepherds in fields as they lay;
+In fields where they lay keeping their sheep,
+On a cold winter's night that was so deep.
+Nowell, Nowell, Nowell, Nowell,
+Born is the King of Israel.
+
+For all to see there was a star
+Shining in the east, beyond them far,
+And to the earth it gave great light,
+And so it continued both day and night.
+Nowell, Nowell, Nowell, Nowell,
+Born is the King of Israel.
+
+And by the light of that same star
+The wise men came from country far;
+To seek for a king was their intent,
+And to follow the star wherever it went.
+Nowell, Nowell, Nowell, Nowell,
+Born is the King of Israel.
+
+Then let us all with one accord
+Sing praises to our heavenly Lord
+Who hath made heav'n and earth of naught,
+And with His blood mankind hath bought.
+Nowell, Nowell, Nowell, Nowell,
+Born is the King of Israel.
