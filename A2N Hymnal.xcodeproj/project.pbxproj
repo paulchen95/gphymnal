@@ -12,8 +12,12 @@
 		193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */; };
 		C304781A27B776A10050F755 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = C304781927B776A10050F755 /* Music */; };
 		C32870212B1C4FF0001A6549 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C32870202B1C4FF0001A6549 /* Siren */; };
+		C32870232B1FA475001A6549 /* HymnListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870222B1FA475001A6549 /* HymnListViewModel.swift */; };
+		C32870252B1FC6BD001A6549 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870242B1FC6BD001A6549 /* SettingsView.swift */; };
+		C32870272B1FE747001A6549 /* SettingsLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870262B1FE747001A6549 /* SettingsLabelView.swift */; };
+		C32870292B1FEC11001A6549 /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870282B1FEC11001A6549 /* SettingsRowView.swift */; };
 		C347255427D28D730053A72E /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C347255327D28D730053A72E /* MusicPlayer.swift */; };
-		C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */; };
+		C38F376F26B3CE2D002603EA /* A2N_HymnalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F376E26B3CE2D002603EA /* A2N_HymnalApp.swift */; };
 		C38F377126B3CE2D002603EA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377026B3CE2D002603EA /* ContentView.swift */; };
 		C38F377326B3CE2E002603EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377226B3CE2E002603EA /* Assets.xcassets */; };
 		C38F377626B3CE2E002603EA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377526B3CE2E002603EA /* Preview Assets.xcassets */; };
@@ -26,9 +30,13 @@
 		009F744C27A9204B00580D62 /* HymnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnList.swift; sourceTree = "<group>"; };
 		193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		C304781927B776A10050F755 /* Music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Music; sourceTree = "<group>"; };
+		C32870222B1FA475001A6549 /* HymnListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnListViewModel.swift; sourceTree = "<group>"; };
+		C32870242B1FC6BD001A6549 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C32870262B1FE747001A6549 /* SettingsLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLabelView.swift; sourceTree = "<group>"; };
+		C32870282B1FEC11001A6549 /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 		C347255327D28D730053A72E /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		C38F376B26B3CE2D002603EA /* A2N Hymnal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "A2N Hymnal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GP_HymnalApp.swift; sourceTree = "<group>"; };
+		C38F376E26B3CE2D002603EA /* A2N_HymnalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A2N_HymnalApp.swift; sourceTree = "<group>"; };
 		C38F377026B3CE2D002603EA /* ContentView.swift */ = {isa = PBXFileReference; indentWidth = 0; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; tabWidth = 1; usesTabs = 0; wrapsLines = 0; };
 		C38F377226B3CE2E002603EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C38F377526B3CE2E002603EA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -52,7 +60,7 @@
 		C38F376226B3CE2D002603EA = {
 			isa = PBXGroup;
 			children = (
-				C38F376D26B3CE2D002603EA /* GP Hymnal */,
+				C38F376D26B3CE2D002603EA /* A2N Hymnal */,
 				C38F376C26B3CE2D002603EA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,12 +73,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C38F376D26B3CE2D002603EA /* GP Hymnal */ = {
+		C38F376D26B3CE2D002603EA /* A2N Hymnal */ = {
 			isa = PBXGroup;
 			children = (
 				C304781927B776A10050F755 /* Music */,
 				0072D02127A77E300096D33C /* Data */,
-				C38F376E26B3CE2D002603EA /* GP_HymnalApp.swift */,
+				C38F376E26B3CE2D002603EA /* A2N_HymnalApp.swift */,
 				C38F377026B3CE2D002603EA /* ContentView.swift */,
 				C38F377F26B3D04D002603EA /* DetailsView.swift */,
 				C38F377D26B3CEA2002603EA /* Hymn.swift */,
@@ -80,8 +88,12 @@
 				C38F377426B3CE2E002603EA /* Preview Content */,
 				C347255327D28D730053A72E /* MusicPlayer.swift */,
 				193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */,
+				C32870222B1FA475001A6549 /* HymnListViewModel.swift */,
+				C32870242B1FC6BD001A6549 /* SettingsView.swift */,
+				C32870262B1FE747001A6549 /* SettingsLabelView.swift */,
+				C32870282B1FEC11001A6549 /* SettingsRowView.swift */,
 			);
-			path = "GP Hymnal";
+			path = "A2N Hymnal";
 			sourceTree = "<group>";
 		};
 		C38F377426B3CE2E002603EA /* Preview Content */ = {
@@ -172,10 +184,14 @@
 			files = (
 				C347255427D28D730053A72E /* MusicPlayer.swift in Sources */,
 				C38F377126B3CE2D002603EA /* ContentView.swift in Sources */,
+				C32870272B1FE747001A6549 /* SettingsLabelView.swift in Sources */,
 				009F744D27A9204B00580D62 /* HymnList.swift in Sources */,
+				C32870252B1FC6BD001A6549 /* SettingsView.swift in Sources */,
 				C38F378026B3D04D002603EA /* DetailsView.swift in Sources */,
-				C38F376F26B3CE2D002603EA /* GP_HymnalApp.swift in Sources */,
+				C38F376F26B3CE2D002603EA /* A2N_HymnalApp.swift in Sources */,
+				C32870292B1FEC11001A6549 /* SettingsRowView.swift in Sources */,
 				193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */,
+				C32870232B1FA475001A6549 /* HymnListViewModel.swift in Sources */,
 				C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,13 +326,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2023.1203;
-				DEVELOPMENT_ASSET_PATHS = "\"GP Hymnal/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "GP Hymnal/Info.plist";
+				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "A2N Hymnal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -336,13 +352,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2023.1203;
-				DEVELOPMENT_ASSET_PATHS = "\"GP Hymnal/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "GP Hymnal/Info.plist";
+				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "A2N Hymnal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -4,6 +4,8 @@ author:: Phillips Brooks
 ---
 composer:: Lewis H. Redner
 ---
+collection:: Christmas
+---
 text::
 O little town of Bethlehem,
 How still we see thee lie!

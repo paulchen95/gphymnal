@@ -6,6 +6,8 @@ translator:: J. Freeman Young, Anonymous
 ---
 composer:: Franz Gruber
 ---
+collection:: Christmas
+---
 text::
 Silent night, holy night,
 All is calm, all is bright

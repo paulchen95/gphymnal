@@ -4,6 +4,8 @@ author:: Traditional English carol
 ---
 composer:: Traditional English carol
 ---
+collection:: Christmas
+---
 text::
 The first Nowell the angel did say,
 Was to certain poor shepherds in fields as they lay;
