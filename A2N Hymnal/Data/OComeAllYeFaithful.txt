@@ -6,6 +6,8 @@ translator: Frederick Oakeley
 ---
 composer:: John Francis Wade
 ---
+collection:: Christmas
+---
 text::
 O come, all ye faithful, joyful and triumphant,
 O come ye, O come ye to Bethlehem!

@@ -4,6 +4,8 @@ author:: Edmund H. Sears
 ---
 composer:: Richard Storrs Willis
 ---
+collection:: Christmas
+---
 text::
 It came upon the midnight clear,
 That glorious song of old,

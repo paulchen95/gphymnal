@@ -4,6 +4,8 @@ author:: William C. Dix
 ---
 composer:: Traditional English Melody
 ---
+collection:: Christmas
+---
 text::
 What Child is this, who, laid to rest
 On Mary's lap, is sleeping?

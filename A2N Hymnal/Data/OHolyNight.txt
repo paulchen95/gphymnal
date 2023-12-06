@@ -4,6 +4,8 @@ author:: John S. Dwight
 ---
 composer:: Adolphe Adam
 ---
+collection:: Christmas
+---
 text::
 O holy night! the stars are brightly shining;
 It is the night of the dear Savior's birth.

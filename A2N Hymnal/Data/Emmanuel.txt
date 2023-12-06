@@ -4,6 +4,8 @@ author:: Bob McGee
 ---
 composer:: Bob McGee
 ---
+collection:: Christmas
+---
 text::
 Emmanuel Emmanuel
 His name is called Emmanuel

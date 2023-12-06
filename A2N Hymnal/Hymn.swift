@@ -1,6 +1,6 @@
 //
 //  Hymn.swift
-//  GP Hymnal
+//  A2N Hymnal
 //
 //  Created by Paul Chen on 7/29/21.
 //
@@ -17,8 +17,9 @@ struct Hymn: Identifiable {
     let arranger: String
     let tune: String
     let text: String
+    let collection: String
     
-    init(name: String, filename: String, author: String, translator: String = "", composer: String, arranger: String = "", tune: String = "", text: String) {
+    init(name: String, filename: String, author: String, translator: String = "", composer: String, arranger: String = "", tune: String = "", text: String, collection: String = "") {
         self.name = name
         self.filename = filename
         self.author = author
@@ -27,6 +28,7 @@ struct Hymn: Identifiable {
         self.arranger = arranger
         self.tune = tune
         self.text = text
+        self.collection = collection.isEmpty ? "Hymn" : collection
     }
     
     func formatText() -> String {

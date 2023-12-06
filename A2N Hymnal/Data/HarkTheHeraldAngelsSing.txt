@@ -6,6 +6,8 @@ composer:: Felix Mendelssohn
 ---
 arranger:: William H. Cummings
 ---
+collection:: Christmas
+---
 text::
 Hark! the herald angels sing,
 "Glory to the new-born King;"
