@@ -60,25 +60,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-//extension UIApplication {
-//    // This method will force the end of editing of any currently focused text field.
-//    func endEditing(_ force: Bool) {
-//        let scenes = UIApplication.shared.connectedScenes
-//        let windowScene = scenes.first as? UIWindowScene
-//        windowScene?.windows
-//            .filter{$0.isKeyWindow}
-//            .first?
-//            .endEditing(force)
-//    }
-//}
-//
-//extension View {
-//    func phoneOnlyStackNavigationView() -> some View {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            return AnyView(self.navigationViewStyle(StackNavigationViewStyle()))
-//        } else {
-//            return AnyView(self)
-//        }
-//    }
-//}
