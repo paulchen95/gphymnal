@@ -4,6 +4,8 @@ author:: John Thomas McFarland
 ---
 composer:: James R. Murray
 ---
+collection:: Christmas
+---
 text::
 Away in a manger, no crib for a bed,
 The little Lord Jesus laid down His sweet head;

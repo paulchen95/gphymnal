@@ -4,6 +4,8 @@ author:: Traditional French carol
 ---
 composer:: Traditional French carol
 ---
+collection:: Christmas
+---
 text::
 Angels we have heard on high,
 Sweetly singing o'er the plains:

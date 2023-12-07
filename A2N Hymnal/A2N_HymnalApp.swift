@@ -1,6 +1,6 @@
 //
-//  GP_HymnalApp.swift
-//  GP Hymnal
+//  A2N_HymnalApp.swift
+//  A2N Hymnal
 //
 //  Created by Paul Chen on 7/29/21.
 //
@@ -10,7 +10,7 @@ import Siren
 import AVKit
 
 @main
-struct GP_HymnalApp: App {
+struct A2N_HymnalApp: App {
     init() {
         Siren.shared.wail()
         try? AVAudioSession.sharedInstance().setCategory(.playback)

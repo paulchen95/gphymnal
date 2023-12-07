@@ -1,6 +1,6 @@
 //
 //  DetailsView.swift
-//  GP Hymnal
+//  A2N Hymnal
 //
 //  Created by Paul Chen on 7/29/21.
 //

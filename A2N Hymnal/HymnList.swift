@@ -1,6 +1,6 @@
 //
 //  HymnList.swift
-//  GP Hymnal
+//  A2N Hymnal
 //
 //  Created by Jay Park on 2/1/22.
 
@@ -31,7 +31,8 @@ struct HymnList {
         var arrangerValue = ""
         var tuneValue = ""
         var textValue = ""
-        
+        var collectionValue = ""
+
         for line in lines {
             if doesLineStartWith(line: line, string: "name::") {
                 nameValue = getAttributeValueWithoutSpecialChars(line: line)
@@ -45,6 +46,8 @@ struct HymnList {
                 arrangerValue = getAttributeValueWithoutSpecialChars(line: line)
             } else if doesLineStartWith(line: line, string: "tune::") {
                 tuneValue = getAttributeValueWithoutSpecialChars(line: line)
+            } else if doesLineStartWith(line: line, string: "collection::") {
+                collectionValue = getAttributeValueWithoutSpecialChars(line: line)
             } else if doesLineStartWith(line: line, string: "text::") {
                 textValue = line.components(separatedBy: "::")[1]
                     .trimmingCharacters(in: .whitespaces)
@@ -52,7 +55,7 @@ struct HymnList {
         }
 
         return Hymn(name: nameValue, filename: fileName, author: authorValue,
-                    translator: translatorValue, composer: composerValue, arranger: arrangerValue, tune: tuneValue, text: textValue)
+                    translator: translatorValue, composer: composerValue, arranger: arrangerValue, tune: tuneValue, text: textValue, collection: collectionValue)
     }
     
     func doesLineStartWith(line: String, string: String) -> Bool {
@@ -64,5 +67,9 @@ struct HymnList {
         line.components(separatedBy: "::")[1]
             .replacingOccurrences(of: "\n", with: "")
             .trimmingCharacters(in: .whitespaces)
+    }
+    
+    func toArray() -> [Hymn] {
+        return hymns;
     }
 }

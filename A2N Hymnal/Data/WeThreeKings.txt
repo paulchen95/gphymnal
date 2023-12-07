@@ -4,6 +4,8 @@ author:: John Henry Hopkins, Jr.
 ---
 composer:: John Henry Hopkins, Jr.
 ---
+collection:: Christmas
+---
 text::
 We three kings of Orient are:
 Bearing gifts we traverse afar--

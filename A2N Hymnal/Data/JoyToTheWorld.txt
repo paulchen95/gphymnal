@@ -4,6 +4,8 @@ author:: Isaac Watts
 ---
 composer:: George Frederick Handel
 ---
+collection:: Christmas
+---
 text::
 Joy to the world! the Lord is come;
 Let earth receive her King;
