@@ -1,4 +1,14 @@
 # gphymnal
+version 4.2.0:
+- Improved 2 audio files
+- Added 2 audio files
+- Added Settings sheet and button
+- Added attributions to developers and designer
+- Added category to data model
+- Added Christmas category filter
+- Upgraded to use the built-in search bar
+- The minim iOS version upped from 15 to 16
+
 version 4.1.1:
 - made A2N App Icon 10% smaller
 
