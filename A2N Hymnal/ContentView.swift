@@ -4,9 +4,7 @@
 //
 //  Created by Paul Chen on 7/29/21.
 //
-
 import SwiftUI
-import Foundation
 
 struct ContentView: View {
     @StateObject var viewModel = HymnListViewModel()
@@ -14,22 +12,13 @@ struct ContentView: View {
     @State private var showCancelButton: Bool = false
     @State private var showHymnList: Bool = true
     @State private var showSettings: Bool = false
- 
+
     var body: some View {
         NavigationStack {
             List {
                 ForEach(viewModel.filteredHymns) { hymn in
                     NavigationLink(destination: DetailsView(hymn: hymn)) {
-                       HStack {
-                          Text(hymn.name).frame(maxWidth: .infinity, alignment: .leading)
-                          let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mp3", subdirectory: "Music")
-                          if (midi != nil) {
-                             Image(systemName: "music.note")
-                          }
-                          if (hymn.collection == "Christmas") {
-                             Image(systemName: "snowflake")
-                          }
-                       }
+                        ContentViewRow(hymn: hymn)
                     } //: NAVIGATIONLINK
                 }
                 .listRowSeparator(.automatic, edges: .all)

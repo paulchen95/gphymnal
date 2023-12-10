@@ -10,6 +10,7 @@
 		0072D02227A77E300096D33C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 0072D02127A77E300096D33C /* Data */; };
 		009F744D27A9204B00580D62 /* HymnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009F744C27A9204B00580D62 /* HymnList.swift */; };
 		193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */; };
+		194D87582B24EF0400B45D1F /* ContentViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D87572B24EF0400B45D1F /* ContentViewRow.swift */; };
 		C304781A27B776A10050F755 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = C304781927B776A10050F755 /* Music */; };
 		C32870212B1C4FF0001A6549 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C32870202B1C4FF0001A6549 /* Siren */; };
 		C32870232B1FA475001A6549 /* HymnListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870222B1FA475001A6549 /* HymnListViewModel.swift */; };
@@ -29,6 +30,7 @@
 		0072D02127A77E300096D33C /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		009F744C27A9204B00580D62 /* HymnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnList.swift; sourceTree = "<group>"; };
 		193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
+		194D87572B24EF0400B45D1F /* ContentViewRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewRow.swift; sourceTree = "<group>"; };
 		C304781927B776A10050F755 /* Music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Music; sourceTree = "<group>"; };
 		C32870222B1FA475001A6549 /* HymnListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnListViewModel.swift; sourceTree = "<group>"; };
 		C32870242B1FC6BD001A6549 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				0072D02127A77E300096D33C /* Data */,
 				C38F376E26B3CE2D002603EA /* A2N_HymnalApp.swift */,
 				C38F377026B3CE2D002603EA /* ContentView.swift */,
+				194D87572B24EF0400B45D1F /* ContentViewRow.swift */,
 				C38F377F26B3D04D002603EA /* DetailsView.swift */,
 				C38F377D26B3CEA2002603EA /* Hymn.swift */,
 				009F744C27A9204B00580D62 /* HymnList.swift */,
@@ -187,6 +190,7 @@
 				C32870272B1FE747001A6549 /* SettingsLabelView.swift in Sources */,
 				009F744D27A9204B00580D62 /* HymnList.swift in Sources */,
 				C32870252B1FC6BD001A6549 /* SettingsView.swift in Sources */,
+				194D87582B24EF0400B45D1F /* ContentViewRow.swift in Sources */,
 				C38F378026B3D04D002603EA /* DetailsView.swift in Sources */,
 				C38F376F26B3CE2D002603EA /* A2N_HymnalApp.swift in Sources */,
 				C32870292B1FEC11001A6549 /* SettingsRowView.swift in Sources */,
@@ -325,7 +329,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.1208;
+				CURRENT_PROJECT_VERSION = 2023.1209;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
@@ -337,7 +341,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -351,7 +355,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.1208;
+				CURRENT_PROJECT_VERSION = 2023.1209;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
@@ -363,7 +367,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
