@@ -1,4 +1,7 @@
 # gphymnal
+version 4.2.2:
+- Added 3 Christmas audio files
+
 version 4.2.1:
 - Added 6 Christmas audio files
 - Lined up the icons in list view of hymns
