@@ -1,8 +1,8 @@
 name:: Wonderful Words of Life
 ---
-author:: P. P. Bliss
+author:: Philip P. Bliss
 ---
-composer:: P. P. Bliss
+composer:: Philip P. Bliss
 ---
 text::
 Sing them over again to me,

@@ -15,6 +15,21 @@ struct SettingsView : View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 20) {
+                    // MARK: - Settings
+                    GroupBox(
+                        label: SettingsLabelView(labelText: "View Options", labelImage: "checklist")
+                    ) {
+                        Divider().padding(.vertical, 4)
+                        Toggle(isOn: $showChristmas, label: {
+                            HStack {
+                                Text("Show Christmas Hymns")
+                                Image(systemName: "snowflake")
+                            }
+                        })
+                        .controlSize(.mini)
+                        .padding()
+                    }
+
                     // MARK: - Hymnal Info
                     GroupBox(
                         label:
@@ -45,20 +60,6 @@ struct SettingsView : View {
                         SettingsRowView(name: "Release", content: getAppInfo(key: "CFBundleVersion"))
                     }
                     
-                    // MARK: - Settings
-                    GroupBox(
-                        label: SettingsLabelView(labelText: "View Options", labelImage: "checklist")
-                    ) {
-                        Divider().padding(.vertical, 4)
-                        Toggle(isOn: $showChristmas, label: {
-                            HStack {
-                                Text("Show Christmas Hymns")
-                                Image(systemName: "snowflake")
-                            }
-                        })
-                        .controlSize(.mini)
-                        .padding()
-                    }
 
                 } //: VSTACK
                 .navigationBarTitle(Text("Settings"), displayMode: .large)

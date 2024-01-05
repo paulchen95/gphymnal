@@ -2,7 +2,7 @@ name:: Tis So Sweet to Trust in Jesus
 ---
 author:: Louisa M. R. Stead
 ---
-composer:: William J. Kirkpatrick
+composer:: William James Kirkpatrick
 ---
 text::
 'Tis so sweet to trust in Jesus,

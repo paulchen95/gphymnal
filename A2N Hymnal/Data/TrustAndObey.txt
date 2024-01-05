@@ -1,8 +1,8 @@
 name:: Trust And Obey
 ---
-author:: J. H. Sammis
+author:: John H. Sammis
 ---
-composer:: D. B. Towner
+composer:: Daniel B. Towner
 ---
 text::
 When we walk with the Lord

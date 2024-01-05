@@ -1,4 +1,13 @@
 # gphymnal
+version 4.2.3:
+- Reordered Settings Panel
+- Added 5 hymn audio files:
+  - Blessed Assurance
+  - Make Me A Blessing
+  - Search Me O God
+  - Tis So Sweet To Trust In Jesus
+  - Wonderful Words Of Life
+  
 version 4.2.2:
 - Added 3 Christmas audio files
 
