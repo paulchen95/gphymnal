@@ -5,12 +5,12 @@
 //  Created by Jay Park on 2/1/22.
 
 
-import Foundation
+import SwiftUI
 
 struct HymnList {
     var hymns : [Hymn] = []
     init() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "Data") {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "Data/" + globals.hymnLocale) {
             for url in urls {
                 if let fileContent = try? String(contentsOf: url) {
                     hymns.insert(

@@ -5,7 +5,7 @@
 //  Created by Paul Chen on 7/29/21.
 //
 
-import Foundation
+import SwiftUI
 
 struct Hymn: Identifiable {
     let id = UUID()
@@ -41,19 +41,19 @@ struct Hymn: Identifiable {
             formatted.append("\n\n")
         }
         if (author.count > 0) {
-            formatted.append("Author: " + author + "\n")
+            formatted.append((locales[globals.hymnLocale]?.author ?? "Author") + ": " + author + "\n")
         }
         if (translator.count > 0) {
-            formatted.append("Translator: " + translator + "\n")
+            formatted.append((locales[globals.hymnLocale]?.translator ?? "Translator") + ": " + translator + "\n")
         }
         if (composer.count > 0) {
-            formatted.append("Composer: " + composer + "\n")
+            formatted.append((locales[globals.hymnLocale]?.composer ?? "Composer") + ": " + composer + "\n")
         }
         if (arranger.count > 0) {
-            formatted.append("Arranger: " + arranger + "\n")
+            formatted.append((locales[globals.hymnLocale]?.arranger ?? "Arranger") + ": " + arranger + "\n")
         }
         if (tune.count > 0) {
-            formatted.append("Tune: " + tune + "\n")
+            formatted.append((locales[globals.hymnLocale]?.tune ?? "Tune") + ": " + tune + "\n")
         }
         return formatted
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView : View {
-    @AppStorage("showChristmasHymns") var showChristmas = true
+    @StateObject var globals = Globals()
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
@@ -20,12 +20,26 @@ struct SettingsView : View {
                         label: SettingsLabelView(labelText: "View Options", labelImage: "checklist")
                     ) {
                         Divider().padding(.vertical, 4)
-                        Toggle(isOn: $showChristmas, label: {
+                        Toggle(isOn: $globals.showChristmas, label: {
                             HStack {
                                 Text("Show Christmas Hymns")
                                 Image(systemName: "snowflake")
                             }
                         })
+                        .controlSize(.mini)
+                        .padding()
+                    }
+
+                    // MARK: - Settings
+                    GroupBox(
+                        label: SettingsLabelView(labelText: "Language", labelImage: "text.bubble")
+                    ) {
+                        Divider().padding(.vertical, 4)
+                        Picker("Language", selection: $globals.hymnLocale) {
+                            ForEach(Array(locales.keys), id: \.self) {
+                                Text(locales[$0]!.name)
+                            }
+                        }
                         .controlSize(.mini)
                         .padding()
                     }

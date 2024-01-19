@@ -2,7 +2,7 @@
 //  ContentViewRow.swift
 //  A2N Hymnal
 //
-//  Created by Admin User on 12/9/23.
+//  Created by Paul Chen on 12/9/23.
 //
 
 import SwiftUI
