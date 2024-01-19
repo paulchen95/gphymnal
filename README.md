@@ -1,4 +1,11 @@
 # gphymnal
+version 5.0.0:
+- Added language support:
+  - English
+  - Chinese Simplified
+  - Chinese Traditional
+  - Added sample "Amazing Grace" hymn in Chinese Simplified and Traditional
+
 version 4.2.3:
 - Reordered Settings Panel
 - Added 5 hymn audio files:
