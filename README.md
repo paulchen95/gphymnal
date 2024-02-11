@@ -4,7 +4,7 @@ version 5.0.0:
   - English
   - Chinese Simplified
   - Chinese Traditional
-  - Added sample "Amazing Grace" hymn in Chinese Simplified and Traditional
+  - Added sample first 5 hymns in Chinese Simplified and Chinese Traditional
 
 version 4.2.3:
 - Reordered Settings Panel

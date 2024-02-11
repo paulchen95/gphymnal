@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SettingsView : View {
-    @StateObject var globals = Globals()
+    @StateObject private var globals = Globals()
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewModel: HymnListViewModel
 
     var body: some View {
         NavigationStack {
@@ -32,7 +33,7 @@ struct SettingsView : View {
 
                     // MARK: - Settings
                     GroupBox(
-                        label: SettingsLabelView(labelText: "Language", labelImage: "text.bubble")
+                        label: SettingsLabelView(labelText: "Language (Beta)", labelImage: "text.bubble")
                     ) {
                         Divider().padding(.vertical, 4)
                         Picker("Language", selection: $globals.hymnLocale) {
@@ -42,6 +43,9 @@ struct SettingsView : View {
                         }
                         .controlSize(.mini)
                         .padding()
+                        .onChange(of: globals.hymnLocale) { newValue in
+                            viewModel.regenHymnList()
+                        }
                     }
 
                     // MARK: - Hymnal Info

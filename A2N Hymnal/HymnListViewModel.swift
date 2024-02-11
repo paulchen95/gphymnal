@@ -21,6 +21,10 @@ class HymnListViewModel: ObservableObject {
     }
     
     init() {
+        regenHymnList()
+    }
+    
+    func regenHymnList() {
         hymns = HymnList().toArray()
     }
 }

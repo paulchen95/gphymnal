@@ -1,3 +1,9 @@
+//
+//  MusicPlayer.swift
+//  A2N Hymnal
+//
+//  Created by Paul Chen on 3/4/22.
+//
 import Foundation
 import SwiftUI
 import AVKit

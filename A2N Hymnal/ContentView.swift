@@ -18,7 +18,7 @@ struct ContentView: View {
             List {
                 ForEach(viewModel.filteredHymns) { hymn in
                     NavigationLink(destination: DetailsView(hymn: hymn)) {
-                        ContentViewRow(hymn: hymn)
+                        ContentRowView(hymn: hymn)
                     } //: NAVIGATIONLINK
                 }
                 .listRowSeparator(.automatic, edges: .all)
@@ -39,6 +39,7 @@ struct ContentView: View {
         } //: NAVIGATION
         .sheet(isPresented: $showSettings, content: {
             SettingsView()
+            .environmentObject(viewModel)
             .interactiveDismissDisabled(false)
         })
     }

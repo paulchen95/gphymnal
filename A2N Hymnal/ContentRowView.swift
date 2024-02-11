@@ -1,5 +1,5 @@
 //
-//  ContentViewRow.swift
+//  ContentRowView.swift
 //  A2N Hymnal
 //
 //  Created by Paul Chen on 12/9/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentViewRow: View {
+struct ContentRowView: View {
     var hymn: Hymn
 
     var body: some View {
