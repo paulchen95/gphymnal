@@ -7,13 +7,12 @@
 import SwiftUI
 
 class HymnListViewModel: ObservableObject {
-    @AppStorage("showChristmasHymns") var showChristmas = true
     @Published var hymns = [Hymn]()
     @Published var searchText: String = ""
-    
+
     var filteredHymns: [Hymn] {
         let catFilteredHymns = hymns.filter { hymn in
-            showChristmas || (hymn.collection != "Christmas")
+            globals.showChristmas || (hymn.collection != "Christmas")
         }
         guard !searchText.isEmpty else { return catFilteredHymns }
         return catFilteredHymns.filter { hymn in
@@ -22,6 +21,10 @@ class HymnListViewModel: ObservableObject {
     }
     
     init() {
+        regenHymnList()
+    }
+    
+    func regenHymnList() {
         hymns = HymnList().toArray()
     }
 }

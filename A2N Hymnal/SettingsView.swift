@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SettingsView : View {
-    @AppStorage("showChristmasHymns") var showChristmas = true
+    @StateObject private var globals = Globals()
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewModel: HymnListViewModel
 
     var body: some View {
         NavigationStack {
@@ -20,7 +21,7 @@ struct SettingsView : View {
                         label: SettingsLabelView(labelText: "View Options", labelImage: "checklist")
                     ) {
                         Divider().padding(.vertical, 4)
-                        Toggle(isOn: $showChristmas, label: {
+                        Toggle(isOn: $globals.showChristmas, label: {
                             HStack {
                                 Text("Show Christmas Hymns")
                                 Image(systemName: "snowflake")
@@ -28,6 +29,23 @@ struct SettingsView : View {
                         })
                         .controlSize(.mini)
                         .padding()
+                    }
+
+                    // MARK: - Settings
+                    GroupBox(
+                        label: SettingsLabelView(labelText: "Language (Beta)", labelImage: "text.bubble")
+                    ) {
+                        Divider().padding(.vertical, 4)
+                        Picker("Language", selection: $globals.hymnLocale) {
+                            ForEach(Array(locales.keys), id: \.self) {
+                                Text(locales[$0]!.name)
+                            }
+                        }
+                        .controlSize(.mini)
+                        .padding()
+                        .onChange(of: globals.hymnLocale) { newValue in
+                            viewModel.regenHymnList()
+                        }
                     }
 
                     // MARK: - Hymnal Info
