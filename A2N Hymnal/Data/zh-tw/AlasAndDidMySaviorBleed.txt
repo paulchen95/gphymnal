@@ -1,8 +1,10 @@
 name:: 哎喲救主真曾流血
 ---
-author:: 艾薩克.瓦茨
+author:: Isaac Watts
 ---
-composer:: 休·威爾遜
+composer:: Hugh Wilson
+---
+translator:: 選本詩歌 712
 ---
 text::
 哎喲！ 救主真曾流血？

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView : View {
-    @StateObject private var globals = Globals()
+    @EnvironmentObject var settings: Settings
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var viewModel: HymnListViewModel
 
@@ -21,7 +21,7 @@ struct SettingsView : View {
                         label: SettingsLabelView(labelText: "View Options", labelImage: "checklist")
                     ) {
                         Divider().padding(.vertical, 4)
-                        Toggle(isOn: $globals.showChristmas, label: {
+                        Toggle(isOn: settings.$showChristmas, label: {
                             HStack {
                                 Text("Show Christmas Hymns")
                                 Image(systemName: "snowflake")
@@ -29,6 +29,9 @@ struct SettingsView : View {
                         })
                         .controlSize(.mini)
                         .padding()
+                        .onChange(of: settings.showChristmas) { newValue in
+                            viewModel.regenHymnList()
+                        }
                     }
 
                     // MARK: - Settings
@@ -36,14 +39,14 @@ struct SettingsView : View {
                         label: SettingsLabelView(labelText: "Language (Beta)", labelImage: "text.bubble")
                     ) {
                         Divider().padding(.vertical, 4)
-                        Picker("Language", selection: $globals.hymnLocale) {
+                        Picker("Language", selection: settings.$hymnLocale) {
                             ForEach(Array(locales.keys), id: \.self) {
                                 Text(locales[$0]!.name)
                             }
                         }
                         .controlSize(.mini)
                         .padding()
-                        .onChange(of: globals.hymnLocale) { newValue in
+                        .onChange(of: settings.hymnLocale) { newValue in
                             viewModel.regenHymnList()
                         }
                     }

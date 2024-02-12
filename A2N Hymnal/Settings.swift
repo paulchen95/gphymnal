@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-let globals = Globals()
-
-class Globals: ObservableObject {
+class Settings: ObservableObject {
     @AppStorage("showChristmasHymns") public var showChristmas = true
     @AppStorage("hymnLocale") public var hymnLocale = "en-us"
 }

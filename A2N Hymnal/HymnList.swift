@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct HymnList {
-    var hymns : [Hymn] = []
-    init() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "Data/" + globals.hymnLocale) {
+    private var locale: String
+
+    init(locale: String) {
+        self.locale = locale;
+    }
+
+    func build() -> [Hymn] {
+        var hymns : [Hymn] = []
+        if let urls = Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "Data/" + locale) {
             for url in urls {
                 if let fileContent = try? String(contentsOf: url) {
                     hymns.insert(
@@ -19,6 +25,7 @@ struct HymnList {
             }
         }
         hymns.sort(by: {$0.name < $1.name})
+        return hymns
     }
     
     func formatHymn(fileContent: String, fileName: String) -> Hymn {
@@ -55,7 +62,7 @@ struct HymnList {
         }
 
         return Hymn(name: nameValue, filename: fileName, author: authorValue,
-                    translator: translatorValue, composer: composerValue, arranger: arrangerValue, tune: tuneValue, text: textValue, collection: collectionValue)
+                    translator: translatorValue, composer: composerValue, arranger: arrangerValue, tune: tuneValue, text: textValue, collection: collectionValue, locale: locale)
     }
     
     func doesLineStartWith(line: String, string: String) -> Bool {
@@ -67,9 +74,5 @@ struct HymnList {
         line.components(separatedBy: "::")[1]
             .replacingOccurrences(of: "\n", with: "")
             .trimmingCharacters(in: .whitespaces)
-    }
-    
-    func toArray() -> [Hymn] {
-        return hymns;
     }
 }

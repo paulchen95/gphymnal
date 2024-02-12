@@ -10,7 +10,7 @@
 		0072D02227A77E300096D33C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 0072D02127A77E300096D33C /* Data */; };
 		009F744D27A9204B00580D62 /* HymnList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009F744C27A9204B00580D62 /* HymnList.swift */; };
 		19055F1D2B5ABD70006D271F /* Locales.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19055F1C2B5ABD70006D271F /* Locales.swift */; };
-		19055F1F2B5ACE73006D271F /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19055F1E2B5ACE73006D271F /* Globals.swift */; };
+		19055F1F2B5ACE73006D271F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19055F1E2B5ACE73006D271F /* Settings.swift */; };
 		193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */; };
 		194D87582B24EF0400B45D1F /* ContentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D87572B24EF0400B45D1F /* ContentRowView.swift */; };
 		C304781A27B776A10050F755 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = C304781927B776A10050F755 /* Music */; };
@@ -32,7 +32,7 @@
 		0072D02127A77E300096D33C /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		009F744C27A9204B00580D62 /* HymnList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnList.swift; sourceTree = "<group>"; };
 		19055F1C2B5ABD70006D271F /* Locales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locales.swift; sourceTree = "<group>"; };
-		19055F1E2B5ACE73006D271F /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		19055F1E2B5ACE73006D271F /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		194D87572B24EF0400B45D1F /* ContentRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRowView.swift; sourceTree = "<group>"; };
 		C304781927B776A10050F755 /* Music */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Music; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				C32870262B1FE747001A6549 /* SettingsLabelView.swift */,
 				C32870282B1FEC11001A6549 /* SettingsRowView.swift */,
 				19055F1C2B5ABD70006D271F /* Locales.swift */,
-				19055F1E2B5ACE73006D271F /* Globals.swift */,
+				19055F1E2B5ACE73006D271F /* Settings.swift */,
 			);
 			path = "A2N Hymnal";
 			sourceTree = "<group>";
@@ -203,7 +203,7 @@
 				C32870292B1FEC11001A6549 /* SettingsRowView.swift in Sources */,
 				193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */,
 				C32870232B1FA475001A6549 /* HymnListViewModel.swift in Sources */,
-				19055F1F2B5ACE73006D271F /* Globals.swift in Sources */,
+				19055F1F2B5ACE73006D271F /* Settings.swift in Sources */,
 				C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,7 +337,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2024.0210;
+				CURRENT_PROJECT_VERSION = 2024.0211;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
@@ -349,7 +349,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.0.0;
+				MARKETING_VERSION = 5.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -363,7 +363,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2024.0210;
+				CURRENT_PROJECT_VERSION = 2024.0211;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
@@ -375,7 +375,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.0.0;
+				MARKETING_VERSION = 5.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

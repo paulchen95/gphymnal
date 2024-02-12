@@ -1,15 +1,15 @@
 name:: 上主是我堅固堡壘
 ---
-author:: 馬丁路德
+author:: Martin Luther
 ---
-translator:: 弗雷德里克·H·赫奇
+composer:: Martin Luther
 ---
-composer:: 馬丁路德
+translator:: Frederick Henry Hedge; 生命聖詩 50
 ---
 text::
 上主是我堅固堡壘，永不動搖之保障；
 上主是我隨時幫助，使我脫危難恐慌；
-歷代仇敵撒但，仍欲興波作浪，牠奸狡又勢?，
+歷代仇敵撒但，仍欲興波作浪，牠奸狡又勢强，
 殘忍毒辣非常，無比兇惡真難防。
 
 我們若靠自己力量，雖然奮力必失敗；

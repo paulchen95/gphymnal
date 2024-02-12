@@ -18,8 +18,9 @@ struct Hymn: Identifiable {
     let tune: String
     let text: String
     let collection: String
-    
-    init(name: String, filename: String, author: String, translator: String = "", composer: String, arranger: String = "", tune: String = "", text: String, collection: String = "") {
+    let locale: String
+
+    init(name: String, filename: String, author: String, translator: String = "", composer: String, arranger: String = "", tune: String = "", text: String, collection: String = "", locale: String = "en-us") {
         self.name = name
         self.filename = filename
         self.author = author
@@ -29,6 +30,7 @@ struct Hymn: Identifiable {
         self.tune = tune
         self.text = text
         self.collection = collection.isEmpty ? "Hymn" : collection
+        self.locale = locale.isEmpty ? "en-us" : locale
     }
     
     func formatText() -> String {
@@ -41,19 +43,19 @@ struct Hymn: Identifiable {
             formatted.append("\n\n")
         }
         if (author.count > 0) {
-            formatted.append((locales[globals.hymnLocale]?.author ?? "Author") + ": " + author + "\n")
+            formatted.append((locales[locale]?.author ?? "Author") + ": " + author + "\n")
         }
         if (translator.count > 0) {
-            formatted.append((locales[globals.hymnLocale]?.translator ?? "Translator") + ": " + translator + "\n")
+            formatted.append((locales[locale]?.translator ?? "Translator") + ": " + translator + "\n")
         }
         if (composer.count > 0) {
-            formatted.append((locales[globals.hymnLocale]?.composer ?? "Composer") + ": " + composer + "\n")
+            formatted.append((locales[locale]?.composer ?? "Composer") + ": " + composer + "\n")
         }
         if (arranger.count > 0) {
-            formatted.append((locales[globals.hymnLocale]?.arranger ?? "Arranger") + ": " + arranger + "\n")
+            formatted.append((locales[locale]?.arranger ?? "Arranger") + ": " + arranger + "\n")
         }
         if (tune.count > 0) {
-            formatted.append((locales[globals.hymnLocale]?.tune ?? "Tune") + ": " + tune + "\n")
+            formatted.append((locales[locale]?.tune ?? "Tune") + ": " + tune + "\n")
         }
         return formatted
     }

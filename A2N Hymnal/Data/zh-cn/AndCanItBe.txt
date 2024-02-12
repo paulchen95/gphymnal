@@ -1,8 +1,10 @@
 name:: 奇异的爱，怎能如此
 ---
-author:: 查理卫斯理
+author:: Charles Wesley
 ---
-composer:: 汤玛斯‧坎贝尔
+composer:: Thomas Campbell
+---
+translator:: 青年圣歌 II，19
 ---
 text::
 怎能如此，像我这样罪人，也蒙宝血救赎大恩？

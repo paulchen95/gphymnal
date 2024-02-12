@@ -11,6 +11,7 @@ import AVKit
 
 @main
 struct A2N_HymnalApp: App {
+    @StateObject var settings = Settings()
     init() {
         Siren.shared.wail()
         try? AVAudioSession.sharedInstance().setCategory(.playback)
@@ -18,6 +19,7 @@ struct A2N_HymnalApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(settings)
         }
     }
 }
