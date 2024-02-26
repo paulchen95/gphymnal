@@ -6,6 +6,8 @@ composer:: William Henry Monk
 ---
 translator:: 教会圣诗 89
 ---
+tune:: Eventide
+---
 text::
 日已西沉，求主与我同住；
 黄昏将近，求主勿往它处；
