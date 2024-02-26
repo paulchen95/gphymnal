@@ -1,4 +1,7 @@
 # gphymnal
+version 5.0.2:
+- Added 8 more Chinese hymn lyrics
+
 version 5.0.1:
 - Added translators for Chinese hymns
 - Fixed Christmas hymns toggle
