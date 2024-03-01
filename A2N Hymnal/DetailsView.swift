@@ -20,7 +20,7 @@ struct DetailsView: View {
     
     var body: some View {
         ZoomableScrollView {
-            Text(hymn.formatText())
+            hymn.formatText()
                 .padding(.horizontal)
                 .onDisappear(
                     perform: {
