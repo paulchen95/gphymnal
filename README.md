@@ -1,4 +1,16 @@
 # gphymnal
+version 5.1.0:
+- Added styling for Refrains for better UX
+- Added 6 more hymn audio files
+  - Are You Washed in the Blood
+  - At The Cross
+  - Rock of Ages, Cleft for me
+  - Nothing but the Blood
+  - There is Power in the Blood
+  - Wherever He Leads I'll Go
+- Made the following a little bit faster
+  - Alas and did My Savior Bleed
+
 version 5.0.2:
 - Added 8 more Chinese hymn lyrics
 
