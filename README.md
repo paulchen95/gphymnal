@@ -1,15 +1,22 @@
 # gphymnal
+version 5.1.1:
+- Added 4 hymn audio files
+  - Grace Greater Than Our Sin
+  - I Stand Amazed In The Presence
+  - Let Your Heart Be Broken
+  - The Solid Rock
+
 version 5.1.0:
 - Added styling for Refrains for better UX
 - Added 6 more hymn audio files
-  - Are You Washed in the Blood
-  - At The Cross
+  - Are you washed in the Blood
+  - At the Cross
   - Rock of Ages, Cleft for me
   - Nothing but the Blood
   - There is Power in the Blood
   - Wherever He Leads I'll Go
 - Made the following a little bit faster
-  - Alas and did My Savior Bleed
+  - Alas and did my Savior Bleed
 
 version 5.0.2:
 - Added 8 more Chinese hymn lyrics
