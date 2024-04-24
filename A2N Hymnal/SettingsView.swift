@@ -40,7 +40,7 @@ struct SettingsView : View {
                     ) {
                         Divider().padding(.vertical, 4)
                         Picker("Language", selection: settings.$hymnLocale) {
-                            ForEach(Array(locales.keys), id: \.self) {
+                            ForEach(Array(locales.keys.sorted(by: { locales[$0]!.name < locales[$1]!.name })), id: \.self) {
                                 Text(locales[$0]!.name)
                             }
                         }
@@ -116,5 +116,6 @@ func getAppInfo(key: String) -> String? {
 }
 
 #Preview {
-    SettingsView()
+SettingsView()
+    .environmentObject(Settings())
 }
