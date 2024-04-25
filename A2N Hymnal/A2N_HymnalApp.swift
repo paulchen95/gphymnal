@@ -6,14 +6,12 @@
 //
 
 import SwiftUI
-import Siren
 import AVKit
 
 @main
 struct A2N_HymnalApp: App {
     @StateObject var settings = Settings()
     init() {
-        Siren.shared.wail()
         try? AVAudioSession.sharedInstance().setCategory(.playback)
     }
     var body: some Scene {

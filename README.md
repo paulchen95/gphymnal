@@ -1,4 +1,8 @@
 # gphymnal
+version 5.2.0:
+- Fixed an issue affecting the order of languages displayed in settings
+- Removed dependency on an old library SIREN
+
 version 5.1.1:
 - Added 4 hymn audio files
   - Grace Greater Than Our Sin

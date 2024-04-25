@@ -14,7 +14,6 @@
 		193035F929FB196A007AF5C7 /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193035F829FB196A007AF5C7 /* ZoomableScrollView.swift */; };
 		194D87582B24EF0400B45D1F /* ContentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D87572B24EF0400B45D1F /* ContentRowView.swift */; };
 		C304781A27B776A10050F755 /* Music in Resources */ = {isa = PBXBuildFile; fileRef = C304781927B776A10050F755 /* Music */; };
-		C32870212B1C4FF0001A6549 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = C32870202B1C4FF0001A6549 /* Siren */; };
 		C32870232B1FA475001A6549 /* HymnListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870222B1FA475001A6549 /* HymnListViewModel.swift */; };
 		C32870252B1FC6BD001A6549 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870242B1FC6BD001A6549 /* SettingsView.swift */; };
 		C32870272B1FE747001A6549 /* SettingsLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870262B1FE747001A6549 /* SettingsLabelView.swift */; };
@@ -56,7 +55,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C32870212B1C4FF0001A6549 /* Siren in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +128,6 @@
 			);
 			name = "A2N Hymnal";
 			packageProductDependencies = (
-				C32870202B1C4FF0001A6549 /* Siren */,
 			);
 			productName = "GP Hymnal";
 			productReference = C38F376B26B3CE2D002603EA /* A2N Hymnal.app */;
@@ -161,7 +158,6 @@
 			);
 			mainGroup = C38F376226B3CE2D002603EA;
 			packageReferences = (
-				C328701F2B1C4FF0001A6549 /* XCRemoteSwiftPackageReference "Siren" */,
 			);
 			productRefGroup = C38F376C26B3CE2D002603EA /* Products */;
 			projectDirPath = "";
@@ -337,7 +333,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2024.0423;
+				CURRENT_PROJECT_VERSION = 2024.0424;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
@@ -349,7 +345,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -363,7 +359,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2024.0423;
+				CURRENT_PROJECT_VERSION = 2024.0424;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				DEVELOPMENT_TEAM = H8GJFMYWKH;
 				ENABLE_PREVIEWS = YES;
@@ -375,7 +371,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -405,25 +401,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C328701F2B1C4FF0001A6549 /* XCRemoteSwiftPackageReference "Siren" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ArtSabintsev/Siren.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.1.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C32870202B1C4FF0001A6549 /* Siren */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C328701F2B1C4FF0001A6549 /* XCRemoteSwiftPackageReference "Siren" */;
-			productName = Siren;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C38F376326B3CE2D002603EA /* Project object */;
 }

@@ -16,7 +16,7 @@ struct SettingsView : View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 20) {
-                    // MARK: - Settings
+                    // MARK: - Show Christmas Hymns
                     GroupBox(
                         label: SettingsLabelView(labelText: "View Options", labelImage: "checklist")
                     ) {
@@ -34,7 +34,7 @@ struct SettingsView : View {
                         }
                     }
 
-                    // MARK: - Settings
+                    // MARK: - Language Settings
                     GroupBox(
                         label: SettingsLabelView(labelText: "Language (Beta)", labelImage: "text.bubble")
                     ) {
