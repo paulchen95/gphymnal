@@ -1,4 +1,17 @@
 # gphymnal
+version 5.2.1:
+- Added 10 hymn audio files
+  - A Mighty Fortress Is Our God
+  - Be Thou My Vision
+  - Count Your Blessings
+  - Crown Him With Many Crowns
+  - Fairest Lord Jesus
+  - Great Is Thy Faithfulness
+  - He Hideth My Soul
+  - He Looked Beyond My Fault
+  - Heaven Came Down
+  - Holy Holy Holy
+
 version 5.2.0:
 - Fixed an issue affecting the order of languages displayed in settings
 - Removed dependency on an old library SIREN
