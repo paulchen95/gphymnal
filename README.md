@@ -1,4 +1,18 @@
 # gphymnal
+version 5.2.2:
+- Enabled playing audio in background
+- Added 10 hymn audio files
+  - I Am Resolved
+  - I Am Thine O Lord
+  - I Have Decided To Follow Jesus
+  - I Know That My Redeemer Liveth
+  - I Love To Tell The Story
+  - I Saw The Cross Of Jesus
+  - It Is Well With My Soul
+  - Jesus I My Cross Have Taken
+  - Jesus Led Me All The Way
+  - Joyful Joyful We Adore Thee
+
 version 5.2.1:
 - Added 10 hymn audio files
   - A Mighty Fortress Is Our God
