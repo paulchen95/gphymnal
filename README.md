@@ -1,4 +1,17 @@
 # gphymnal
+version 5.2.3:
+- Added 10 hymn audio files
+  - Just A Closer Walk With Thee
+  - Just As I Am
+  - Leaning On The Everlasting Arms
+  - Let Jesus Come Into Your Heart
+  - Let Others See Jesus In You
+  - Living For Jesus
+  - Lord I'm Coming Home
+  - Love Lifted Me
+  - Moment By Moment
+  - My Faith Has Found A Resting Place
+
 version 5.2.2:
 - Enabled playing audio in background
 - Added 10 hymn audio files
