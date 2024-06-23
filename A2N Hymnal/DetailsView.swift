@@ -24,9 +24,7 @@ struct DetailsView: View {
     var body: some View {
         ZoomableScrollView {
             // Apply text highlighting using the highlightedText method
-            //            if let formattedText = extractText(from: hymn.formatText()) { <-- need this but not working
-            //                highlightedText(for: formattedText) <-- need this but not working
-            HighlightedText(text: hymn.text, searchText: searchText) // <-- highlight works but excluding hymn.formatText()
+            hymn.formatText(searchedText: searchText)
                 .padding(.horizontal)
                 .onDisappear(
                     perform: {
@@ -56,38 +54,8 @@ struct DetailsView: View {
                         } // HStack
                     } // if mp3Player
                 } // .toolbar
-            //            } <-- need this but not working
         } //  ZoomableScrollView
     } // var body
-    
-    private func extractText(from text: Text) -> String? {
-        // Temporary variable to capture the text content
-        var extractedText: String?
-        
-        // Apply the TextFormatter modifier to the Text view
-        _ = text.modifier(TextFormatter { string in
-            extractedText = string
-        })
-        
-        return extractedText
-    }
-    
-    // Custom modifier to extract string content from Text view
-    struct TextFormatter: ViewModifier {
-        var onStringExtracted: (String) -> Void
-        
-        func body(content: Content) -> some View {
-            content.onAppear {
-                let mirror = Mirror(reflecting: content)
-                for child in mirror.children {
-                    if let string = child.value as? String {
-                        onStringExtracted(string)
-                        break
-                    }
-                }
-            }
-        }
-    }
 }
 
 struct DetailsView_Previews: PreviewProvider {

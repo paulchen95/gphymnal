@@ -33,8 +33,8 @@ struct Hymn: Identifiable {
         self.locale = locale.isEmpty ? "en-us" : locale
     }
     
-    func formatText() -> Text {
-        var formatted:Text = formatLyrics()
+    func formatText(searchedText : String = "") -> Text {
+        var formatted:Text = formatLyrics(searchedText: searchedText)
         if ((author.count > 0) ||
             (translator.count > 0) ||
             (composer.count > 0) ||
@@ -60,10 +60,11 @@ struct Hymn: Identifiable {
         return formatted
     }
     
-    func formatLyrics() -> Text {
+    func formatLyrics(searchedText : String = "") -> Text {
         let lines = text.split(omittingEmptySubsequences: false, whereSeparator: \.isNewline)
         var lyrics = Text("")
         var refrainMode:Bool = false
+        var formattedLine = Text("")
         for line in lines {
             if (line == "[Refrain]") {
                 refrainMode = true
@@ -71,14 +72,61 @@ struct Hymn: Identifiable {
                 refrainMode = false
                 lyrics = lyrics + Text("\n")
             } else {
+                formattedLine = searchedText.isEmpty ? Text(line) : highlightSearchedText(content: String(line), textToHighlight: searchedText, highlightColor: .red)
                 if (refrainMode) {
-                    lyrics = lyrics + Text(line).bold().italic()
+                    lyrics = lyrics + formattedLine.bold().italic()
                 } else {
-                    lyrics = lyrics + Text(line)
+                    lyrics = lyrics + formattedLine
                 }
                 lyrics = lyrics + Text("\n")
             }
         }
         return lyrics
+    }
+    
+    func highlightSearchedText(content: String, textToHighlight: String, highlightColor: Color) -> Text {
+        var highlightedText = Text("")
+        
+        // Split the content by spaces and newlines.
+        let words = content.components(separatedBy: .whitespacesAndNewlines)
+        
+        // Create a character set of punctuation characters.
+        let punctuationCharacterSet = CharacterSet.punctuationCharacters
+        
+        for word in words {
+            // Temporarily remove all punctuations before and after the word before comparison.
+            let trimmedWord = word.trimmingCharacters(in: punctuationCharacterSet)
+            
+            // Get the punctuation characters at the beginning of the word, if any.
+            let prefixPunctuation = word.prefix { punctuationCharacterSet.contains($0.unicodeScalars.first!) }
+            
+            // Get the punctuation characters at the end of the word, if any.
+            let suffixPunctuation = word.reversed().prefix { punctuationCharacterSet.contains($0.unicodeScalars.first!) }.reversed()
+            
+            // Highlight the word (or partial word) if exists.
+            if let range = trimmedWord.range(of: textToHighlight, options: .caseInsensitive) {
+                let beforeHighlight = trimmedWord[..<range.lowerBound]
+                let highlight = trimmedWord[range]
+                let afterHighlight = trimmedWord[range.upperBound...]
+                
+                // Re-stitch punctuation (if any) 
+                // + (unhighlighted) pre-trimmed word (if any)
+                // + (highlighted) trimmed word
+                // + (unhighlighted) post-trimmed word (if any)
+                // + punctuation (if any)
+                let highlightedPart = Text(String(prefixPunctuation))
+                    + Text(beforeHighlight)
+                    + Text(String(highlight))
+                        .foregroundColor(highlightColor)
+                    + Text(String(afterHighlight))
+                    + Text(String(suffixPunctuation))
+                
+                highlightedText = highlightedText + highlightedPart + Text(" ")
+            } else {
+                highlightedText = highlightedText + Text(word) + Text(" ")
+            }
+        }
+        
+        return highlightedText
     }
 }
