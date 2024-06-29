@@ -1,4 +1,7 @@
 # gphymnal
+version 5.2.4:
+- Added the ability to highlight searched word.
+
 version 5.2.3:
 - Added 10 hymn audio files
   - Just A Closer Walk With Thee

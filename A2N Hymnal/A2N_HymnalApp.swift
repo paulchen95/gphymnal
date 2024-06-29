@@ -11,6 +11,7 @@ import AVKit
 @main
 struct A2N_HymnalApp: App {
     @StateObject var settings = Settings()
+    
     init() {
         try? AVAudioSession.sharedInstance().setCategory(.playback)
     }
