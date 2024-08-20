@@ -9,9 +9,11 @@ import SwiftUI
 
 struct HymnList {
     private var locale: String
+    private var searchHighlighting: Bool
 
-    init(locale: String) {
+    init(locale: String, searchHighlighting: Bool) {
         self.locale = locale;
+        self.searchHighlighting = searchHighlighting;
     }
 
     func build() -> [Hymn] {
@@ -62,7 +64,7 @@ struct HymnList {
         }
 
         return Hymn(name: nameValue, filename: fileName, author: authorValue,
-                    translator: translatorValue, composer: composerValue, arranger: arrangerValue, tune: tuneValue, text: textValue, collection: collectionValue, locale: locale)
+                    translator: translatorValue, composer: composerValue, arranger: arrangerValue, tune: tuneValue, text: textValue, collection: collectionValue, locale: locale, searchHighlighting: searchHighlighting)
     }
     
     func doesLineStartWith(line: String, string: String) -> Bool {

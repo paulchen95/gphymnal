@@ -1,5 +1,5 @@
 # gphymnal
-version 5.2.4:
+version 5.2.5:
 - Added the ability to highlight searched word.
 
 version 5.2.3:

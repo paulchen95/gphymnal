@@ -26,6 +26,6 @@ class HymnListViewModel: ObservableObject {
     }
     
     func regenHymnList() {
-        hymns = HymnList(locale: settings.hymnLocale).build()
+        hymns = HymnList(locale: settings.hymnLocale, searchHighlighting: settings.enableSearchHighlighting).build()
     }
 }
