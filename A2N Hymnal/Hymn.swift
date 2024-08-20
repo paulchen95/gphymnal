@@ -19,8 +19,9 @@ struct Hymn: Identifiable {
     let text: String
     let collection: String
     let locale: String
+    let searchHighlighting: Bool
 
-    init(name: String, filename: String, author: String, translator: String = "", composer: String, arranger: String = "", tune: String = "", text: String, collection: String = "", locale: String = "en-us") {
+    init(name: String, filename: String, author: String, translator: String = "", composer: String, arranger: String = "", tune: String = "", text: String, collection: String = "", locale: String = "en-us", searchHighlighting: Bool = false) {
         self.name = name
         self.filename = filename
         self.author = author
@@ -31,6 +32,7 @@ struct Hymn: Identifiable {
         self.text = text
         self.collection = collection.isEmpty ? "Hymn" : collection
         self.locale = locale.isEmpty ? "en-us" : locale
+        self.searchHighlighting = searchHighlighting
     }
     
     func formatText(searchedText : String = "") -> Text {
@@ -72,7 +74,7 @@ struct Hymn: Identifiable {
                 refrainMode = false
                 lyrics = lyrics + Text("\n")
             } else {
-                formattedLine = searchedText.isEmpty ? Text(line) : highlightSearchedText(content: String(line), textToHighlight: searchedText, highlightColor: .red)
+                formattedLine = (!self.searchHighlighting || searchedText.isEmpty) ? Text(line) : highlightSearchedText(content: String(line), textToHighlight: searchedText, highlightColor: .red)
                 if (refrainMode) {
                     lyrics = lyrics + formattedLine.bold().italic()
                 } else {

@@ -32,6 +32,18 @@ struct SettingsView : View {
                         .onChange(of: settings.showChristmas) { newValue in
                             viewModel.regenHymnList()
                         }
+                        
+                        Toggle(isOn: settings.$enableSearchHighlighting, label: {
+                            HStack {
+                                Text("Enable Search Highlighting")
+                                Image(systemName: "highlighter")
+                            }
+                        })
+                        .controlSize(.mini)
+                        .padding()
+                        .onChange(of: settings.enableSearchHighlighting) { newValue in
+                            viewModel.regenHymnList()
+                        }
                     }
 
                     // MARK: - Language Settings
