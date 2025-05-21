@@ -1,4 +1,13 @@
 # gphymnal
+version 5.2.6:
+- Added 6 hymn audio files
+  - Nearer My God To Thee
+  - Near To The Heart Of God
+  - O For A Thousand Tongues To Sing
+  - O Master Let Me Walk with Thee
+  - O That Will Be Glory
+  - O Worship The King
+
 version 5.2.5:
 - Added the ability to highlight searched word.
 
