@@ -1,4 +1,13 @@
 # gphymnal
+version 5.2.7:
+- Added 6 hymn audio files
+  - Savior, Like a Shepherd Lead Us
+  - Since Jesus Came Into My Heart
+  - Softly And Tenderly
+  - Something for Thee
+  - Spirit of the Living God
+  - Sweet Hour of Prayer
+
 version 5.2.6:
 - Added 6 hymn audio files
   - Nearer My God To Thee
