@@ -1,4 +1,17 @@
 # gphymnal
+version 5.2.8:
+- Added 1 new hymn
+  - In The Garden
+- Reordered stanza 2 -> 4
+  - O Jesus I Have Promised
+- Added 6 hymn audio files
+  - Take Time To Be Holy
+  - Teach Me Thy Way O Lord
+  - The Longer I Serve Him
+  - The Lord Bless You And Keep You
+  - The Love Of God
+  - This Is My Father's World
+
 version 5.2.7:
 - Added 6 hymn audio files
   - Savior, Like a Shepherd Lead Us
