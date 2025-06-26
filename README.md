@@ -1,4 +1,14 @@
 # gphymnal
+version 5.2.9:
+- Added 7 hymn audio files
+  - In The Garden
+  - To God Be The Glory
+  - Turn Your Eyes Upon Jesus
+  - We Are Called To Be God's People
+  - What A Friend We Have In Jesus
+  - When We All Get To Heaven
+  - Worthy Of Worship
+
 version 5.2.8:
 - Added 1 new hymn
   - In The Garden
