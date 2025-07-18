@@ -22,36 +22,34 @@ class Mp3Player {
     }
 
     func initPlayer() {
-        if (isAvailable()) {
-            player = try? AVAudioPlayer(contentsOf: mp3File!)
-            player!.prepareToPlay()
+        guard let mp3File = mp3File else {return}
+        player = try? AVAudioPlayer(contentsOf: mp3File)
+        if let player {
+            player.prepareToPlay()
         }
     }
     
     func play() -> PlayerState {
-        if (isAvailable()) {
-            if (player == nil) {
-                initPlayer()
-            }
-            if (player != nil) {
-                player!.play()
-                state = PlayerState.Playing
-            }
-        }
+        initPlayer()
+        
+        guard let player else { return state }
+        player.play()
+        state = PlayerState.Playing
         return state
     }
 
     func stop() -> PlayerState {
-        if (isAvailable() && (player != nil)) {
-            player!.stop()
-            player!.currentTime = 0
-            player!.prepareToPlay()
-            state = PlayerState.Stopped
-        }
+        guard let player else { return state }
+        
+        player.stop()
+        player.currentTime = 0
+        player.prepareToPlay()
+        state = PlayerState.Stopped
         return state
     }
 
-    func isAvailable() -> Bool {
+    func IsFileAvailable() -> Bool {
         return (mp3File != nil)
     }
+
 }
