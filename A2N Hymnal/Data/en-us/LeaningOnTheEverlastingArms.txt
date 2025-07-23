@@ -2,7 +2,7 @@ name:: Leaning on the Everlasting Arms
 ---
 author:: Elisha A. Hoffman
 ---
-composer:: A. J. Showalter
+composer:: Anthony J. Showalter
 ---
 text::
 What a fellowship, what a joy divine,

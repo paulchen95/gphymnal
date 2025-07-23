@@ -1,8 +1,8 @@
 name:: More Love to Thee, O Christ
 ---
-author:: E. Prentiss
+author:: Elizabeth Prentiss
 ---
-composer:: W. Howard Doane
+composer:: William Howard Doane
 ---
 text::
 More love to Thee, O Christ, more love to Thee!

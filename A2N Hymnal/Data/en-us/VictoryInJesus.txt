@@ -1,8 +1,8 @@
 name:: Victory In Jesus
 ---
-author:: E. M. Bartlett
+author:: Eugene Monroe Bartlett
 ---
-composer:: E. M. Bartlett
+composer:: Eugene Monroe Bartlett
 ---
 text::
 I heard an old, old story,

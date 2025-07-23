@@ -2,7 +2,7 @@ name:: Jesus, Keep Me Near the Cross
 ---
 author:: Fanny J. Crosby
 ---
-composer:: W. H. Doane
+composer:: William H. Doane
 ---
 text::
 Jesus, keep me near the cross,

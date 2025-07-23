@@ -2,7 +2,7 @@ name:: Alas And Did My Savior Bleed
 ---
 author:: Isaac Watts
 ---
-composer:: H. Wilson
+composer:: Hugh Wilson
 ---
 text::
 Alas, and did my Savior bleed

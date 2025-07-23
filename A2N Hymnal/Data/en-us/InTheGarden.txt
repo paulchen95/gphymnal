@@ -1,8 +1,8 @@
 name:: In The Garden
 ---
-author:: C. Austin Miles
+author:: Charles Austin Miles
 ---
-composer:: C. Austin Miles
+composer:: Charles Austin Miles
 ---
 text::
 I come to the garden alone,

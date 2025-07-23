@@ -2,7 +2,7 @@ name:: O Jesus, I Have Promised
 ---
 author:: John Ernest Bode
 ---
-composer:: A. H. Mann
+composer:: Arthur Henry Mann
 ---
 text::
 O Jesus, I have promised to serve Thee to the end;

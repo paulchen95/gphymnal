@@ -2,7 +2,7 @@ name:: At the Cross
 ---
 author:: Isaac Watts
 ---
-composer:: R. E. Hudson
+composer:: Ralph E. Hudson
 ---
 text::
 Alas, and did my Savior bleed

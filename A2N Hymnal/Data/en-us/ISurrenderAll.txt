@@ -2,7 +2,7 @@ name:: I Surrender All
 ---
 author:: Judson W. Van De Venter
 ---
-composer:: W. S. Weeden
+composer:: Winfield S. Weeden
 ---
 text::
 All to Jesus I surrender,

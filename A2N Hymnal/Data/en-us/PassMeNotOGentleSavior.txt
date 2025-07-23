@@ -2,7 +2,7 @@ name:: Pass Me Not, O Gentle Savior
 ---
 author:: Fanny Crosby
 ---
-composer:: W. Howard Doane
+composer:: William Howard Doane
 ---
 text::
 Pass me not, O gentle Savior,

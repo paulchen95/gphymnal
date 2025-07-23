@@ -4,7 +4,7 @@ author:: Johnson Oatman
 ---
 translator:: Jane Borthwick
 ---
-composer:: E. O. Excell
+composer:: Edwin O. Excell
 ---
 text::
 When upon life’s billows you are tempest-tossed,

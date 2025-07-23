@@ -2,7 +2,7 @@ name:: Living For Jesus
 ---
 author:: Thomas O. Chisholm
 ---
-composer:: C. Harold Lowden
+composer:: Carl Harold Lowden
 ---
 text::
 Living for Jesus a life that is true,

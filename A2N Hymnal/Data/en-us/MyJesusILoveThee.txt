@@ -2,7 +2,7 @@ name:: My Jesus, I Love Thee
 ---
 author:: William R. Featherston
 ---
-composer:: A. J. Gordon
+composer:: Adoniram Judson Gordon
 ---
 text::
 My Jesus, I love Thee, I know Thou art mine;

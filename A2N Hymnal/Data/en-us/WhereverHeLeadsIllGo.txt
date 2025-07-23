@@ -1,8 +1,8 @@
 name:: Wherever He Leads I'll Go
 ---
-author:: B. B. McKinney
+author:: Baylus Benjamin McKinney
 ---
-composer:: B. B. McKinney
+composer:: Baylus Benjamin McKinney
 ---
 text::
 “Take up thy cross and follow Me,”

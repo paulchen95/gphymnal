@@ -1,8 +1,8 @@
 name:: My Faith Has Found a Resting Place
 ---
-author:: E. E. Hewitt
+author:: Eliza Edmunds Hewitt
 ---
-composer:: A. Grétry
+composer:: André Ernest Modeste Grétry
 ---
 text::
 My faith has found a resting place,

@@ -1,8 +1,8 @@
 name:: Teach Me Thy Way, O Lord
 ---
-author:: B. Mansell Ramsey
+author:: Benjamin Mansell Ramsey
 ---
-composer:: B. Mansell Ramsey
+composer:: Benjamin Mansell Ramsey
 ---
 text::
 Teach me thy way, O Lord; teach me thy way!

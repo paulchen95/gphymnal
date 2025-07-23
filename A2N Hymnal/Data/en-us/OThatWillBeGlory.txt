@@ -1,8 +1,8 @@
 name:: O That Will Be Glory
 ---
-author:: Chas. H. Gabriel
+author:: Charles H. Gabriel
 ---
-composer:: Chas. H. Gabriel
+composer:: Charles H. Gabriel
 ---
 text::
 When all my labors and trials are o’er,
