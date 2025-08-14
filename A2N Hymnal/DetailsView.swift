@@ -11,42 +11,47 @@ import AVKit
 struct DetailsView: View {
     @State var playerState: PlayerState = PlayerState.Stopped
     
-    let searchText: String
-    var mp3Player: Mp3Player?
-    var hymn: Hymn
+    private let searchText: String
+    private var mp3Player: Mp3Player
+    private var hymn: Hymn
+    var isMp3FileAvailable : Bool
     
     init (hymn: Hymn, searchText: String) {
         self.hymn = hymn
         self.mp3Player = Mp3Player(name: hymn.filename)
         self.searchText = searchText
+        self.isMp3FileAvailable = mp3Player.IsFileAvailable()
     }
     
     var body: some View {
         ZoomableScrollView {
             // Apply text highlighting using the highlightedText method
             hymn.formatText(searchedText: searchText)
+                .onAppear() {
+                }
                 .padding(.horizontal)
                 .onDisappear(
                     perform: {
-                        if (mp3Player != nil && mp3Player!.isAvailable() && playerState == PlayerState.Playing) {
-                            playerState = mp3Player!.stop()
-                        } // if
+                        if (isMp3FileAvailable &&
+                           playerState == PlayerState.Playing) {
+                            playerState = mp3Player.stop()
+                        }// if
                     } // perform
                 ) // .onDisappear
                 .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
                 .textSelection(.enabled)
                 .toolbar { // show play/stop button in toolbar
-                    if (mp3Player != nil && mp3Player!.isAvailable()) {
+                    if (isMp3FileAvailable) {
                         HStack {
                             if (playerState == PlayerState.Stopped) {
                                 Button {
-                                    playerState = mp3Player!.play()
+                                    playerState = mp3Player.play()
                                 } label: {
                                     Label("Play", systemImage: "play.circle.fill")
                                 }
                             } else {
                                 Button {
-                                    playerState = mp3Player!.stop()
+                                    playerState = mp3Player.stop()
                                 } label: {
                                     Label("Stop", systemImage: "stop.circle.fill")
                                 }
@@ -59,8 +64,14 @@ struct DetailsView: View {
 }
 
 struct DetailsView_Previews: PreviewProvider {
+    
+    
     static var previews: some View {
-        DetailsView(hymn: Hymn(name: "Abide With Me", filename: "AbideWithMe", author: "Henry F. Lyte", composer: "William H. Monk", text:
+        let hymn = Hymn(name: "Abide With Me",
+                        filename: "AbideWithMe",
+                        author: "Henry F. Lyte",
+                        composer: "William H. Monk",
+                        text:
         """
         Abide with me, fast falls the eventide;
         The darkness deepens, Lord, with me abide.
@@ -86,6 +97,7 @@ struct DetailsView_Previews: PreviewProvider {
         Shine through the gloom, and point me to the skies;
         Heaven’s morning breaks and earth’s vain shadows flee;
         In life, in death, O Lord, abide with me!
-        """), searchText: "")
+        """)
+        return DetailsView(hymn: hymn, searchText: "")
     }
 }
