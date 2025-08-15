@@ -28,17 +28,22 @@ struct DetailsView: View {
                 .padding(.horizontal)
                 .onDisappear(
                     perform: {
-                        if (mp3Player != nil && mp3Player!.isAvailable() && playerState == PlayerState.Playing) {
+                        if (mp3Player != nil && mp3Player!.isAvailable() && playerState == PlayerState.Playing || playerState == PlayerState.Paused) {
                             playerState = mp3Player!.stop()
                         } // if
                     } // perform
                 ) // .onDisappear
                 .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
                 .textSelection(.enabled)
-                .toolbar { // show play/stop button in toolbar
-                    if (mp3Player != nil && mp3Player!.isAvailable()) {
-                        HStack {
-                            if (playerState == PlayerState.Stopped) {
+                .toolbar { // show play/stop/pause button in toolbar
+                    HStack{
+                        Button {
+                            playerState = mp3Player!.stop()
+                        } label: {
+                            Label("Stop", systemImage: "stop.circle.fill")
+                        }
+                        if (mp3Player != nil && mp3Player!.isAvailable()) {
+                            if (playerState == PlayerState.Stopped || (playerState == PlayerState.Paused)) {
                                 Button {
                                     playerState = mp3Player!.play()
                                 } label: {
@@ -46,12 +51,12 @@ struct DetailsView: View {
                                 }
                             } else {
                                 Button {
-                                    playerState = mp3Player!.stop()
+                                    playerState = mp3Player!.paused()
                                 } label: {
-                                    Label("Stop", systemImage: "stop.circle.fill")
+                                    Label("Paused", systemImage: "pause.circle.fill")
                                 }
                             }
-                        } // HStack
+                        }
                     } // if mp3Player
                 } // .toolbar
         } //  ZoomableScrollView

@@ -337,6 +337,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2025.0626;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
+				DEVELOPMENT_TEAM = JUS5M79VQ2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "A2N Hymnal";
@@ -362,6 +363,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2025.0626;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
+				DEVELOPMENT_TEAM = JUS5M79VQ2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "A2N Hymnal";
