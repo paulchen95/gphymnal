@@ -16,24 +16,14 @@ class Mp3Player {
     var mp3File: URL?
     var player: AVAudioPlayer?
     var state: PlayerState = PlayerState.Stopped
-    var playTime: TimeInterval = 0.0
 
     init (name: String) {
         mp3File = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "Music")
-    }
-
-    func initPlayer() {
-        if (isAvailable()) {
-            player = try? AVAudioPlayer(contentsOf: mp3File!)
-            player!.prepareToPlay()
-        }
+        player = try? AVAudioPlayer(contentsOf: mp3File!)
     }
     
     func play() -> PlayerState {
-        if (isAvailable()) {
-            if (player == nil) {
-                initPlayer()
-            }
+        if player!.prepareToPlay() {
             player!.play()
             state = PlayerState.Playing
         }
@@ -41,26 +31,23 @@ class Mp3Player {
     }
     
     func paused() -> PlayerState {
-        if (isAvailable() && (player != nil)) {
+        if isAvailable() && player != nil {
             player!.pause()
             state = PlayerState.Paused
-            playTime = player!.currentTime
         }
         return state
     }
 
     func stop() -> PlayerState {
-        if (isAvailable() && (player != nil)) {
+        if isAvailable() && player != nil {
             player!.stop()
             player!.currentTime = 0.0
-            playTime = 0.0
-            player!.prepareToPlay()
             state = PlayerState.Stopped
         }
         return state
     }
 
     func isAvailable() -> Bool {
-        return (mp3File != nil)
+        return mp3File != nil
     }
 }
