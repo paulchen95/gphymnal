@@ -9,13 +9,14 @@ import SwiftUI
 import AVKit
 
 enum PlayerState {
-    case Playing, Stopped
+    case Playing, Stopped, Paused
 }
 
 class Mp3Player {
     var mp3File: URL?
     var player: AVAudioPlayer?
     var state: PlayerState = PlayerState.Stopped
+    var playTime: TimeInterval = 0.0
 
     init (name: String) {
         mp3File = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "Music")
@@ -34,9 +35,21 @@ class Mp3Player {
                 initPlayer()
             }
             if (player != nil) {
+                if playTime > 0 {
+                    player!.currentTime = playTime
+                }
                 player!.play()
                 state = PlayerState.Playing
             }
+        }
+        return state
+    }
+    
+    func paused() -> PlayerState {
+        if (isAvailable() && (player != nil)) {
+            player!.pause()
+            state = PlayerState.Paused
+            playTime = player!.currentTime
         }
         return state
     }
@@ -45,6 +58,7 @@ class Mp3Player {
         if (isAvailable() && (player != nil)) {
             player!.stop()
             player!.currentTime = 0
+            playTime = 0.0
             player!.prepareToPlay()
             state = PlayerState.Stopped
         }
