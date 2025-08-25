@@ -28,7 +28,7 @@ struct DetailsView: View {
                 .padding(.horizontal)
                 .onDisappear(
                     perform: {
-                        if (mp3Player != nil && mp3Player!.isAvailable() && playerState == PlayerState.Playing || playerState == PlayerState.Paused) {
+                        if (mp3Player != nil && mp3Player!.isAvailable() && playerState != PlayerState.Stopped) {
                             playerState = mp3Player!.stop()
                         } // if
                     } // perform
@@ -43,7 +43,7 @@ struct DetailsView: View {
                             Label("Stop", systemImage: "stop.circle.fill")
                         }
                         if (mp3Player != nil && mp3Player!.isAvailable()) {
-                            if (playerState == PlayerState.Stopped || (playerState == PlayerState.Paused)) {
+                            if (playerState != PlayerState.Playing) {
                                 Button {
                                     playerState = mp3Player!.play()
                                 } label: {

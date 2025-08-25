@@ -34,13 +34,8 @@ class Mp3Player {
             if (player == nil) {
                 initPlayer()
             }
-            if (player != nil) {
-                if playTime > 0 {
-                    player!.currentTime = playTime
-                }
-                player!.play()
-                state = PlayerState.Playing
-            }
+            player!.play()
+            state = PlayerState.Playing
         }
         return state
     }
@@ -57,7 +52,7 @@ class Mp3Player {
     func stop() -> PlayerState {
         if (isAvailable() && (player != nil)) {
             player!.stop()
-            player!.currentTime = 0
+            player!.currentTime = 0.0
             playTime = 0.0
             player!.prepareToPlay()
             state = PlayerState.Stopped
