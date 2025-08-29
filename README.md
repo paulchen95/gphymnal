@@ -1,4 +1,10 @@
 # gphymnal
+version 5.3.1:
+- Unabbreviate authors and composers' names when possible
+- Minor correction on punctuations of song titles
+- Added pause button
+- Search can now include spaces
+
 version 5.2.9:
 - Added 7 hymn audio files
   - In The Garden
