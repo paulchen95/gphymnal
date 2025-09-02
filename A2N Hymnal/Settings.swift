@@ -1,8 +1,6 @@
 //
-//  Globals.swift
+//  Settings.swift  
 //  A2N Hymnal
-//
-//  Created by Admin User on 1/19/24.
 //
 
 import SwiftUI

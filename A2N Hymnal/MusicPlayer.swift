@@ -19,7 +19,9 @@ class Mp3Player {
 
     init (name: String) {
         mp3File = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "Music")
-        player = try? AVAudioPlayer(contentsOf: mp3File!)
+        if let mp3File = mp3File {
+            player = try? AVAudioPlayer(contentsOf: mp3File)
+        }
     }
     
     func play() -> PlayerState {
