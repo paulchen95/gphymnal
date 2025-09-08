@@ -110,24 +110,24 @@ struct SettingsView : View {
     }
 }
 
+
+
 func getAppIcon() -> UIImage {
-    var appIcon: UIImage! {
-        guard let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String:Any],
-         let primaryIconsDictionary = iconsDictionary["CFBundlePrimaryIcon"] as? [String:Any],
-         let iconFiles = primaryIconsDictionary["CFBundleIconFiles"] as? [String],
-         let lastIcon = iconFiles.last else { return nil }
-         return UIImage(named: lastIcon)
+    guard let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any],
+          let primaryIconsDictionary = iconsDictionary["CFBundlePrimaryIcon"] as? [String: Any],
+          let iconFiles = primaryIconsDictionary["CFBundleIconFiles"] as? [String],
+          let lastIcon = iconFiles.last,
+          let appIcon = UIImage(named: lastIcon) else {
+        return UIImage(systemName: "questionmark") ?? UIImage()
     }
     return appIcon
 }
+
 func getAppInfo(key: String) -> String? {
-    if let value = Bundle.main.infoDictionary?[key] as? String {
-        return value
-    }
-    return nil;
+    return Bundle.main.infoDictionary?[key] as? String
 }
 
 #Preview {
-SettingsView()
-    .environmentObject(Settings())
+    SettingsView()
+        .environmentObject(Settings())
 }

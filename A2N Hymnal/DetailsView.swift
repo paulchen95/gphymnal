@@ -9,16 +9,15 @@ import SwiftUI
 import AVKit
 
 struct DetailsView: View {
-    @State var playerState: PlayerState = PlayerState.Stopped
+    @StateObject private var mp3Player: Mp3Player
     
     let searchText: String
-    var mp3Player: Mp3Player?
     var hymn: Hymn
     
     init (hymn: Hymn, searchText: String) {
         self.hymn = hymn
-        self.mp3Player = Mp3Player(name: hymn.filename)
         self.searchText = searchText
+        self._mp3Player = StateObject(wrappedValue: Mp3Player(name: hymn.filename))
     }
     
     var body: some View {
@@ -28,8 +27,8 @@ struct DetailsView: View {
                 .padding(.horizontal)
                 .onDisappear(
                     perform: {
-                        if (mp3Player != nil && mp3Player!.isAvailable() && playerState != PlayerState.Stopped) {
-                            playerState = mp3Player!.stop()
+                        if mp3Player.isAvailable() && mp3Player.state != PlayerState.Stopped {
+                            _ = mp3Player.stop()
                         } // if
                     } // perform
                 ) // .onDisappear
@@ -37,21 +36,21 @@ struct DetailsView: View {
                 .textSelection(.enabled)
                 .toolbar { // show play/stop/pause button in toolbar
                     HStack{
-                        Button {
-                            playerState = mp3Player!.stop()
-                        } label: {
-                            Label("Stop", systemImage: "stop.circle.fill")
-                        }
-                        if (mp3Player != nil && mp3Player!.isAvailable()) {
-                            if (playerState != PlayerState.Playing) {
+                        if mp3Player.isAvailable() {
+                            Button {
+                                _ = mp3Player.stop()
+                            } label: {
+                                Label("Stop", systemImage: "stop.circle.fill")
+                            }
+                            if (mp3Player.state != PlayerState.Playing) {
                                 Button {
-                                    playerState = mp3Player!.play()
+                                    _ = mp3Player.play()
                                 } label: {
                                     Label("Play", systemImage: "play.circle.fill")
                                 }
                             } else {
                                 Button {
-                                    playerState = mp3Player!.paused()
+                                    _ = mp3Player.paused()
                                 } label: {
                                     Label("Paused", systemImage: "pause.circle.fill")
                                 }

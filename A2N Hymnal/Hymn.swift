@@ -66,17 +66,23 @@ struct Hymn: Identifiable {
         let lines = text.split(omittingEmptySubsequences: false, whereSeparator: \.isNewline)
         var lyrics = Text("")
         var refrainMode:Bool = false
+        var tagMode:Bool = false
         var formattedLine = Text("")
         for line in lines {
             if (line == "[Refrain]") {
                 refrainMode = true
+            } else if (line == "[Tag]") {
+                tagMode = true
             } else if (line == "") {
                 refrainMode = false
+                tagMode = false
                 lyrics = lyrics + Text("\n")
             } else {
                 formattedLine = (!self.searchHighlighting || searchedText.isEmpty) ? Text(line) : highlightSearchedText(content: String(line), textToHighlight: searchedText, highlightColor: .red)
                 if (refrainMode) {
                     lyrics = lyrics + formattedLine.bold().italic()
+                } else if (tagMode) {
+                    lyrics = lyrics + formattedLine.italic()
                 } else {
                     lyrics = lyrics + formattedLine
                 }
@@ -132,3 +138,4 @@ struct Hymn: Identifiable {
         return highlightedText
     }
 }
+
