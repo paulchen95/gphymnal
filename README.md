@@ -1,4 +1,10 @@
 # gphymnal
+=======
+version 5.3.2:
+- Added 1 new hymn
+  - For The Beauty Of The Earth
+- Minor bug fixes
+
 version 5.3.1:
 - Unabbreviate authors and composers' names when possible
 - Minor correction on punctuations of song titles
