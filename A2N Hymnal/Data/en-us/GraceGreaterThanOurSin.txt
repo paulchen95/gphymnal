@@ -2,7 +2,7 @@ name:: Grace Greater Than Our Sin
 ---
 author:: Julia H. Johnston
 ---
-composer:: Daniel B. Tower
+composer:: Daniel B. Towner
 ---
 text::
 Marvelous grace of our loving Lord,

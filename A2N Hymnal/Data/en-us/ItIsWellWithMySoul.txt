@@ -2,7 +2,7 @@ name:: It Is Well With My Soul
 ---
 author:: Horatio G. Spafford
 ---
-composer:: Phillip P. Bliss
+composer:: Philip P. Bliss
 ---
 text::
 When peace, like a river, attendeth my way,
