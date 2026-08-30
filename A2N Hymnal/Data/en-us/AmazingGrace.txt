@@ -4,7 +4,7 @@ author:: John Newton
 ---
 composer:: Unknown
 ---
-tune: New Britain
+tune:: New Britain
 ---
 text::
 Amazing grace! How sweet the sound

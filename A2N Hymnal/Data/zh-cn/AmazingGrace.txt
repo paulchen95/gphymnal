@@ -6,7 +6,7 @@ composer:: 不详
 ---
 translator:: 教会圣诗 75
 ---
-tune: 新不列颠
+tune:: 新不列颠
 ---
 text::
 奇异恩典，何等甘甜，

@@ -6,7 +6,7 @@ translator:: Mary E. Byrne
 ---
 composer:: Traditional Irish Folk
 ---
-tune: Slane
+tune:: Slane
 ---
 text::
 Be Thou my Vision, O Lord of my heart;
