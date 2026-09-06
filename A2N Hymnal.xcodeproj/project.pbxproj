@@ -25,7 +25,21 @@
 		C38F377626B3CE2E002603EA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F377526B3CE2E002603EA /* Preview Assets.xcassets */; };
 		C38F377E26B3CEA2002603EA /* Hymn.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377D26B3CEA2002603EA /* Hymn.swift */; };
 		C38F378026B3D04D002603EA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38F377F26B3D04D002603EA /* DetailsView.swift */; };
+		AAB1000000000000000000C8 /* HymnParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB100000000000000000064 /* HymnParsingTests.swift */; };
+		AAB1000000000000000000C9 /* HymnFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB100000000000000000065 /* HymnFormattingTests.swift */; };
+		AAB1000000000000000000CA /* HymnListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB100000000000000000066 /* HymnListViewModelTests.swift */; };
+		AAB1000000000000000000CB /* HymnDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB100000000000000000067 /* HymnDataTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AAB10000000000000000000B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C38F376326B3CE2D002603EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C38F376A26B3CE2D002603EA;
+			remoteInfo = "A2N Hymnal";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0072D02127A77E300096D33C /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
@@ -48,10 +62,22 @@
 		C38F377726B3CE2E002603EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C38F377D26B3CEA2002603EA /* Hymn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hymn.swift; sourceTree = "<group>"; };
 		C38F377F26B3D04D002603EA /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		AAB100000000000000000001 /* A2N HymnalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "A2N HymnalTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAB100000000000000000064 /* HymnParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnParsingTests.swift; sourceTree = "<group>"; };
+		AAB100000000000000000065 /* HymnFormattingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnFormattingTests.swift; sourceTree = "<group>"; };
+		AAB100000000000000000066 /* HymnListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnListViewModelTests.swift; sourceTree = "<group>"; };
+		AAB100000000000000000067 /* HymnDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C38F376826B3CE2D002603EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAB100000000000000000007 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -65,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				C38F376D26B3CE2D002603EA /* A2N Hymnal */,
+				AAB100000000000000000009 /* A2N HymnalTests */,
 				C38F376C26B3CE2D002603EA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				C38F376B26B3CE2D002603EA /* A2N Hymnal.app */,
+				AAB100000000000000000001 /* A2N HymnalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,6 +139,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		AAB100000000000000000009 /* A2N HymnalTests */ = {
+			isa = PBXGroup;
+			children = (
+				AAB100000000000000000064 /* HymnParsingTests.swift */,
+				AAB100000000000000000065 /* HymnFormattingTests.swift */,
+				AAB100000000000000000066 /* HymnListViewModelTests.swift */,
+				AAB100000000000000000067 /* HymnDataTests.swift */,
+			);
+			path = "A2N HymnalTests";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -133,6 +172,26 @@
 			productReference = C38F376B26B3CE2D002603EA /* A2N Hymnal.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AAB100000000000000000002 /* A2N HymnalTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAB100000000000000000003 /* Build configuration list for PBXNativeTarget "A2N HymnalTests" */;
+			buildPhases = (
+				AAB100000000000000000006 /* Sources */,
+				AAB100000000000000000007 /* Frameworks */,
+				AAB100000000000000000008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AAB10000000000000000000A /* PBXTargetDependency */,
+			);
+			name = "A2N HymnalTests";
+			packageProductDependencies = (
+			);
+			productName = "A2N HymnalTests";
+			productReference = AAB100000000000000000001 /* A2N HymnalTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -145,6 +204,10 @@
 				TargetAttributes = {
 					C38F376A26B3CE2D002603EA = {
 						CreatedOnToolsVersion = 12.5.1;
+					};
+					AAB100000000000000000002 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = C38F376A26B3CE2D002603EA;
 					};
 				};
 			};
@@ -164,6 +227,7 @@
 			projectRoot = "";
 			targets = (
 				C38F376A26B3CE2D002603EA /* A2N Hymnal */,
+				AAB100000000000000000002 /* A2N HymnalTests */,
 			);
 		};
 /* End PBXProject section */
@@ -177,6 +241,13 @@
 				C38F377326B3CE2E002603EA /* Assets.xcassets in Resources */,
 				C304781A27B776A10050F755 /* Music in Resources */,
 				0072D02227A77E300096D33C /* Data in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAB100000000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +275,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AAB100000000000000000006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAB1000000000000000000C8 /* HymnParsingTests.swift in Sources */,
+				AAB1000000000000000000C9 /* HymnFormattingTests.swift in Sources */,
+				AAB1000000000000000000CA /* HymnListViewModelTests.swift in Sources */,
+				AAB1000000000000000000CB /* HymnDataTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AAB10000000000000000000A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C38F376A26B3CE2D002603EA /* A2N Hymnal */;
+			targetProxy = AAB10000000000000000000B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C38F377826B3CE2E002603EA /* Debug */ = {
@@ -379,6 +469,44 @@
 			};
 			name = Release;
 		};
+		AAB100000000000000000004 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal.tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/A2N Hymnal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/A2N Hymnal";
+			};
+			name = Debug;
+		};
+		AAB100000000000000000005 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal.tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/A2N Hymnal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/A2N Hymnal";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -396,6 +524,15 @@
 			buildConfigurations = (
 				C38F377B26B3CE2E002603EA /* Debug */,
 				C38F377C26B3CE2E002603EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAB100000000000000000003 /* Build configuration list for PBXNativeTarget "A2N HymnalTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAB100000000000000000004 /* Debug */,
+				AAB100000000000000000005 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

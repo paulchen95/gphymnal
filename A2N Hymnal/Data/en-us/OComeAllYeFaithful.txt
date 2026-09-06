@@ -2,7 +2,7 @@ name:: O Come, All Ye Faithful
 ---
 author:: John Francis Wade
 ---
-translator: Frederick Oakeley
+translator:: Frederick Oakeley
 ---
 composer:: John Francis Wade
 ---

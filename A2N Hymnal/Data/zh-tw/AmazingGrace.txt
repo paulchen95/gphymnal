@@ -6,7 +6,7 @@ composer:: 不詳
 ---
 translator:: 教會聖詩 75
 ---
-tune: 新不列顛
+tune:: 新不列顛
 ---
 text::
 奇異恩典，何等甘甜，

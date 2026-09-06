@@ -4,7 +4,7 @@ author:: Elizabeth C. Clephane
 ---
 composer:: Frederick C. Maker
 ---
-tune: St. Christopher
+tune:: St. Christopher
 ---
 text::
 Beneath the cross of Jesus
