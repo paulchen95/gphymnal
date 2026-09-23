@@ -9,57 +9,210 @@ import SwiftUI
 import AVKit
 
 struct DetailsView: View {
-    @StateObject private var mp3Player: Mp3Player
     
     let searchText: String
+    @State private var copied = false
+    @State private var showTextSize = false
+    @AppStorage(LyricsTextSize.storageKey) private var textSizeStep = LyricsTextSize.defaultStep
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     var hymn: Hymn
     
     init (hymn: Hymn, searchText: String) {
         self.hymn = hymn
         self.searchText = searchText
-        self._mp3Player = StateObject(wrappedValue: Mp3Player(name: hymn.filename))
     }
     
     var body: some View {
         ZoomableScrollView {
-            // Apply text highlighting using the highlightedText method
-            hymn.formatText(searchedText: searchText)
-                .padding(.horizontal)
-                .onDisappear(
-                    perform: {
-                        if mp3Player.isAvailable() && mp3Player.state != PlayerState.Stopped {
-                            _ = mp3Player.stop()
-                        } // if
-                    } // perform
-                ) // .onDisappear
-                .navigationBarTitle(hymn.name, displayMode: .inline) // have title inline on top
-                .textSelection(.enabled)
-                .toolbar { // show play/stop/pause button in toolbar
-                    HStack{
-                        if mp3Player.isAvailable() {
-                            Button {
-                                _ = mp3Player.stop()
-                            } label: {
-                                Label("Stop", systemImage: "stop.circle.fill")
-                            }
-                            if (mp3Player.state != PlayerState.Playing) {
-                                Button {
-                                    _ = mp3Player.play()
-                                } label: {
-                                    Label("Play", systemImage: "play.circle.fill")
-                                }
-                            } else {
-                                Button {
-                                    _ = mp3Player.paused()
-                                } label: {
-                                    Label("Paused", systemImage: "pause.circle.fill")
-                                }
-                            }
+            VStack(alignment: .leading, spacing: 16) {
+                Text(hymn.name)
+                    .font(.brandTitle(size: 34, relativeTo: .largeTitle))
+                    .fixedSize(horizontal: false, vertical: true)
+
+                LyricsTextView(hymn: hymn, searchText: searchText,
+                               pointSize: LyricsTextSize.pointSize(step: textSizeStep))
+
+                if !hymn.credits.isEmpty {
+                    VStack(alignment: .leading, spacing: 4) {
+                        ForEach(hymn.credits, id: \.label) { credit in
+                            Text(credit.label + ": ").fontWeight(.semibold) + Text(credit.value)
                         }
-                    } // if mp3Player
-                } // .toolbar
+                    }
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                }
+            }
+            .foregroundColor(.ink)
+            // On iPad, a wider margin (clear of the sidebar in the split layout) and a
+            // comfortable reading measure rather than lines running the full width.
+            .frame(maxWidth: horizontalSizeClass == .regular ? 640 : .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, horizontalSizeClass == .regular ? 56 : 24)
+            .padding(.vertical)
+            .textSelection(.enabled)
         } //  ZoomableScrollView
+        .background(Color.paper.ignoresSafeArea())
+        .navigationBarTitleDisplayMode(.inline) // the title is in the content, above the lyrics
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                Button {
+                    showTextSize = true
+                } label: {
+                    Label("Text Size", systemImage: "textformat.size")
+                }
+                .popover(isPresented: $showTextSize) {
+                    TextSizeControl(step: $textSizeStep)
+                        .padding()
+                        .compactPopover()
+                }
+                Button {
+                    UIPasteboard.general.string = hymn.plainText
+                    UINotificationFeedbackGenerator().notificationOccurred(.success)
+                    copied = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { copied = false }
+                } label: {
+                    Label(copied ? "Copied" : "Copy", systemImage: copied ? "checkmark" : "doc.on.doc")
+                }
+                ShareLink(item: hymn.plainText, subject: Text(hymn.name)) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            }
+        }
     } // var body
+}
+
+/// The lyrics, set like a printed hymnal so each sung line stays distinct at any size:
+/// a line that wraps continues with a hanging indent, wrapped lines sit close together, and
+/// separate lines get a clear gap. SwiftUI's Text can't do hanging indents, so this is a
+/// non-editable, selectable UITextView. [Refrain] lines are bold italic and [Tag] lines
+/// italic until the next blank line, as in `Hymn.formatLyrics`; search matches are red.
+struct LyricsTextView: UIViewRepresentable {
+    let hymn: Hymn
+    let searchText: String
+    let pointSize: CGFloat
+
+    func makeUIView(context: Context) -> UITextView {
+        let view = UITextView()
+        view.isEditable = false
+        view.isSelectable = true
+        view.isScrollEnabled = false
+        view.backgroundColor = .clear
+        view.textContainerInset = .zero
+        view.textContainer.lineFragmentPadding = 0
+        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return view
+    }
+
+    func updateUIView(_ view: UITextView, context: Context) {
+        view.attributedText = attributedLyrics()
+    }
+
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UITextView, context: Context) -> CGSize? {
+        let width = proposal.width ?? UIScreen.main.bounds.width
+        let size = uiView.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude))
+        return CGSize(width: width, height: ceil(size.height))
+    }
+
+    private func attributedLyrics() -> NSAttributedString {
+        let regular = UIFont.systemFont(ofSize: pointSize)
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.firstLineHeadIndent = 0
+        paragraph.headIndent = pointSize * 1.2       // hanging indent for wrapped continuations
+        paragraph.lineSpacing = pointSize * 0.12     // tight within a wrapped line
+        paragraph.paragraphSpacing = pointSize * 0.45 // clear gap between sung lines
+
+        let result = NSMutableAttributedString()
+        var refrain = false, tag = false
+        let lines = hymn.text
+            .split(omittingEmptySubsequences: false, whereSeparator: \.isNewline)
+            .map(String.init)
+            .drop { $0.trimmingCharacters(in: .whitespaces).isEmpty }
+        for line in lines {
+            if line == "[Refrain]" { refrain = true; continue }
+            if line == "[Tag]" { tag = true; continue }
+            if line.isEmpty { refrain = false; tag = false }
+            var font = regular
+            if refrain || tag {
+                var traits: UIFontDescriptor.SymbolicTraits = .traitItalic
+                if refrain { traits.insert(.traitBold) }
+                if let descriptor = regular.fontDescriptor.withSymbolicTraits(traits) {
+                    font = UIFont(descriptor: descriptor, size: pointSize)
+                }
+            }
+            result.append(NSAttributedString(string: line + "\n", attributes: [
+                .font: font,
+                .foregroundColor: UIColor(named: "Ink") ?? .label,
+                .paragraphStyle: paragraph,
+            ]))
+        }
+        // Trailing blank lines would only add space before the credits.
+        while result.string.hasSuffix("\n") {
+            result.deleteCharacters(in: NSRange(location: result.length - 1, length: 1))
+        }
+        highlightMatches(in: result)
+        return result
+    }
+
+    private func highlightMatches(in text: NSMutableAttributedString) {
+        guard hymn.searchHighlighting, !searchText.isEmpty else { return }
+        let string = text.string as NSString
+        var range = NSRange(location: 0, length: string.length)
+        while true {
+            let match = string.range(of: searchText, options: [.caseInsensitive, .diacriticInsensitive], range: range)
+            guard match.location != NSNotFound else { break }
+            text.addAttribute(.foregroundColor, value: UIColor.systemRed, range: match)
+            let next = match.location + match.length
+            range = NSRange(location: next, length: string.length - next)
+        }
+    }
+}
+
+/// Smaller / current size / larger, as in Apple Books. Used on the lyrics page and in
+/// Settings, which share one stored value.
+struct TextSizeControl: View {
+    @Binding var step: Int
+
+    var body: some View {
+        HStack(spacing: 20) {
+            Button {
+                step = LyricsTextSize.clamped(step - 1)
+            } label: {
+                Label("Smaller Text", systemImage: "textformat.size.smaller")
+                    .frame(width: 44, height: 44)
+            }
+            .disabled(step <= 0)
+
+            Text("\(LyricsTextSize.percent(step: step))%")
+                .font(.body.monospacedDigit().weight(.semibold))
+                .frame(minWidth: 56)
+                .accessibilityHidden(true)
+
+            Button {
+                step = LyricsTextSize.clamped(step + 1)
+            } label: {
+                Label("Larger Text", systemImage: "textformat.size.larger")
+                    .frame(width: 44, height: 44)
+            }
+            .disabled(step >= LyricsTextSize.multipliers.count - 1)
+        }
+        .labelStyle(.iconOnly)
+        .font(.title2)
+        .buttonStyle(.borderless)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Lyrics Text Size, \(LyricsTextSize.percent(step: step)) percent")
+    }
+}
+
+private extension View {
+    /// Keeps the popover a popover on iPhone instead of turning into a sheet.
+    @ViewBuilder
+    func compactPopover() -> some View {
+        if #available(iOS 16.4, *) {
+            presentationCompactAdaptation(.popover)
+        } else {
+            self
+        }
+    }
 }
 
 struct DetailsView_Previews: PreviewProvider {

@@ -101,6 +101,21 @@ final class HymnFormattingTests: XCTestCase {
                        hymn.formatLyrics() + Text("\n\n") + Text(verbatim: "Composer: C\n"))
     }
 
+    // MARK: - Plain text
+
+    func testPlainTextHasTitleLyricsWithoutMarkersAndCredits() {
+        let hymn = Hymn(name: "Test", filename: "Test", author: "John Newton", composer: "",
+                        text: "\nLine one\n\n[Refrain]\nChorus line\n")
+
+        XCTAssertEqual(hymn.plainText, "Test\n\nLine one\n\nChorus line\n\nAuthor: John Newton")
+    }
+
+    func testPlainTextOmitsCreditsWhenEmpty() {
+        let hymn = makeHymn(text: "Line one")
+
+        XCTAssertEqual(hymn.plainText, "Test\n\nLine one")
+    }
+
     // MARK: - Search highlighting
 
     func testHighlightingIsSkippedWhenDisabled() {
