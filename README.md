@@ -1,4 +1,12 @@
 # gphymnal
+version 5.4.0:
+- Refreshed design in the Acts2 Network style, with dark mode support
+- Hymns grouped A-Z with a quick index, search by title or lyrics
+- iPad and large iPhones show the list and lyrics side by side in landscape
+- Adjustable lyrics text size, copy and share
+- Audio keeps playing while you browse, with a new Now Playing screen
+- New app icon
+
 version 5.3.2:
 - Added 1 new hymn
   - For The Beauty Of The Earth
