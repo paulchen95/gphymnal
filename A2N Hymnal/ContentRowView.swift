@@ -10,20 +10,15 @@ import SwiftUI
 struct ContentRowView: View {
     var hymn: Hymn
 
+    private var isChristmas: Bool { hymn.collection == "Christmas" }
+
     var body: some View {
-        HStack {
-            Text(hymn.name).frame(maxWidth: .infinity, alignment: .leading)
-            let midi = Bundle.main.url(forResource: hymn.filename, withExtension: "mp3", subdirectory: "Music")
-            if (hymn.collection == "Christmas") {
-                Image(systemName: "snowflake")
-            } else {
-                Image(systemName: "snowflake").hidden()
-            }
-            if (midi != nil) {
-                Image(systemName: "music.note")
-            } else {
-                Image(systemName: "music.note").hidden()
-            }
-        }
+        // No audio badge: every hymn ships with its mp3, so it would be on every row.
+        // The Christmas marker follows the title inline rather than sitting in its own column.
+        (Text(hymn.name) + Text(isChristmas ? " " + Hymn.christmasMarker : ""))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            // Keep long titles clear of the A–Z index that runs down the list's trailing edge.
+            .padding(.trailing, 18)
+            .accessibilityLabel(isChristmas ? hymn.name + ", Christmas" : hymn.name)
     }
 }

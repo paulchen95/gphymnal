@@ -34,7 +34,12 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
     }
     
     func makeCoordinator() -> Coordinator {
-        return Coordinator(hostingController: UIHostingController(rootView: self.content))
+        let hostingController = UIHostingController(rootView: self.content)
+        // Report the content's real size as it changes (e.g. the lyrics text size going down),
+        // so the page shrinks to fit. Without this the hosted view keeps its old, taller
+        // height and SwiftUI centres the smaller content in it, leaving a gap above the title.
+        hostingController.sizingOptions = [.intrinsicContentSize]
+        return Coordinator(hostingController: hostingController)
     }
     
     func updateUIViewController(_ viewController: ViewController, context: Context) {
@@ -69,8 +74,11 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
             scrollView.showsHorizontalScrollIndicator = false
             scrollView.showsVerticalScrollIndicator = false
             scrollView.clipsToBounds = false
+            // Let the SwiftUI background (the Acts2 paper colour) show through.
+            scrollView.backgroundColor = .clear
             
             let hostedView = coordinator.hostingController.view!
+            hostedView.backgroundColor = .clear
             hostedView.translatesAutoresizingMaskIntoConstraints = false
             scrollView.addSubview(hostedView)
             NSLayoutConstraint.activate([
@@ -89,6 +97,7 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
         
         func update(content: Content, doubleTap: AnyPublisher<Void, Never>) {
             coordinator.hostingController.rootView = content
+            coordinator.hostingController.view.invalidateIntrinsicContentSize()
             scrollView.setNeedsUpdateConstraints()
             doubleTapCancellable = doubleTap.sink { [unowned self] in handleDoubleTap() }
         }

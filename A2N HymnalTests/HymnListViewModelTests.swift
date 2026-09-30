@@ -2,7 +2,8 @@
 //  HymnListViewModelTests.swift
 //  A2N HymnalTests
 //
-//  Covers the Christmas-collection filter and the lyrics search in HymnListViewModel.
+//  Covers the Christmas-collection filter, the lyrics search, and the alphabetical sections
+//  in HymnListViewModel.
 //
 
 import XCTest
@@ -65,13 +66,12 @@ final class HymnListViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.filteredHymns.map(\.name), ["Away In A Manger"])
     }
 
-    /// Search deliberately looks at lyrics only — a title-only match returns nothing.
-    func testSearchDoesNotMatchTitlesAlone() {
+    func testSearchMatchesTitlesAsWellAsLyrics() {
         let viewModel = makeViewModel(showChristmas: true)
         viewModel.hymns = [hymn(name: "Unique Title", collection: "Hymn", text: "some lyrics")]
-        viewModel.searchText = "Unique Title"
+        viewModel.searchText = "unique title"
 
-        XCTAssertTrue(viewModel.filteredHymns.isEmpty)
+        XCTAssertEqual(viewModel.filteredHymns.map(\.name), ["Unique Title"])
     }
 
     func testChristmasFilterAppliesBeforeSearch() {
@@ -79,5 +79,55 @@ final class HymnListViewModelTests: XCTestCase {
         viewModel.searchText = "manger"
 
         XCTAssertTrue(viewModel.filteredHymns.isEmpty)
+    }
+
+    // MARK: - Alphabetical sections
+
+    func testSectionsGroupByFirstLetterInOrder() {
+        let viewModel = makeViewModel(showChristmas: true)
+        viewModel.hymns = ["Be Thou My Vision", "Amazing Grace", "Because He Lives", "Abide With Me"]
+            .map { hymn(name: $0, collection: "Hymn", text: "") }
+
+        XCTAssertEqual(viewModel.sections.map(\.letter), ["A", "B"])
+        XCTAssertEqual(viewModel.sections.map { $0.hymns.map(\.name) },
+                       [["Abide With Me", "Amazing Grace"], ["Be Thou My Vision", "Because He Lives"]])
+    }
+
+    func testSectionsPutNonLettersLastUnderHash() {
+        let viewModel = makeViewModel(showChristmas: true)
+        viewModel.hymns = ["10,000 Reasons", "Zion", "'Tis So Sweet"]
+            .map { hymn(name: $0, collection: "Hymn", text: "") }
+
+        XCTAssertEqual(viewModel.sections.map(\.letter), ["T", "Z", "#"])
+    }
+
+    func testSectionsFollowSearch() {
+        let viewModel = makeViewModel(showChristmas: true)
+        viewModel.searchText = "grace"
+
+        XCTAssertEqual(viewModel.sections.map(\.letter), ["A"])
+    }
+
+    func testChineseTitlesAreIndexedByPinyin() {
+        XCTAssertEqual(hymn(name: "奇异恩典", collection: "Hymn", text: "").indexLetter, "Q")
+        XCTAssertEqual(hymn(name: "奇異恩典", collection: "Hymn", text: "").indexLetter, "Q")
+    }
+
+    func testAccentedTitlesAreIndexedByBaseLetter() {
+        XCTAssertEqual(hymn(name: "Ésaïe", collection: "Hymn", text: "").indexLetter, "E")
+    }
+
+    // MARK: - Lyrics text size
+
+    func testTextSizeStepsAreClampedToTheRange() {
+        XCTAssertEqual(LyricsTextSize.clamped(-3), 0)
+        XCTAssertEqual(LyricsTextSize.clamped(99), LyricsTextSize.multipliers.count - 1)
+        XCTAssertEqual(LyricsTextSize.percent(step: LyricsTextSize.defaultStep), 100)
+    }
+
+    func testTextSizeStaysWithinPointRangeAndGrowsWithStep() {
+        let sizes = LyricsTextSize.multipliers.indices.map(LyricsTextSize.pointSize(step:))
+        XCTAssertEqual(sizes, sizes.sorted())
+        XCTAssertTrue(sizes.allSatisfy(LyricsTextSize.pointRange.contains))
     }
 }

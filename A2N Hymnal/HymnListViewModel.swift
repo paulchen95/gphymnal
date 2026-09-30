@@ -6,6 +6,12 @@
 //
 import SwiftUI
 
+struct HymnSection: Identifiable {
+    let letter: String
+    let hymns: [Hymn]
+    var id: String { letter }
+}
+
 class HymnListViewModel: ObservableObject {
     @State var settings = Settings()
     @Published var hymns = [Hymn]()
@@ -17,10 +23,21 @@ class HymnListViewModel: ObservableObject {
         }
         guard !searchText.isEmpty else { return catFilteredHymns }
         return catFilteredHymns.filter { hymn in
-            hymn.text.lowercased().contains(searchText.lowercased())
+            hymn.name.localizedCaseInsensitiveContains(searchText)
+                || hymn.text.localizedCaseInsensitiveContains(searchText)
         }
     }
     
+    /// `filteredHymns` grouped by first letter, A–Z then "#", for the indexed list.
+    var sections: [HymnSection] {
+        let grouped = Dictionary(grouping: filteredHymns, by: \.indexLetter)
+        return grouped.keys
+            .sorted { ($0 == "#" ? 1 : 0, $0) < ($1 == "#" ? 1 : 0, $1) }
+            .map { letter in
+                HymnSection(letter: letter, hymns: grouped[letter]!.sorted { $0.sortKey < $1.sortKey })
+            }
+    }
+
     init() {
         regenHymnList()
     }

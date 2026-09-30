@@ -131,4 +131,36 @@ final class HymnParsingTests: XCTestCase {
         XCTAssertEqual(hymn.name, "與主同住")
         XCTAssertTrue(hymn.searchHighlighting)
     }
+
+    // MARK: - Hymn links
+
+    func testLinkSlugIsKebabCaseFilename() {
+        XCTAssertEqual(HymnLink.slug(forFilename: "AmazingGrace"), "amazing-grace")
+        XCTAssertEqual(HymnLink.slug(forFilename: "AbideWithMe"), "abide-with-me")
+    }
+
+    func testAppLinkRoundTrips() {
+        let hymn = Hymn(name: "Amazing Grace", filename: "AmazingGrace", author: "", composer: "", text: "")
+        let url = HymnLink.appURL(for: hymn, play: true)
+        XCTAssertEqual(url.absoluteString, "a2nhymnal://hymn/amazing-grace?play=1")
+        let link = HymnLink.parse(url)
+        XCTAssertEqual(link?.slug, "amazing-grace")
+        XCTAssertEqual(link?.play, true)
+        XCTAssertEqual(HymnLink.hymn(forSlug: "amazing-grace", in: [hymn])?.filename, "AmazingGrace")
+    }
+
+    func testWebLinksParseAndOtherLinksDont() {
+        XCTAssertEqual(HymnLink.parse(URL(string: "https://hymnal.acts2.network/hymn/abide-with-me")!)?.slug, "abide-with-me")
+        XCTAssertEqual(HymnLink.parse(URL(string: "https://acts2.network/hymnal/abide-with-me")!)?.play, false)
+        XCTAssertNil(HymnLink.parse(URL(string: "https://acts2.network/about")!))
+        XCTAssertNil(HymnLink.parse(URL(string: "a2nhymnal://settings")!))
+    }
+
+    func testEveryBundledHymnIsReachableByItsSlug() {
+        let hymns = HymnList(locale: "en-us", searchHighlighting: false).build()
+        for hymn in hymns {
+            XCTAssertEqual(HymnLink.hymn(forSlug: HymnLink.slug(forFilename: hymn.filename), in: hymns)?.filename,
+                           hymn.filename)
+        }
+    }
 }

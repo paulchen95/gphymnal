@@ -9,108 +9,111 @@ import SwiftUI
 
 struct SettingsView : View {
     @EnvironmentObject var settings: Settings
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var viewModel: HymnListViewModel
 
     var body: some View {
         NavigationStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 20) {
-                    // MARK: - Show Christmas Hymns
-                    GroupBox(
-                        label: SettingsLabelView(labelText: "View Options", labelImage: "checklist")
-                    ) {
-                        Divider().padding(.vertical, 4)
-                        Toggle(isOn: settings.$showChristmas, label: {
-                            HStack {
-                                Text("Show Christmas Hymns")
-                                Image(systemName: "snowflake")
-                            }
-                        })
-                        .controlSize(.mini)
-                        .padding()
-                        .onChange(of: settings.showChristmas) { newValue in
-                            viewModel.regenHymnList()
-                        }
-                        
-                        Toggle(isOn: settings.$enableSearchHighlighting, label: {
-                            HStack {
-                                Text("Enable Search Highlighting")
-                                Image(systemName: "highlighter")
-                            }
-                        })
-                        .controlSize(.mini)
-                        .padding()
-                        .onChange(of: settings.enableSearchHighlighting) { newValue in
-                            viewModel.regenHymnList()
+            Form {
+                // MARK: - About
+                Section {
+                    HStack(spacing: 16) {
+                        Image(uiImage: getAppIcon())
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                            .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("A2N Hymnal")
+                                .font(.headline)
+                            Text("Version \(getAppInfo(key: "CFBundleShortVersionString") ?? "") (\(getAppInfo(key: "CFBundleVersion") ?? ""))")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
                         }
                     }
+                    .padding(.vertical, 4)
+                    .listRowBackground(Color.surface)
+                } footer: {
+                    Text("A simple hymnal that works offline. Included music is royalty-free and copyright-free.")
+                }
 
-                    // MARK: - Language Settings
-                    GroupBox(
-                        label: SettingsLabelView(labelText: "Language (Beta)", labelImage: "text.bubble")
-                    ) {
-                        Divider().padding(.vertical, 4)
-                        Picker("Language", selection: settings.$hymnLocale) {
-                            ForEach(Array(locales.keys.sorted(by: { locales[$0]!.name < locales[$1]!.name })), id: \.self) {
-                                Text(locales[$0]!.name)
-                            }
+                // MARK: - Language
+                Section {
+                    Picker(selection: settings.$hymnLocale) {
+                        ForEach(Array(locales.keys.sorted(by: { locales[$0]!.name < locales[$1]!.name })), id: \.self) {
+                            Text(locales[$0]!.name)
                         }
-                        .controlSize(.mini)
-                        .padding()
-                        .onChange(of: settings.hymnLocale) { newValue in
-                            viewModel.regenHymnList()
+                    } label: {
+                        Label("Language", systemImage: "globe")
+                    }
+                    .onChange(of: settings.hymnLocale) { newValue in
+                        viewModel.regenHymnList()
+                    }
+                    .listRowBackground(Color.surface)
+                } footer: {
+                    Text("Chinese translations are in beta.")
+                }
+
+                // MARK: - Reading
+                Section {
+                    HStack {
+                        Text("Text Size")
+                        Spacer()
+                        TextSizeControl(step: settings.$lyricsTextSizeStep)
+                            .font(.body)
+                    }
+                    .listRowBackground(Color.surface)
+
+                    Text("Amazing grace! How sweet the sound\nThat saved a wretch like me!")
+                        .font(.system(size: LyricsTextSize.pointSize(step: settings.lyricsTextSizeStep)))
+                        .lineSpacing(LyricsTextSize.lineSpacing(step: settings.lyricsTextSizeStep))
+                        .foregroundColor(.ink)
+                        .padding(.vertical, 6)
+                        .listRowBackground(Color.surface)
+                        .accessibilityLabel("Preview")
+                } header: {
+                    Text("Reading")
+                }
+
+                // MARK: - Display
+                Section {
+                    Toggle(isOn: settings.$showChristmas) {
+                        Label {
+                            Text("Christmas Hymns")
+                        } icon: {
+                            Text(Hymn.christmasMarker)
                         }
                     }
-
-                    // MARK: - Hymnal Info
-                    GroupBox(
-                        label:
-                            SettingsLabelView(labelText: "A2N Hymnal", labelImage: "info.circle")
-                    ) {
-                        Divider().padding(.vertical, 4)
-                        HStack(alignment: .center, spacing: 10) {
-                            Image(uiImage: getAppIcon())
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .cornerRadius(10)
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text("Simple, no-frills hymnal. Good for offline use." +
-                                     "  Included music is royalty and copyright-free.")
-                            } //: VSTACK
-                        } //: HSTACK
+                    .onChange(of: settings.showChristmas) { newValue in
+                        viewModel.regenHymnList()
                     }
+                    .listRowBackground(Color.surface)
 
-                    // MARK: - App Info
-                    GroupBox(
-                        label: SettingsLabelView(labelText: "Application", labelImage: "apps.iphone")
-                    ) {
-                        Divider().padding(.vertical, 4)
-                        SettingsRowView(name: "Developer", content: "Cedric Young, Jay Park, Paul Chen")
-                        SettingsRowView(name: "Logo Designer", content: "Madison Li")
-                        SettingsRowView(name: "App Version", content: getAppInfo(key: "CFBundleShortVersionString"))
-                        SettingsRowView(name: "Release", content: getAppInfo(key: "CFBundleVersion"))
+                    Toggle(isOn: settings.$enableSearchHighlighting) {
+                        Label("Highlight Search Matches", systemImage: "highlighter")
                     }
-                    
-
-                } //: VSTACK
-                .navigationBarTitle(Text("Settings"), displayMode: .large)
-                .navigationBarItems(
-                    trailing:
-                        Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image(systemName: "xmark")
+                    .onChange(of: settings.enableSearchHighlighting) { newValue in
+                        viewModel.regenHymnList()
                     }
-                )
-                .padding()
-            } //: SCROLLVIEW
+                    .listRowBackground(Color.surface)
+                } header: {
+                    Text("Display")
+                } footer: {
+                    Text("When you search, matching words in the lyrics are shown in red.")
+                }
+            } //: FORM
+            .scrollContentBackground(.hidden)
+            .background(Color.paper.ignoresSafeArea())
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
         } //: NAVIGATION
     }
 }
-
-
 
 func getAppIcon() -> UIImage {
     guard let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any],
@@ -130,4 +133,5 @@ func getAppInfo(key: String) -> String? {
 #Preview {
     SettingsView()
         .environmentObject(Settings())
+        .environmentObject(HymnListViewModel())
 }

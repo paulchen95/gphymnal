@@ -17,7 +17,7 @@ is `A2N Hymnal`, and the Swift module is `A2N_Hymnal`.
 ```bash
 # Test — this is the entry point; it resolves a simulator, filters xcodebuild's
 # noise down to failures plus the summary, and exits non-zero when tests fail.
-scripts/test.sh                                        # all 37 tests, ~45s cold
+scripts/test.sh                                        # all 46 tests, ~45s cold
 scripts/test.sh HymnDataTests                          # one class
 scripts/test.sh HymnDataTests/testHymnsAreSortedByName # one test
 scripts/test.sh HymnParsingTests HymnDataTests         # several
@@ -82,7 +82,7 @@ Only `name`, `author`, `composer`, `text` are used everywhere; the rest are opti
 - **The double colon matters.** `tune:` (one colon) is not recognized as an attribute and
   silently becomes part of the lyrics. Six files had this bug; a test now guards it.
 - `collection:: Christmas` is the only non-default collection, and drives both the
-  snowflake badge and the "Show Christmas Hymns" setting. An absent `collection::`
+  🎄 badge (`Hymn.christmasMarker`) and the "Christmas Hymns" setting. An absent `collection::`
   defaults to `"Hymn"`.
 - Inside `text::`, a line of exactly `[Refrain]` styles subsequent lines bold+italic and
   `[Tag]` styles them italic, until the next blank line. The markers are not rendered.
@@ -99,8 +99,26 @@ call to `HymnListViewModel.regenHymnList()`; there is no cache and no persistenc
 because locale and search-highlighting are baked into each `Hymn` at parse time rather than
 read at render time.
 
-Search filters on **lyrics only** (`hymn.text`), not titles — a title-only match returns
-nothing. This is deliberate; a test documents it.
+Playback is app-wide: `NowPlaying` (in `MusicPlayer.swift`) holds the loaded hymn and its
+`Mp3Player`, so audio keeps going while you browse. Each page pins the mini player
+(`AudioPlayerBar`) with `.miniPlayer(...)`, which opens `NowPlayingView` and its "View
+Lyrics" shortcut. The lyrics text size is one `@AppStorage` value (`LyricsTextSize` in
+`Settings.swift`) shared by the lyrics page's Aa button and Settings.
+
+The look follows the Acts2 Network brand (`Brand.swift`): warm Paper/Ink colours and a gold
+`AccentColor` in the asset catalog, and Clash Grotesk for large titles only. The global
+accent isn't being applied, so `Color.accentColor` is system blue: use `Color.brandAccent`
+for the gold, and the root sets `.tint(.brandAccent)`.
+Anything inside `ZoomableScrollView` is hosted in UIKit and doesn't inherit SwiftUI's
+environment (objects or tint), so pass those in explicitly.
+
+Search matches **titles and lyrics** (`hymn.name` and `hymn.text`), case-insensitively.
+It used to be lyrics-only; the search field's prompt says "Search titles and lyrics".
+
+The lyrics page draws lyrics with `LyricsTextView` (in `DetailsView.swift`), a UITextView
+that sets them like a printed hymnal: hanging indent on wrapped lines, a gap between sung
+lines. It applies the same `[Refrain]`/`[Tag]` rules itself, so a change to those rules
+belongs in both it and `Hymn.formatLyrics`.
 
 `Hymn.formatText()` returns a composed SwiftUI `Text`, not a string: lyrics, then a
 credits footer whose labels come from `locales` in `Locales.swift` (which also defines the
@@ -115,7 +133,7 @@ bundle and tests can read the real shipped hymn and audio files.
 
 - `HymnParsingTests` — the `key:: value` / `---` format.
 - `HymnFormattingTests` — lyrics styling, credits footer, search highlighting.
-- `HymnListViewModelTests` — Christmas filter and lyrics search.
+- `HymnListViewModelTests` — Christmas filter, title and lyrics search, and the A–Z sections (Chinese titles file under their pinyin initial).
 - `HymnDataTests` — integrity of the *bundled* content. This is the one that catches a
   badly-formed new hymn: missing keys, unsorted or duplicated entries, an unknown
   `collection::`, a single-colon typo, a translation with no English counterpart, an mp3
