@@ -86,7 +86,8 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .playNextHymn)) { _ in playNeighbour(1) }
         .onReceive(NotificationCenter.default.publisher(for: .playPreviousHymn)) { _ in playNeighbour(-1) }
         .onReceive(NotificationCenter.default.publisher(for: .playOpenHymn)) { _ in
-            if let hymn = selectedHymn { nowPlaying.play(hymn) }
+            // Not while Settings is up: its form is a list too.
+            if !showSettings, let hymn = selectedHymn { nowPlaying.play(hymn) }
         }
         .sheet(isPresented: $showSettings, content: {
             SettingsView()
@@ -113,10 +114,9 @@ struct ContentView: View {
                             .foregroundColor(.ink)
                             .contentShape(Rectangle())
                             // Double-click plays, as in Spotify and Music; a single click just
-                            // selects. Return plays the selection via the Playback menu.
-                            .simultaneousGesture(TapGesture(count: 2).onEnded {
-                                playHymn(filename: hymn.filename)
-                            })
+                            // selects, and Return plays the selection via the Playback menu. On
+                            // the Mac, ListDoubleClickRecognizer handles double-clicks instead.
+                            .iPadDoubleTapToPlay { playHymn(filename: hymn.filename) }
                             .tag(hymn.filename)
                             .help(Self.isMac ? "Double-click or press Return to play" : "")
                             .listRowBackground(selection == hymn.filename
@@ -251,6 +251,17 @@ private struct SectionHeader: View {
 }
 
 private extension View {
+    /// iPad side-by-side list: double-tap a hymn to play it. (The Mac uses
+    /// ListDoubleClickRecognizer, which counts clicks the way macOS does.)
+    @ViewBuilder
+    func iPadDoubleTapToPlay(_ play: @escaping () -> Void) -> some View {
+        #if targetEnvironment(macCatalyst)
+        self
+        #else
+        simultaneousGesture(TapGesture(count: 2).onEnded(play))
+        #endif
+    }
+
     /// Mac only: right-click a hymn for Play and Copy Lyrics. (Not the list's primaryAction,
     /// which on Catalyst fires on a single click; double-click is a gesture on each row.)
     @ViewBuilder

@@ -7,6 +7,9 @@
 
 import SwiftUI
 import AVKit
+#if targetEnvironment(macCatalyst)
+import UIKit.UIGestureRecognizerSubclass
+#endif
 
 @main
 struct A2N_HymnalApp: App {
@@ -27,20 +30,60 @@ struct A2N_HymnalApp: App {
                 // Set explicitly: the asset catalog's global accent (NSAccentColorName) isn't
                 // being picked up on its own.
                 .tint(.brandAccent)
-                .onAppear(perform: Self.setMinimumWindowSize)
+                .onAppear(perform: Self.setUpMacWindow)
         }
         .commands { HymnalCommands(nowPlaying: nowPlaying, searchState: searchState) }
     }
 
-    /// On the Mac, keep the window big enough for the list and lyrics side by side.
-    private static func setMinimumWindowSize() {
+    /// On the Mac, keep the window big enough for the list and lyrics side by side, and
+    /// watch for double-clicks in the hymn list (see `ListDoubleClickRecognizer`).
+    private static func setUpMacWindow() {
         #if targetEnvironment(macCatalyst)
         for case let scene as UIWindowScene in UIApplication.shared.connectedScenes {
             scene.sizeRestrictions?.minimumSize = CGSize(width: 760, height: 520)
+            for window in scene.windows
+            where !(window.gestureRecognizers ?? []).contains(where: { $0 is ListDoubleClickRecognizer }) {
+                window.addGestureRecognizer(ListDoubleClickRecognizer())
+            }
         }
         #endif
     }
 }
+
+#if targetEnvironment(macCatalyst)
+/// Double-click a hymn in the list to play it, as in Spotify. macOS counts the clicks itself
+/// (`UITouch.tapCount`, using the system double-click speed), so this doesn't miss the second
+/// click while the first one is still opening the hymn, as a SwiftUI count-2 tap gesture did.
+/// The first click has already selected the hymn, so a second click in the list plays the
+/// selection. It only watches: every click still reaches the list as normal.
+final class ListDoubleClickRecognizer: UIGestureRecognizer {
+    init() {
+        super.init(target: nil, action: nil)
+        cancelsTouchesInView = false
+        delaysTouchesBegan = false
+        delaysTouchesEnded = false
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        if let touch = touches.first, touch.tapCount == 2, Self.isInList(touch.view) {
+            NotificationCenter.default.post(name: .playOpenHymn, object: nil)
+        }
+        state = .failed
+    }
+
+    override func canPrevent(_ preventedGestureRecognizer: UIGestureRecognizer) -> Bool { false }
+
+    /// SwiftUI lists are collection views; the lyrics and player aren't.
+    private static func isInList(_ view: UIView?) -> Bool {
+        var view = view
+        while let current = view {
+            if current is UICollectionView { return true }
+            view = current.superview
+        }
+        return false
+    }
+}
+#endif
 
 extension Notification.Name {
     /// Sent by the Settings… menu command; ContentView presents Settings.
