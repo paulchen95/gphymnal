@@ -19,8 +19,10 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             // Side by side only when there's width to spare: iPad in landscape and the larger
-            // iPhones held sideways. iPad in portrait keeps the single, pushed layout.
-            let split = horizontalSizeClass == .regular && geometry.size.width > geometry.size.height
+            // iPhones held sideways, and always on the Mac. iPad in portrait keeps the single,
+            // pushed layout.
+            let split = Self.isMac
+                || (horizontalSizeClass == .regular && geometry.size.width > geometry.size.height)
             Group {
             if split {
                 NavigationSplitView {
@@ -68,10 +70,20 @@ struct ContentView: View {
             selection = hymn.filename
             if link.play { nowPlaying.play(hymn) }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .openSettings)) { _ in showSettings = true }
         .sheet(isPresented: $showSettings, content: {
             SettingsView()
                 .environmentObject(viewModel)
         })
+    }
+
+    /// The Mac app always shows the list and lyrics side by side.
+    private static var isMac: Bool {
+        #if targetEnvironment(macCatalyst)
+        true
+        #else
+        false
+        #endif
     }
 
     private var selectedHymn: Hymn? {
