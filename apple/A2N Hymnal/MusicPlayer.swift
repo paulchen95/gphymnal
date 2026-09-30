@@ -104,7 +104,7 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
 
     /// Length of a hymn's recording without loading it for playback; 0 if there isn't one.
-    static func duration(of name: String) -> TimeInterval {
+    nonisolated static func duration(of name: String) -> TimeInterval {
         guard let url = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "music"),
               let player = try? AVAudioPlayer(contentsOf: url) else { return 0 }
         return player.duration

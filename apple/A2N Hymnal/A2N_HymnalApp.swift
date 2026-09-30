@@ -59,6 +59,16 @@ extension Notification.Name {
 /// Whether the search field is active, so a bare Space shortcut doesn't swallow typed spaces.
 final class SearchState: ObservableObject {
     @Published var isSearching = false
+    /// The text cursor is in the search field (known on iOS 18+ / macOS 15+).
+    @Published var searchFieldFocused = false
+
+    /// Typing in the search field, so Space, Return and ⌘-arrows should reach it. Where the
+    /// field's focus is known, use it: on the Mac, `isSearching` stays true after you've
+    /// moved on to the list, which switched those shortcuts off.
+    var isTyping: Bool {
+        if #available(iOS 18, *) { return searchFieldFocused }
+        return isSearching
+    }
 }
 
 /// Menu bar commands (Mac) and hardware-keyboard shortcuts (iPad): Settings…, lyrics text
@@ -91,7 +101,7 @@ struct HymnalCommands: Commands {
         }
         // Spotify's Playback menu and shortcuts (minus Shuffle), so there's nothing new to learn.
         CommandMenu("Playback") {
-            PlaybackCommands(nowPlaying: nowPlaying, typing: searchState.isSearching)
+            PlaybackCommands(nowPlaying: nowPlaying, typing: searchState.isTyping)
         }
     }
 }
