@@ -127,6 +127,7 @@ struct ReadyToPlayBar: View {
         .padding(.horizontal, 12)
         .padding(.bottom, 6)
         .accessibilityLabel("Play " + hymn.name)
+        .help("Play this hymn (Space or Return)")
         .task(id: hymn.filename) { duration = Mp3Player.duration(of: hymn.filename) }
     }
 }
@@ -146,6 +147,7 @@ struct PlayInsteadButton: View {
         }
         .buttonStyle(.plain)
         .foregroundColor(.brandAccent)
+        .help("Play this hymn instead (Return)")
         .miniPlayerBackground(cornerRadius: 100)
         .padding(.horizontal, 24)
     }
@@ -261,12 +263,14 @@ struct NowPlayingView: View {
                 } label: {
                     Label("Back 15 Seconds", systemImage: "gobackward.15")
                 }
+                .help("Back 15 seconds")
                 PlayPauseButton(player: player, size: 72)
                 Button {
                     player.skip(by: 15)
                 } label: {
                     Label("Forward 15 Seconds", systemImage: "goforward.15")
                 }
+                .help("Forward 15 seconds")
             }
             .labelStyle(.iconOnly)
             .font(.title)
@@ -296,6 +300,7 @@ struct NowPlayingView: View {
                         .background(Circle().fill(player.repeats ? Color.brandAccent : Color.clear))
                 }
                 .accessibilityValue(player.repeats ? "On" : "Off")
+                .help(player.repeats ? "Repeat is on (⌥⌘R)" : "Repeat (⌥⌘R)")
 
                 Spacer()
 
@@ -393,6 +398,7 @@ private struct PlayPauseButton: View {
                 .symbolRenderingMode(.hierarchical)
                 .foregroundColor(.brandAccent)
         }
+        .help(isPlaying ? "Pause (Space)" : "Play (Space)")
     }
 }
 
