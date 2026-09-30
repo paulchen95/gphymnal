@@ -104,7 +104,7 @@ struct SettingsView : View {
 
                 // MARK: - Credits
                 Section("Credits") {
-                    CreditRow(role: "Developers", names: "Cedric Young, Jay Park, Paul Chen, Conrad Chu")
+                    CreditRow(role: "Developers", names: "Paul Chen, Conrad Chu, Cedric Young, Jay Park")
                     CreditRow(role: "Logo Design", names: "Madison Li")
                 }
             } //: FORM
