@@ -9,7 +9,9 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var viewModel = HymnListViewModel()
     @EnvironmentObject private var nowPlaying: NowPlaying
+    @EnvironmentObject private var searchState: SearchState
     @State private var showSettings: Bool = false
+    @FocusState private var searchFocused: Bool
     /// The open hymn's filename. Shared by both layouts, so rotating keeps it open.
     @State private var selection: String?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -19,8 +21,10 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             // Side by side only when there's width to spare: iPad in landscape and the larger
-            // iPhones held sideways. iPad in portrait keeps the single, pushed layout.
-            let split = horizontalSizeClass == .regular && geometry.size.width > geometry.size.height
+            // iPhones held sideways, and always on the Mac. iPad in portrait keeps the single,
+            // pushed layout.
+            let split = Self.isMac
+                || (horizontalSizeClass == .regular && geometry.size.width > geometry.size.height)
             Group {
             if split {
                 NavigationSplitView {
@@ -68,10 +72,28 @@ struct ContentView: View {
             selection = hymn.filename
             if link.play { nowPlaying.play(hymn) }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .openSettings)) { _ in showSettings = true }
+        .onReceive(NotificationCenter.default.publisher(for: .focusSearch)) { _ in
+            showSettings = false
+            if !isSplit { selection = nil } // back to the list, where the search field is
+            DispatchQueue.main.async { searchFocused = true }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .playOpenHymn)) { _ in
+            if let hymn = selectedHymn { nowPlaying.play(hymn) }
+        }
         .sheet(isPresented: $showSettings, content: {
             SettingsView()
                 .environmentObject(viewModel)
         })
+    }
+
+    /// The Mac app always shows the list and lyrics side by side.
+    private static var isMac: Bool {
+        #if targetEnvironment(macCatalyst)
+        true
+        #else
+        false
+        #endif
     }
 
     private var selectedHymn: Hymn? {
@@ -108,6 +130,15 @@ struct ContentView: View {
                                     .foregroundColor(.ink)
                                     .contentShape(Rectangle())
                             }
+                            // Double-click plays, as in Spotify and Music (single click just
+                            // shows the lyrics). Side-by-side layout only: on iPhone the first
+                            // tap already moves to the lyrics page.
+                            .simultaneousGesture(TapGesture(count: 2).onEnded {
+                                guard isSplit else { return }
+                                selection = hymn.filename
+                                nowPlaying.play(hymn)
+                            })
+                            .help(isSplit ? "Double-click or press Return to play" : "")
                             .listRowBackground(
                                 selection == hymn.filename && isSplit
                                     ? Color.brandAccent.opacity(0.15) : Color.paper
@@ -120,6 +151,7 @@ struct ContentView: View {
                 }
             } //: LIST
             .listStyle(.plain)
+            .background(SearchStateReporter(state: searchState))
             .scrollContentBackground(.hidden)
             .background(Color.paper.ignoresSafeArea())
             .pinnedHeaderEdgeEffect()
@@ -132,6 +164,7 @@ struct ContentView: View {
         }
         .navigationTitle("Hymns")
         .searchable(text: $viewModel.searchText, placement: searchPlacement, prompt: "Search titles and lyrics")
+        .searchFocusable($searchFocused)
         .environmentObject(viewModel)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -163,6 +196,19 @@ private struct SectionHeader: View {
                 .padding(.vertical, 6)
                 .background(Color.paperDeep)
                 .listRowInsets(EdgeInsets())
+        }
+    }
+}
+
+private extension View {
+    /// Lets ⌘F put the cursor in the search field (iOS 18 and later; earlier versions just
+    /// show the list).
+    @ViewBuilder
+    func searchFocusable(_ focused: FocusState<Bool>.Binding) -> some View {
+        if #available(iOS 18, *) {
+            searchFocused(focused)
+        } else {
+            self
         }
     }
 }
@@ -224,6 +270,18 @@ private extension View {
     }
 }
 
+/// Mirrors the list's `isSearching` into `SearchState` for the keyboard shortcuts.
+private struct SearchStateReporter: View {
+    @ObservedObject var state: SearchState
+    @Environment(\.isSearching) private var isSearching
+
+    var body: some View {
+        Color.clear
+            .onAppear { state.isSearching = isSearching }
+            .onChange(of: isSearching) { newValue in state.isSearching = newValue }
+    }
+}
+
 private struct NoHymnSelectedView: View {
     var body: some View {
         VStack(spacing: 8) {
@@ -268,5 +326,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(NowPlaying())
+            .environmentObject(SearchState())
     }
 }
