@@ -18,11 +18,16 @@ struct SettingsView : View {
                 // MARK: - About
                 Section {
                     HStack(spacing: 16) {
-                        Image(uiImage: getAppIcon())
+                        // A copy of the icon artwork in the asset catalog: the compiled app
+                        // icon can't be loaded as an image on the Mac.
+                        Image("AppIconImage")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 60, height: 60)
                             .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
+                            .overlay(RoundedRectangle(cornerRadius: 13, style: .continuous)
+                                .strokeBorder(Color.primary.opacity(0.1)))
+                            .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 2) {
                             Text("A2N Hymnal")
                                 .font(.headline)
@@ -113,17 +118,6 @@ struct SettingsView : View {
             }
         } //: NAVIGATION
     }
-}
-
-func getAppIcon() -> UIImage {
-    guard let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any],
-          let primaryIconsDictionary = iconsDictionary["CFBundlePrimaryIcon"] as? [String: Any],
-          let iconFiles = primaryIconsDictionary["CFBundleIconFiles"] as? [String],
-          let lastIcon = iconFiles.last,
-          let appIcon = UIImage(named: lastIcon) else {
-        return UIImage(systemName: "questionmark") ?? UIImage()
-    }
-    return appIcon
 }
 
 func getAppInfo(key: String) -> String? {
