@@ -24,7 +24,7 @@ struct A2N_HymnalApp: App {
                 .environmentObject(nowPlaying)
                 // Set explicitly: the asset catalog's global accent (NSAccentColorName) isn't
                 // being picked up on its own.
-                .tint(Color("AccentColor"))
+                .tint(.brandAccent)
         }
     }
 }

@@ -16,6 +16,14 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
     var mp3File: URL?
     var player: AVAudioPlayer?
     @Published var state: PlayerState = PlayerState.Stopped
+    /// Loop the hymn continuously (for practicing). Remembered across hymns and launches.
+    @Published var repeats = UserDefaults.standard.bool(forKey: Mp3Player.repeatKey) {
+        didSet {
+            UserDefaults.standard.set(repeats, forKey: Mp3Player.repeatKey)
+            player?.numberOfLoops = repeats ? -1 : 0
+        }
+    }
+    static let repeatKey = "repeatHymn"
     @Published var currentTime: TimeInterval = 0
     private var progressTimer: Timer?
 
@@ -27,6 +35,7 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
         if let mp3File = mp3File {
             player = try? AVAudioPlayer(contentsOf: mp3File)
             player?.delegate = self
+            player?.numberOfLoops = repeats ? -1 : 0
         }
     }
     

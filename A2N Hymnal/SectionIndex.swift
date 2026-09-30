@@ -66,7 +66,7 @@ struct SectionIndexBar: View {
                     .frame(width: 22, height: rowHeight)
             }
         }
-        .foregroundColor(.accentColor)
+        .foregroundColor(.brandAccent)
         .contentShape(Rectangle())
         .gesture(
             DragGesture(minimumDistance: 0)

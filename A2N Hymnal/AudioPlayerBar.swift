@@ -67,7 +67,7 @@ struct AudioPlayerBar: View {
             // Spotify-style hairline progress along the bottom edge of the mini player.
             GeometryReader { geometry in
                 Capsule()
-                    .fill(Color.accentColor)
+                    .fill(Color.brandAccent)
                     .frame(width: geometry.size.width * progress, height: 2)
             }
             .frame(height: 2)
@@ -115,7 +115,7 @@ struct ReadyToPlayBar: View {
                 Image(systemName: "play.circle.fill")
                     .font(.system(size: 32))
                     .symbolRenderingMode(.hierarchical)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(.brandAccent)
             }
             .padding(.leading, 10)
             .padding(.trailing, 14)
@@ -145,7 +145,7 @@ struct PlayInsteadButton: View {
                 .padding(.vertical, 8)
         }
         .buttonStyle(.plain)
-        .foregroundColor(.accentColor)
+        .foregroundColor(.brandAccent)
         .miniPlayerBackground(cornerRadius: 100)
         .padding(.horizontal, 24)
     }
@@ -197,7 +197,7 @@ struct HymnCover: View {
 }
 
 /// Full-screen player: cover card, title and author, timeline, transport controls, and
-/// the Start Over and View Lyrics actions.
+/// the Start Over, Repeat and View Lyrics actions.
 struct NowPlayingView: View {
     @ObservedObject var player: Mp3Player
     let hymn: Hymn
@@ -285,6 +285,20 @@ struct NowPlayingView: View {
 
                 Spacer()
 
+                Button {
+                    player.repeats.toggle()
+                } label: {
+                    Label("Repeat", systemImage: "repeat.1")
+                        .labelStyle(.iconOnly)
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(player.repeats ? .onAccent : .secondary)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(player.repeats ? Color.brandAccent : Color.clear))
+                }
+                .accessibilityValue(player.repeats ? "On" : "Off")
+
+                Spacer()
+
                 Button(action: onShowLyrics) {
                     Label("View Lyrics", systemImage: "text.quote")
                 }
@@ -295,7 +309,7 @@ struct NowPlayingView: View {
         .padding(.horizontal, 28)
         .background(
             // A soft wash of the cover's gold behind everything.
-            LinearGradient(colors: [Color.accentColor.opacity(0.18), Color.paper],
+            LinearGradient(colors: [Color.brandAccent.opacity(0.18), Color.paper],
                            startPoint: .top, endPoint: .center)
                 .ignoresSafeArea()
         )
@@ -323,7 +337,7 @@ private struct PlaybackTimeline: View {
             let height: CGFloat = isTouching ? 12 : 6
             ZStack(alignment: .leading) {
                 Capsule().fill(Color.primary.opacity(0.15))
-                Capsule().fill(Color.accentColor.opacity(isTouching ? 1 : 0.85))
+                Capsule().fill(Color.brandAccent.opacity(isTouching ? 1 : 0.85))
                     .frame(width: geometry.size.width * fraction)
             }
             .frame(height: height)
@@ -377,7 +391,7 @@ private struct PlayPauseButton: View {
                 .labelStyle(.iconOnly)
                 .font(.system(size: size))
                 .symbolRenderingMode(.hierarchical)
-                .foregroundColor(.accentColor)
+                .foregroundColor(.brandAccent)
         }
     }
 }

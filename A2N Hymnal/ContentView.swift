@@ -60,6 +60,14 @@ struct ContentView: View {
             .onAppear { isSplit = split }
             .onChange(of: split) { newValue in isSplit = newValue }
         }
+        // Shared links (see HymnLink) open straight to the hymn, and can start it playing.
+        .onOpenURL { url in
+            guard let link = HymnLink.parse(url),
+                  let hymn = HymnLink.hymn(forSlug: link.slug, in: viewModel.hymns) else { return }
+            showSettings = false
+            selection = hymn.filename
+            if link.play { nowPlaying.play(hymn) }
+        }
         .sheet(isPresented: $showSettings, content: {
             SettingsView()
                 .environmentObject(viewModel)
@@ -102,7 +110,7 @@ struct ContentView: View {
                             }
                             .listRowBackground(
                                 selection == hymn.filename && isSplit
-                                    ? Color.accentColor.opacity(0.15) : Color.paper
+                                    ? Color.brandAccent.opacity(0.15) : Color.paper
                             )
                         }
                     } header: {

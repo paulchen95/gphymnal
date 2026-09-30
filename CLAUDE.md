@@ -106,8 +106,9 @@ Lyrics" shortcut. The lyrics text size is one `@AppStorage` value (`LyricsTextSi
 `Settings.swift`) shared by the lyrics page's Aa button and Settings.
 
 The look follows the Acts2 Network brand (`Brand.swift`): warm Paper/Ink colours and a gold
-`AccentColor` in the asset catalog, and Clash Grotesk for large titles only. The root sets
-`.tint(Color("AccentColor"))` explicitly because the global accent wasn't being applied.
+`AccentColor` in the asset catalog, and Clash Grotesk for large titles only. The global
+accent isn't being applied, so `Color.accentColor` is system blue: use `Color.brandAccent`
+for the gold, and the root sets `.tint(.brandAccent)`.
 Anything inside `ZoomableScrollView` is hosted in UIKit and doesn't inherit SwiftUI's
 environment (objects or tint), so pass those in explicitly.
 

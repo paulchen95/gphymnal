@@ -26,6 +26,12 @@ enum Brand {
     }
 }
 
+extension Color {
+    /// The Acts2 gold. Use this, not `Color.accentColor`: the asset catalog's global accent
+    /// (NSAccentColorName) isn't being applied, so `accentColor` comes out system blue.
+    static let brandAccent = Color("AccentColor")
+}
+
 extension Font {
     /// Clash Grotesk at `size`, scaling with Dynamic Type like `style`.
     static func brandTitle(size: CGFloat, relativeTo style: Font.TextStyle) -> Font {

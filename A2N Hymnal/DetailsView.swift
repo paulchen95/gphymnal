@@ -22,6 +22,9 @@ struct DetailsView: View {
         self.searchText = searchText
     }
     
+    private static let topFade: CGFloat = 24
+    private static let bottomFade: CGFloat = 64
+
     var body: some View {
         ZoomableScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -48,9 +51,33 @@ struct DetailsView: View {
             .frame(maxWidth: horizontalSizeClass == .regular ? 640 : .infinity, alignment: .leading)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, horizontalSizeClass == .regular ? 56 : 24)
-            .padding(.vertical)
+            // Room to clear the edge fades: the title starts below the top one, and the end
+            // of the credits can scroll above the bottom one and the player.
+            .padding(.top, Self.topFade + 4)
+            .padding(.bottom, Self.bottomFade)
             .textSelection(.enabled)
         } //  ZoomableScrollView
+        // The scroll view draws past its edges (for zooming); clip it here so lyrics never
+        // show up under the top bar or below the player, only through the fades.
+        .clipped()
+        // Lyrics fade out as they scroll toward the top bar and under the player, like the
+        // hymn list does under its bars, so the eye stays on the middle of the page. The
+        // bottom fade reaches down under the player (it's pinned by the parent view).
+        .overlay(alignment: .top) {
+            LinearGradient(colors: [Color.paper, Color.paper.opacity(0)],
+                           startPoint: .top, endPoint: .bottom)
+                .frame(height: Self.topFade)
+                .allowsHitTesting(false)
+        }
+        .overlay(alignment: .bottom) {
+            LinearGradient(stops: [
+                .init(color: Color.paper.opacity(0), location: 0),
+                .init(color: Color.paper.opacity(0.8), location: 0.45),
+                .init(color: Color.paper.opacity(0.95), location: 1),
+            ], startPoint: .top, endPoint: .bottom)
+                .frame(height: Self.bottomFade)
+                .allowsHitTesting(false)
+        }
         .background(Color.paper.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline) // the title is in the content, above the lyrics
         .toolbar {
@@ -73,8 +100,10 @@ struct DetailsView: View {
                 } label: {
                     Label(copied ? "Copied" : "Copy", systemImage: copied ? "checkmark" : "doc.on.doc")
                 }
-                ShareLink(item: hymn.plainText, subject: Text(hymn.name)) {
-                    Label("Share", systemImage: "square.and.arrow.up")
+                if HymnLink.isSharingEnabled {
+                    ShareLink(item: hymn.plainText, subject: Text(hymn.name)) {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                    }
                 }
             }
         }
