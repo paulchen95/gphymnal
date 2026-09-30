@@ -31,7 +31,7 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
 
     init (name: String) {
         super.init()
-        mp3File = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "Music")
+        mp3File = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "music")
         if let mp3File = mp3File {
             player = try? AVAudioPlayer(contentsOf: mp3File)
             player?.delegate = self
@@ -90,12 +90,12 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
 
     static func hasAudio(_ name: String) -> Bool {
-        Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "Music") != nil
+        Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "music") != nil
     }
 
     /// Length of a hymn's recording without loading it for playback; 0 if there isn't one.
     static func duration(of name: String) -> TimeInterval {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "Music"),
+        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "music"),
               let player = try? AVAudioPlayer(contentsOf: url) else { return 0 }
         return player.duration
     }

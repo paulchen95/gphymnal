@@ -12,12 +12,23 @@ dependencies — plain Xcode project, iOS 16+, Swift 5.
 Note the mismatch between names: the repo is `gphymnal`, the app/target/source directory
 is `A2N Hymnal`, and the Swift module is `A2N_Hymnal`.
 
+## Layout
+
+```
+content/          hymns and audio, shared by every app — adding a hymn happens only here
+  hymns/<locale>/<Filename>.txt
+  music/<Filename>.mp3
+apple/            Xcode project: iPhone and iPad app (A2N Hymnal/) and tests
+android/          planned Android app (Kotlin + Jetpack Compose), not started
+scripts/test.sh   runs the Apple app's tests
+```
+
 ## Commands
 
 ```bash
 # Test — this is the entry point; it resolves a simulator, filters xcodebuild's
 # noise down to failures plus the summary, and exits non-zero when tests fail.
-scripts/test.sh                                        # all 46 tests, ~45s cold
+scripts/test.sh                                        # all 50 tests, ~45s cold
 scripts/test.sh HymnDataTests                          # one class
 scripts/test.sh HymnDataTests/testHymnsAreSortedByName # one test
 scripts/test.sh HymnParsingTests HymnDataTests         # several
@@ -32,7 +43,7 @@ On failure the script prints the path to the full xcodebuild log. Bare class and
 The underlying invocation, when you need to drive xcodebuild directly:
 
 ```bash
-xcodebuild test -project "A2N Hymnal.xcodeproj" -scheme "A2N Hymnal" \
+xcodebuild test -project "apple/A2N Hymnal.xcodeproj" -scheme "A2N Hymnal" \
   -destination 'platform=iOS Simulator,name=iPhone 17'
 ```
 
@@ -48,10 +59,12 @@ only ever runs locally.
 ## Architecture
 
 Content is **data, not code**. Hymns live as plain text files in
-`A2N Hymnal/Data/<locale>/<Filename>.txt`, audio as `A2N Hymnal/Music/<Filename>.mp3`,
-and both are added to the target as *folder references* (blue folders), so the directory
-structure survives into the bundle and is looked up with the `subdirectory:` argument of
-`Bundle.main.url(forResource:...)`. Adding a hymn means adding files, not editing Swift.
+`content/hymns/<locale>/<Filename>.txt`, audio as `content/music/<Filename>.mp3`, outside
+the Xcode project so other apps can share them. The project adds both as *folder
+references* (blue folders pointing at `../../content/...`), so the directory structure
+survives into the bundle as `hymns/` and `music/` and is looked up with the `subdirectory:`
+argument of `Bundle.main.url(forResource:...)`. Adding a hymn means adding files, not
+editing Swift.
 
 The `<Filename>` (no spaces, PascalCase, derived from the English title) is the join key
 across everything: it links an `en-us` file to its `zh-cn`/`zh-tw` translations and to the
@@ -123,12 +136,12 @@ belongs in both it and `Hymn.formatLyrics`.
 `Hymn.formatText()` returns a composed SwiftUI `Text`, not a string: lyrics, then a
 credits footer whose labels come from `locales` in `Locales.swift` (which also defines the
 set of supported locales — adding a language means adding an entry there *and* a
-`Data/<locale>/` directory). `ZoomableScrollView` is a `UIViewRepresentable` pinch-zoom
+`content/hymns/<locale>/` directory). `ZoomableScrollView` is a `UIViewRepresentable` pinch-zoom
 workaround for an iOS 15 SwiftUI regression; leave it alone unless the zoom breaks.
 
 ## Tests
 
-`A2N HymnalTests/` is a unit-test target hosted by the app, so `Bundle.main` is the app
+`apple/A2N HymnalTests/` is a unit-test target hosted by the app, so `Bundle.main` is the app
 bundle and tests can read the real shipped hymn and audio files.
 
 - `HymnParsingTests` — the `key:: value` / `---` format.

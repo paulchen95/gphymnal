@@ -15,7 +15,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-PROJECT="A2N Hymnal.xcodeproj"
+PROJECT="apple/A2N Hymnal.xcodeproj"
 SCHEME="A2N Hymnal"
 TEST_TARGET="A2N HymnalTests"
 LOG="${TMPDIR:-/tmp}"; LOG="${LOG%/}/a2n-hymnal-test.log"
