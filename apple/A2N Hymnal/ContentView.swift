@@ -78,6 +78,8 @@ struct ContentView: View {
             if !isSplit { selection = nil } // back to the list, where the search field is
             DispatchQueue.main.async { searchFocused = true }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .playNextHymn)) { _ in playNeighbour(1) }
+        .onReceive(NotificationCenter.default.publisher(for: .playPreviousHymn)) { _ in playNeighbour(-1) }
         .onReceive(NotificationCenter.default.publisher(for: .playOpenHymn)) { _ in
             if let hymn = selectedHymn { nowPlaying.play(hymn) }
         }
@@ -94,6 +96,18 @@ struct ContentView: View {
         #else
         false
         #endif
+    }
+
+    /// Plays the hymn `offset` places from the playing (or open) one, in the list's current
+    /// order, and opens its lyrics. Stops at either end of the list.
+    private func playNeighbour(_ offset: Int) {
+        let ordered = viewModel.sections.flatMap(\.hymns)
+        guard let current = nowPlaying.hymn?.filename ?? selection,
+              let index = ordered.firstIndex(where: { $0.filename == current }),
+              ordered.indices.contains(index + offset) else { return }
+        let hymn = ordered[index + offset]
+        selection = hymn.filename
+        nowPlaying.play(hymn)
     }
 
     private var selectedHymn: Hymn? {

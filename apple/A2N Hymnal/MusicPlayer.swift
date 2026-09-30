@@ -24,6 +24,15 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     static let repeatKey = "repeatHymn"
+    /// Playback volume within the app (0–1), set from the Playback menu on the Mac. Carried
+    /// over to the next hymn's player for the rest of the session.
+    @Published var volume: Float = Mp3Player.sessionVolume {
+        didSet {
+            player?.volume = volume
+            Mp3Player.sessionVolume = volume
+        }
+    }
+    private static var sessionVolume: Float = 1
     @Published var currentTime: TimeInterval = 0
     private var progressTimer: Timer?
 
@@ -36,6 +45,7 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
             player = try? AVAudioPlayer(contentsOf: mp3File)
             player?.delegate = self
             player?.numberOfLoops = repeats ? -1 : 0
+            player?.volume = volume
         }
     }
     

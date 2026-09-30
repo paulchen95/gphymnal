@@ -73,6 +73,7 @@
 		AAB2000000000000000000A3 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		AAB2000000000000000000A4 /* ClashGrotesk-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ClashGrotesk-Semibold.ttf; path = Fonts/ClashGrotesk-Semibold.ttf; sourceTree = "<group>"; };
 		AAB2000000000000000000A5 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		AAB2000000000000000000A6 /* A2N Hymnal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "A2N Hymnal.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +124,7 @@
 				C38F377D26B3CEA2002603EA /* Hymn.swift */,
 				009F744C27A9204B00580D62 /* HymnList.swift */,
 				AAB2000000000000000000A3 /* AppIcon.icon */,
+				AAB2000000000000000000A6 /* A2N Hymnal.entitlements */,
 				AAB2000000000000000000A4 /* ClashGrotesk-Semibold.ttf */,
 				C38F377226B3CE2E002603EA /* Assets.xcassets */,
 				C38F377726B3CE2E002603EA /* Info.plist */,
@@ -437,7 +439,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2026.0930;
+				CURRENT_PROJECT_VERSION = 2026.0930.2;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
@@ -449,6 +451,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 5.4.0;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "A2N Hymnal/A2N Hymnal.entitlements";
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				SUPPORTS_MACCATALYST = YES;
@@ -464,7 +467,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2026.0930;
+				CURRENT_PROJECT_VERSION = 2026.0930.2;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
@@ -476,6 +479,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 5.4.0;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "A2N Hymnal/A2N Hymnal.entitlements";
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				SUPPORTS_MACCATALYST = YES;
