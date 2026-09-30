@@ -18,7 +18,7 @@ struct HymnList {
 
     func build() -> [Hymn] {
         var hymns : [Hymn] = []
-        if let urls = Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "Data/" + locale) {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: "txt", subdirectory: "hymns/" + locale) {
             for url in urls {
                 if let fileContent = try? String(contentsOf: url) {
                     hymns.insert(

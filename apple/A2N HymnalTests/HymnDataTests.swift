@@ -57,7 +57,7 @@ final class HymnDataTests: XCTestCase {
     }
 
     /// Every translated hymn must reuse an English filename, since audio lookup and
-    /// the `Music/` folder are keyed off it.
+    /// the `music/` folder are keyed off it.
     func testTranslatedHymnsReuseEnglishFilenames() {
         let english = Set(hymns(for: "en-us").map(\.filename))
         for locale in locales.keys where locale != "en-us" {
@@ -73,8 +73,8 @@ final class HymnDataTests: XCTestCase {
     func testHymnFilesUseDoubleColonAttributes() {
         for locale in locales.keys {
             guard let urls = Bundle.main.urls(forResourcesWithExtension: "txt",
-                                              subdirectory: "Data/" + locale) else {
-                return XCTFail("no Data/\(locale) in the bundle")
+                                              subdirectory: "hymns/" + locale) else {
+                return XCTFail("no hymns/\(locale) in the bundle")
             }
             for url in urls {
                 guard let content = try? String(contentsOf: url, encoding: .utf8) else {
@@ -92,12 +92,12 @@ final class HymnDataTests: XCTestCase {
 
     func testEveryBundledMp3BelongsToAnEnglishHymn() {
         let filenames = Set(hymns(for: "en-us").map(\.filename))
-        let mp3s = Bundle.main.urls(forResourcesWithExtension: "mp3", subdirectory: "Music") ?? []
+        let mp3s = Bundle.main.urls(forResourcesWithExtension: "mp3", subdirectory: "music") ?? []
 
         XCTAssertFalse(mp3s.isEmpty, "no audio bundled")
         for mp3 in mp3s {
             let name = mp3.deletingPathExtension().lastPathComponent
-            XCTAssertTrue(filenames.contains(name), "Music/\(name).mp3 has no matching hymn")
+            XCTAssertTrue(filenames.contains(name), "music/\(name).mp3 has no matching hymn")
         }
     }
 
@@ -105,7 +105,7 @@ final class HymnDataTests: XCTestCase {
         let withAudio = try XCTUnwrap(
             hymns(for: "en-us").first { Bundle.main.url(forResource: $0.filename,
                                                         withExtension: "mp3",
-                                                        subdirectory: "Music") != nil })
+                                                        subdirectory: "music") != nil })
 
         let player = Mp3Player(name: withAudio.filename)
         XCTAssertTrue(player.isAvailable())
