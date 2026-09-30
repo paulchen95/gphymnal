@@ -101,12 +101,6 @@ struct SettingsView : View {
                 } footer: {
                     Text("When you search, matching words in the lyrics are shown in red.")
                 }
-
-                // MARK: - Credits
-                Section("Credits") {
-                    CreditRow(role: "Developers", names: "Paul Chen, Conrad Chu, Cedric Young, Jay Park")
-                    CreditRow(role: "Logo Design", names: "Madison Li")
-                }
             } //: FORM
             .scrollContentBackground(.hidden)
             .background(Color.paper.ignoresSafeArea())
@@ -118,22 +112,6 @@ struct SettingsView : View {
                 }
             }
         } //: NAVIGATION
-    }
-}
-
-private struct CreditRow: View {
-    let role: String
-    let names: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(role)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Text(names)
-        }
-        .padding(.vertical, 2)
-        .listRowBackground(Color.surface)
     }
 }
 
