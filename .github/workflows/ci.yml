@@ -47,7 +47,6 @@ jobs:
         if: github.event_name != 'workflow_dispatch'
         id: filter
         with:
-          base: ${{ github.ref_name }}
           filters: |
             content:
               - 'content/**'
