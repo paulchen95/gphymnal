@@ -43,6 +43,9 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import network.acts2.hymnal.core.HymnSections
+import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.SwipeToDismissBox
@@ -79,6 +82,7 @@ import network.acts2.hymnal.ui.theme.Brand
 fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) {
     val sections = vm.sections
     val scope = rememberCoroutineScope()
+    val clipboard = LocalClipboardManager.current
 
     // When Favorites appears above a list that was at the top, show it rather than keeping
     // the old first row in place (which would leave Favorites just off the top).
@@ -148,6 +152,8 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
                                 selected = split && hymn.filename == vm.selected,
                                 starred = hymn.filename in vm.settings.favorites,
                                 onToggleFavorite = { vm.settings.toggleFavorite(hymn.filename) },
+                                onPlay = if (vm.hasAudio(hymn)) { { vm.play(hymn) } } else null,
+                                onCopy = { clipboard.setText(AnnotatedString(hymn.plainText)) },
                                 onClick = { vm.selected = hymn.filename },
                                 // Side by side, double-tap plays, like double-click on the Mac.
                                 onDoubleClick = if (split && vm.hasAudio(hymn)) {
@@ -185,10 +191,14 @@ private fun HymnRow(
     selected: Boolean,
     starred: Boolean,
     onToggleFavorite: () -> Unit,
+    /** Null when the hymn has no recording. */
+    onPlay: (() -> Unit)?,
+    onCopy: () -> Unit,
     onClick: () -> Unit,
     onDoubleClick: (() -> Unit)?,
 ) {
-    // Long-press for Add to / Remove from Favorites, like the iPhone's context menu.
+    // Long-press for Play (first: it's why you'd hold rather than tap), Favorites and Copy
+    // Lyrics, the same menu as holding a hymn on iPhone.
     var menu by remember { mutableStateOf(false) }
     val haptics = LocalHapticFeedback.current
     Box {
@@ -213,11 +223,28 @@ private fun HymnRow(
     )
     DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
         DropdownMenuItem(
+            text = { Text("Play") },
+            leadingIcon = { Icon(Icons.Rounded.PlayArrow, null) },
+            enabled = onPlay != null,
+            onClick = {
+                menu = false
+                onPlay?.invoke()
+            },
+        )
+        DropdownMenuItem(
             text = { Text(if (starred) "Remove from Favorites" else "Add to Favorites") },
             leadingIcon = { Icon(if (starred) Icons.Rounded.StarOutline else Icons.Rounded.Star, null) },
             onClick = {
                 menu = false
                 onToggleFavorite()
+            },
+        )
+        DropdownMenuItem(
+            text = { Text("Copy Lyrics") },
+            leadingIcon = { Icon(Icons.Rounded.ContentCopy, null) },
+            onClick = {
+                menu = false
+                onCopy()
             },
         )
     }

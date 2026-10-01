@@ -122,6 +122,7 @@ struct ContentView: View {
                             .favoriteSwipe(hymn, favorites: favorites,
                                            inFavorites: section.letter == HymnListViewModel.favoritesLetter)
                             .help(Self.isMac ? "Double-click or press Return to play" : "")
+                            .hymnMenu(enabled: !Self.isMac) { rowMenu(for: hymn) } preview: { HymnPreview(hymn: hymn) }
                             .listRowBackground(selection == hymn.filename
                                                ? Color.brandAccent.opacity(0.15) : Color.paper)
                     } else {
@@ -138,19 +139,35 @@ struct ContentView: View {
                         .listRowBackground(Color.paper)
                         .favoriteSwipe(hymn, favorites: favorites,
                                            inFavorites: section.letter == HymnListViewModel.favoritesLetter)
-                        .contextMenu {
-                            Button {
-                                favorites.toggle(hymn)
-                            } label: {
-                                favoriteLabel(starred: favorites.contains(hymn))
-                            }
-                        }
+                        .hymnMenu(enabled: true) { rowMenu(for: hymn) } preview: { HymnPreview(hymn: hymn) }
                     }
                 }
             } header: {
                 SectionHeader(letter: section.letter)
             }
             .sectionIndexLetter(section.letter)
+        }
+    }
+
+    /// Hold a row: Play first (it's why you'd hold rather than tap), then Favorites and Copy.
+    /// Play starts the hymn without leaving the list; the mini player appears.
+    @ViewBuilder
+    private func rowMenu(for hymn: Hymn) -> some View {
+        Button {
+            nowPlaying.play(hymn)
+        } label: {
+            Label("Play", systemImage: "play.fill")
+        }
+        .disabled(!Mp3Player.hasAudio(hymn.filename))
+        Button {
+            favorites.toggle(hymn)
+        } label: {
+            favoriteLabel(starred: favorites.contains(hymn))
+        }
+        Button {
+            UIPasteboard.general.string = hymn.plainText
+        } label: {
+            Label("Copy Lyrics", systemImage: "doc.on.doc")
         }
     }
 
@@ -310,9 +327,8 @@ private extension View {
         contextMenu(forSelectionType: String.self) { ids in
             if let id = ids.first {
                 Button("Play") { play(id) }
-                Button("Copy Lyrics") { copy(id) }
-                Divider()
                 Button { favorite(id) } label: { favoriteLabel(starred: isFavorite(id)) }
+                Button("Copy Lyrics") { copy(id) }
             }
         }
         #else
@@ -482,5 +498,41 @@ private extension View {
                 .tint(.brandAccent)
             }
         }
+    }
+}
+
+private extension View {
+    /// The hold menu with a lyrics preview card, on iPhone and iPad. (The Mac's side-by-side
+    /// list has its own right-click menu; see macPlayAction.)
+    @ViewBuilder
+    func hymnMenu<Menu: View, Preview: View>(enabled: Bool,
+                                             @ViewBuilder menu: () -> Menu,
+                                             @ViewBuilder preview: () -> Preview) -> some View {
+        if enabled {
+            contextMenu(menuItems: menu, preview: preview)
+        } else {
+            self
+        }
+    }
+}
+
+/// What holding a hymn shows above its menu: the title and opening verse, so you can check
+/// it's the right one before playing.
+struct HymnPreview: View {
+    let hymn: Hymn
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(hymn.name)
+                .font(.brandTitle(size: 22, relativeTo: .title2))
+                .foregroundColor(.ink)
+            Text(hymn.firstVerse)
+                .font(.body)
+                .lineSpacing(4)
+                .foregroundColor(.ink)
+        }
+        .padding(20)
+        .frame(width: 320, alignment: .leading)
+        .background(Color.paper)
     }
 }
