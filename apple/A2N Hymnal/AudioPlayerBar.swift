@@ -46,6 +46,12 @@ struct AudioPlayerBar: View {
             .buttonStyle(.plain)
             .accessibilityHint("Shows playback controls")
 
+            #if targetEnvironment(macCatalyst)
+            // Spotify-style volume; ⌘↑ and ⌘↓ move the same slider.
+            VolumeControl(player: player)
+                .frame(width: 140)
+            #endif
+
             PlayPauseButton(player: player, size: 32)
 
             // Once paused, the mini player can be put away.
@@ -75,6 +81,7 @@ struct AudioPlayerBar: View {
             .padding(.bottom, 3)
             .animation(.linear(duration: 0.25), value: progress)
         }
+        .buttonStyle(.borderless)
         .miniPlayerBackground()
         .padding(.horizontal, 12)
         .padding(.bottom, 6)
@@ -282,6 +289,12 @@ struct NowPlayingView: View {
             .foregroundColor(.primary)
             .padding(.top, 12)
 
+            #if targetEnvironment(macCatalyst)
+            VolumeControl(player: player)
+                .frame(maxWidth: 320)
+                .padding(.top, 20)
+            #endif
+
             Spacer(minLength: 20)
 
             HStack {
@@ -317,6 +330,8 @@ struct NowPlayingView: View {
             .padding(.bottom, 12)
         }
         .padding(.horizontal, 28)
+        // Bare icons and text, no bezels: the Mac otherwise puts a light box behind each.
+        .buttonStyle(.borderless)
         .background(
             // A soft wash of the cover's gold behind everything.
             LinearGradient(colors: [Color.brandAccent.opacity(0.18), Color.paper],
@@ -403,6 +418,8 @@ private struct PlayPauseButton: View {
                 .symbolRenderingMode(.hierarchical)
                 .foregroundColor(.brandAccent)
         }
+        // No bezel: the Mac otherwise draws a grey square behind the circle.
+        .buttonStyle(.borderless)
         .help(isPlaying ? "Pause (Space)" : "Play (Space)")
     }
 }
@@ -424,6 +441,52 @@ private extension View {
         } else {
             background(.regularMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                 .shadow(color: .black.opacity(0.15), radius: 10, y: 4)
+        }
+    }
+}
+
+/// The app's playback volume, on the Mac where there are no volume buttons: a speaker that
+/// mutes and unmutes, and a slider. It's the same volume the Playback menu's Volume Up and
+/// Down (⌘↑ ⌘↓) change.
+struct VolumeControl: View {
+    @ObservedObject var player: Mp3Player
+    /// The volume to go back to when unmuting.
+    @State private var volumeBeforeMute: Float = 1
+
+    private var icon: String {
+        switch player.volume {
+        case 0: return "speaker.slash.fill"
+        case ..<0.34: return "speaker.wave.1.fill"
+        case ..<0.67: return "speaker.wave.2.fill"
+        default: return "speaker.wave.3.fill"
+        }
+    }
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Button {
+                if player.volume > 0 {
+                    volumeBeforeMute = player.volume
+                    player.volume = 0
+                } else {
+                    player.volume = volumeBeforeMute > 0 ? volumeBeforeMute : 1
+                }
+            } label: {
+                Image(systemName: icon)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    // Fixed width, so the slider doesn't shift as the waves change.
+                    .frame(width: 22, alignment: .leading)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(player.volume > 0 ? "Mute" : "Unmute")
+            .help(player.volume > 0 ? "Mute" : "Unmute")
+
+            Slider(value: Binding(get: { Double(player.volume) }, set: { player.volume = Float($0) }), in: 0...1)
+                .tint(.brandAccent)
+                .accessibilityLabel("Volume")
+                .help("Volume (⌘↑ ⌘↓)")
         }
     }
 }

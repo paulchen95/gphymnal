@@ -38,3 +38,16 @@ extension Font {
         .custom(Brand.titleFontName, size: size, relativeTo: style)
     }
 }
+
+extension View {
+    /// A toolbar button drawn as a plain outline icon. On the Mac, Catalyst fills toolbar
+    /// buttons with the app's gold tint; the iPhone and iPad already draw them plain.
+    @ViewBuilder
+    func plainToolbarButton() -> some View {
+        #if targetEnvironment(macCatalyst)
+        tint(nil)
+        #else
+        self
+        #endif
+    }
+}
