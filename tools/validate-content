@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""Check the shared hymn content in content/ — the same rules for every app.
+
+Catches a badly formed new hymn before any app is built: missing name or lyrics, a
+single-colon attribute (`tune: X` is silently ignored), an unknown collection, a
+translation with no English counterpart, duplicate titles, or an mp3 with no hymn.
+Also checks that content/fixtures/*.json parse. Python 3 standard library only.
+
+Usage: tools/validate-content            (exit status 1 if anything is wrong)
+"""
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent / "content"
+KEYS = ["name", "author", "translator", "composer", "arranger", "tune", "collection", "text"]
+COLLECTIONS = {"Hymn", "Christmas"}
+errors = []
+
+
+def parse(text):
+    """Mirror of the apps' parser: `key:: value` chunks separated by `---`, `text::` last."""
+    fields = {}
+    for chunk in text.split("---"):
+        flat = chunk.replace("\n", "")
+        for key in KEYS:
+            if flat.startswith(key + "::"):
+                value = chunk.split("::", 2)[1]
+                fields[key] = value.strip(" \t") if key == "text" else value.replace("\n", "").strip(" \t")
+    return fields
+
+
+hymns_dir, music_dir = ROOT / "hymns", ROOT / "music"
+locales = sorted(p.name for p in hymns_dir.iterdir() if p.is_dir())
+if "en-us" not in locales:
+    errors.append("content/hymns/en-us is missing")
+
+by_locale = {}
+for locale in locales:
+    files = sorted((hymns_dir / locale).glob("*.txt"))
+    if not files:
+        errors.append(f"{locale}: no hymns")
+    names = {}
+    by_locale[locale] = set()
+    for path in files:
+        where = f"{locale}/{path.name}"
+        by_locale[locale].add(path.stem)
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            errors.append(f"{where}: not UTF-8")
+            continue
+        for line in text.splitlines():
+            for key in KEYS:
+                if line.startswith(key + ":") and not line.startswith(key + "::"):
+                    errors.append(f"{where}: `{line.strip()}` needs a double colon")
+        fields = parse(text)
+        if not fields.get("name"):
+            errors.append(f"{where}: no name::")
+        if not fields.get("text", "").strip():
+            errors.append(f"{where}: no text:: (lyrics)")
+        collection = fields.get("collection") or "Hymn"
+        if collection not in COLLECTIONS:
+            errors.append(f"{where}: unknown collection:: {collection}")
+        name = fields.get("name")
+        if name in names:
+            errors.append(f"{where}: same name:: as {locale}/{names[name]}")
+        names[name] = path.name
+
+english = by_locale.get("en-us", set())
+for locale in locales:
+    if locale != "en-us":
+        for stem in sorted(by_locale[locale] - english):
+            errors.append(f"{locale}/{stem}.txt has no en-us/{stem}.txt (translations reuse the English filename)")
+
+mp3s = sorted(music_dir.glob("*.mp3"))
+if not mp3s:
+    errors.append("content/music has no mp3s")
+for mp3 in mp3s:
+    if mp3.stem not in english:
+        errors.append(f"music/{mp3.name} has no matching en-us hymn")
+
+for fixture in sorted((ROOT / "fixtures").glob("*.json")):
+    try:
+        json.loads(fixture.read_text(encoding="utf-8"))
+    except ValueError as error:
+        errors.append(f"fixtures/{fixture.name}: invalid JSON ({error})")
+
+if errors:
+    print(f"✗ {len(errors)} problem(s) in content/:")
+    for error in errors:
+        print(f"  - {error}")
+    sys.exit(1)
+counts = ", ".join(f"{locale} {len(by_locale[locale])}" for locale in locales)
+print(f"✓ content/ OK — hymns: {counts}; mp3s: {len(mp3s)}")

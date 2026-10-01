@@ -1,0 +1,55 @@
+{
+  "about": "Search matches the title or the lyrics, ignoring case. Results keep the list's order.",
+  "hymns": [
+    {
+      "name": "Amazing Grace",
+      "text": "Amazing grace! How sweet the sound"
+    },
+    {
+      "name": "Unique Title",
+      "text": "some lyrics"
+    },
+    {
+      "name": "Be Still My Soul",
+      "text": "Be still, my soul: the Lord is on thy side"
+    }
+  ],
+  "cases": [
+    {
+      "query": "grace",
+      "expect": [
+        "Amazing Grace"
+      ]
+    },
+    {
+      "query": "UNIQUE",
+      "expect": [
+        "Unique Title"
+      ]
+    },
+    {
+      "query": "lord",
+      "expect": [
+        "Be Still My Soul"
+      ]
+    },
+    {
+      "query": "sweet the",
+      "expect": [
+        "Amazing Grace"
+      ]
+    },
+    {
+      "query": "s",
+      "expect": [
+        "Amazing Grace",
+        "Unique Title",
+        "Be Still My Soul"
+      ]
+    },
+    {
+      "query": "xyz",
+      "expect": []
+    }
+  ]
+}

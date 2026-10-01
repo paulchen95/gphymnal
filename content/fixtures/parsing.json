@@ -1,0 +1,61 @@
+{
+  "about": "Hymn file parsing. Each case is a whole .txt file and the attributes it should produce. See content/FORMAT.md.",
+  "cases": [
+    {
+      "name": "every attribute",
+      "file": "name:: Amazing Grace\n---\nauthor:: John Newton\n---\ntranslator:: Someone\n---\ncomposer:: Unknown\n---\narranger:: An Arranger\n---\ntune:: New Britain\n---\ncollection:: Christmas\n---\ntext::\nAmazing grace! How sweet the sound\n\n[Refrain]\nThat saved a wretch like me!",
+      "expect": {
+        "name": "Amazing Grace",
+        "author": "John Newton",
+        "translator": "Someone",
+        "composer": "Unknown",
+        "arranger": "An Arranger",
+        "tune": "New Britain",
+        "collection": "Christmas",
+        "text": "\nAmazing grace! How sweet the sound\n\n[Refrain]\nThat saved a wretch like me!"
+      }
+    },
+    {
+      "name": "collection defaults to Hymn; text keeps the newline after text::",
+      "file": "name:: Abide With Me\n---\nauthor:: Henry F. Lyte\n---\ncomposer:: William H. Monk\n---\ntext::\nAbide with me, fast falls the eventide;\n",
+      "expect": {
+        "author": "Henry F. Lyte",
+        "translator": "",
+        "composer": "William H. Monk",
+        "arranger": "",
+        "tune": "",
+        "name": "Abide With Me",
+        "collection": "Hymn",
+        "text": "\nAbide with me, fast falls the eventide;\n"
+      }
+    },
+    {
+      "name": "a single-colon key is not an attribute",
+      "file": "name:: Old Hundredth\n---\ntune: Old Hundredth\n---\ntext::\nPraise God",
+      "expect": {
+        "author": "",
+        "translator": "",
+        "composer": "",
+        "arranger": "",
+        "tune": "",
+        "name": "Old Hundredth",
+        "collection": "Hymn",
+        "text": "\nPraise God"
+      }
+    },
+    {
+      "name": "spaces around values are trimmed",
+      "file": "name::   Be Still My Soul   \n---\nauthor::Katharina von Schlegel\n---\ntext::  \nBe still, my soul",
+      "expect": {
+        "author": "Katharina von Schlegel",
+        "translator": "",
+        "composer": "",
+        "arranger": "",
+        "tune": "",
+        "name": "Be Still My Soul",
+        "collection": "Hymn",
+        "text": "\nBe still, my soul"
+      }
+    }
+  ]
+}
