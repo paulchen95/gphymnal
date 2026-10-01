@@ -72,7 +72,12 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
                             Icon(Icons.Rounded.Settings, contentDescription = "Settings")
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Brand.colors.paper),
+                    // Ink outline icons, as on iPhone and the Mac.
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Brand.colors.paper,
+                        navigationIconContentColor = Brand.colors.ink,
+                        actionIconContentColor = Brand.colors.ink,
+                    ),
                 )
                 SearchField(vm)
             }

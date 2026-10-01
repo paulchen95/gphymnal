@@ -27,7 +27,7 @@ android {
         // Same as the Apple app's MARKETING_VERSION. versionCode is the date plus a two-digit
         // build number (YYYYMMDDNN), like the Apple build numbers; it must go up every upload.
         versionName = "5.4.0"
-        versionCode = 2026093002
+        versionCode = 2026100101
     }
 
     assetPacks += ":music"

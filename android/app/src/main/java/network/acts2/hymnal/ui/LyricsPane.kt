@@ -87,7 +87,12 @@ fun LyricsPane(vm: HymnalViewModel, hymn: Hymn, split: Boolean, contentPadding: 
                 TextSizeButton(step) { vm.settings.lyricsTextSizeStep = it }
                 CopyButton(hymn)
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = colors.paper),
+            // Ink outline icons, as on iPhone and the Mac.
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = colors.paper,
+                        navigationIconContentColor = colors.ink,
+                        actionIconContentColor = colors.ink,
+                    ),
             // The Scaffold's padding already clears the status bar.
             windowInsets = WindowInsets(0),
         )
