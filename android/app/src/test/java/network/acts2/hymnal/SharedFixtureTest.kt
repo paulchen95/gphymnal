@@ -54,6 +54,25 @@ class SharedFixtureTest {
     }
 
     @Test
+    fun favorites() {
+        for (case in fixture("favorites.json").getJSONArray("cases").objects()) {
+            val christmas = case.optJSONArray("christmas")?.strings().orEmpty().toSet()
+            val hymns = case.getJSONArray("names").strings().map {
+                Hymn(name = it, filename = it, sortKey = TestLatinizer.latinize(it),
+                    collection = if (it in christmas) Hymn.CHRISTMAS else Hymn.DEFAULT_COLLECTION)
+            }
+            val actual = HymnSections.visible(
+                hymns, case.getString("query"), case.getBoolean("show_christmas"),
+                case.getJSONArray("favorites").strings().toSet(),
+            ).map { it.letter to it.hymns.map(Hymn::name) }
+            val expected = case.getJSONArray("expect").objects().map {
+                it.getString("letter") to it.getJSONArray("names").strings()
+            }
+            assertEquals(case.getString("name"), expected, actual)
+        }
+    }
+
+    @Test
     fun search() {
         val json = fixture("search.json")
         val hymns = json.getJSONArray("hymns").objects().map {

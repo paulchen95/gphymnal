@@ -54,6 +54,25 @@ final class SharedFixtureTests: XCTestCase {
         }
     }
 
+    func testFavorites() throws {
+        defer { UserDefaults.standard.set(true, forKey: "showChristmasHymns") }
+        for testCase in try cases(fixture("favorites")) {
+            let label = testCase["name"] as? String ?? "?"
+            UserDefaults.standard.set(testCase["show_christmas"] as? Bool ?? true, forKey: "showChristmasHymns")
+            let christmas = Set(testCase["christmas"] as? [String] ?? [])
+            let viewModel = HymnListViewModel()
+            viewModel.hymns = try XCTUnwrap(testCase["names"] as? [String]).map {
+                Hymn(name: $0, filename: $0, author: "", composer: "", text: "",
+                     collection: christmas.contains($0) ? "Christmas" : "")
+            }
+            viewModel.searchText = testCase["query"] as? String ?? ""
+            let sections = viewModel.sections(favorites: Set(testCase["favorites"] as? [String] ?? []))
+            let expect = try XCTUnwrap(testCase["expect"] as? [[String: Any]])
+            XCTAssertEqual(sections.map(\.letter), expect.map { $0["letter"] as? String ?? "" }, label)
+            XCTAssertEqual(sections.map { $0.hymns.map(\.name) }, expect.map { $0["names"] as? [String] ?? [] }, label)
+        }
+    }
+
     func testSearch() throws {
         UserDefaults.standard.set(true, forKey: "showChristmasHymns")
         let fixture = try fixture("search")

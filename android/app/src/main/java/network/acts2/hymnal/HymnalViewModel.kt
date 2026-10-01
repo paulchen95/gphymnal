@@ -32,7 +32,7 @@ class HymnalViewModel(application: Application) : AndroidViewModel(application) 
     /** Bumped to ask the list to focus its search field (Ctrl+F). */
     var focusSearchRequest by mutableStateOf(0)
 
-    val sections by derivedStateOf { HymnSections.visible(hymns, query, settings.showChristmas) }
+    val sections by derivedStateOf { HymnSections.visible(hymns, query, settings.showChristmas, settings.favorites) }
     val selectedHymn by derivedStateOf { hymns.firstOrNull { it.filename == selected } }
     /** The search text to highlight in the lyrics, if that setting is on. */
     val highlightQuery: String get() = if (settings.enableSearchHighlighting) query else ""
@@ -89,7 +89,8 @@ class HymnalViewModel(application: Application) : AndroidViewModel(application) 
 
     /** Plays the hymn next to the current one in the list as it's shown, and opens it. */
     private fun playNeighbour(offset: Int) {
-        val order = sections.flatMap { it.hymns }.filter(::hasAudio)
+        // A–Z order only: a favourite is listed twice.
+        val order = sections.filter { it.letter != HymnSections.FAVORITES_LETTER }.flatMap { it.hymns }.filter(::hasAudio)
         if (order.isEmpty()) return
         val current = playback.hymn?.filename ?: selected
         val index = order.indexOfFirst { it.filename == current }

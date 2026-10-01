@@ -12,3 +12,4 @@ needs updating.
 | `search.json` | Search matches title or lyrics, ignoring case |
 | `links.json` | Hymn link slugs and URL forms |
 | `text-size.json` | Lyrics text size steps and limits |
+| `favorites.json` | The Favorites section at the top of the list |

@@ -18,6 +18,15 @@ class Settings(context: Context) {
     var enableSearchHighlighting by prefs.boolean("enableSearchHighlighting", true)
     var lyricsTextSizeStep by prefs.int(LyricsTextSize.STORAGE_KEY, LyricsTextSize.DEFAULT_STEP)
     var repeatHymn by prefs.boolean("repeatHymn", false)
+    /** "system", "light" or "dark". */
+    var appearance by prefs.string("appearance", "system")
+
+    /** Starred hymns by filename, for the Favorites section; on this device only. */
+    var favorites by prefs.stringSet("favoriteHymns")
+
+    fun toggleFavorite(filename: String) {
+        favorites = if (filename in favorites) favorites - filename else favorites + filename
+    }
 }
 
 private class Pref<T>(
@@ -40,3 +49,6 @@ private fun SharedPreferences.string(key: String, default: String): ReadWritePro
 
 private fun SharedPreferences.int(key: String, default: Int): ReadWriteProperty<Any, Int> =
     Pref(getInt(key, default)) { edit { putInt(key, it) } }
+
+private fun SharedPreferences.stringSet(key: String): ReadWriteProperty<Any, Set<String>> =
+    Pref(getStringSet(key, emptySet())?.toSet() ?: emptySet()) { edit { putStringSet(key, it) } }

@@ -17,13 +17,14 @@ struct AudioPlayerBar: View {
     let onClose: () -> Void
 
     @State private var showNowPlaying = false
+    /// Where the timeline is being dragged to; nil otherwise.
+    @State private var scrubTime: TimeInterval?
 
     private var isPlaying: Bool { player.state == PlayerState.Playing }
-    private var progress: Double {
-        player.duration > 0 ? player.currentTime / player.duration : 0
-    }
+    private var position: TimeInterval { scrubTime ?? player.currentTime }
 
     var body: some View {
+        VStack(spacing: 0) {
         HStack(spacing: 12) {
             Button {
                 showNowPlaying = true
@@ -35,7 +36,7 @@ struct AudioPlayerBar: View {
                         Text(hymn.name)
                             .font(.subheadline.weight(.semibold))
                             .lineLimit(1)
-                        Text(PlayerTime.format(player.currentTime) + " / " + PlayerTime.format(player.duration))
+                        Text(PlayerTime.format(position) + " / " + PlayerTime.format(player.duration))
                             .font(.caption.monospacedDigit())
                             .foregroundColor(.secondary)
                     }
@@ -68,18 +69,23 @@ struct AudioPlayerBar: View {
         }
         .padding(.leading, 10)
         .padding(.trailing, 14)
-        .padding(.vertical, 10)
-        .overlay(alignment: .bottom) {
-            // Spotify-style hairline progress along the bottom edge of the mini player.
-            GeometryReader { geometry in
-                Capsule()
-                    .fill(Color.brandAccent)
-                    .frame(width: geometry.size.width * progress, height: 2)
-            }
-            .frame(height: 2)
-            .padding(.horizontal, 14)
-            .padding(.bottom, 3)
-            .animation(.linear(duration: 0.25), value: progress)
+        .padding(.top, 10)
+
+        // A slim timeline along the bottom: tap or drag it to move through the hymn without
+        // leaving the lyrics.
+        PlaybackTimeline(
+            position: position,
+            duration: player.duration,
+            onScrub: { scrubTime = $0 },
+            onCommit: { time in
+                player.seek(to: time)
+                scrubTime = nil
+            },
+            onStep: { player.skip(by: $0) },
+            compact: true
+        )
+        .padding(.horizontal, 14)
+        .padding(.bottom, 2)
         }
         .buttonStyle(.borderless)
         .miniPlayerBackground()
@@ -350,6 +356,8 @@ private struct PlaybackTimeline: View {
     let onScrub: (TimeInterval) -> Void
     let onCommit: (TimeInterval) -> Void
     let onStep: (TimeInterval) -> Void
+    /// The slim version in the mini player.
+    var compact = false
 
     @State private var isTouching = false
 
@@ -359,7 +367,7 @@ private struct PlaybackTimeline: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let height: CGFloat = isTouching ? 12 : 6
+            let height: CGFloat = compact ? (isTouching ? 8 : 3) : (isTouching ? 12 : 6)
             ZStack(alignment: .leading) {
                 Capsule().fill(Color.primary.opacity(0.15))
                 Capsule().fill(Color.brandAccent.opacity(isTouching ? 1 : 0.85))
@@ -382,7 +390,7 @@ private struct PlaybackTimeline: View {
             .animation(.easeOut(duration: 0.15), value: isTouching)
         }
         // A tall touch area around a thin track, so it's easy to hit with a finger.
-        .frame(height: 32)
+        .frame(height: compact ? 22 : 32)
         .accessibilityElement()
         .accessibilityLabel("Playback Position")
         .accessibilityValue(PlayerTime.format(position))

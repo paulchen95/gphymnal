@@ -59,8 +59,7 @@ object Brand {
 }
 
 @Composable
-fun HymnalTheme(content: @Composable () -> Unit) {
-    val dark = isSystemInDarkTheme()
+fun HymnalTheme(dark: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val brand = if (dark) Dark else Light
     val base = if (dark) darkColorScheme() else lightColorScheme()
     val scheme = base.copy(

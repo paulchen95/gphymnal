@@ -33,6 +33,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.StarOutline
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import network.acts2.hymnal.core.HymnSections
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -58,6 +68,15 @@ import network.acts2.hymnal.ui.theme.Brand
 fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) {
     val sections = vm.sections
     val scope = rememberCoroutineScope()
+
+    // When Favorites appears above a list that was at the top, show it rather than keeping
+    // the old first row in place (which would leave Favorites just off the top).
+    val favoriteCount = sections.firstOrNull { it.letter == HymnSections.FAVORITES_LETTER }?.hymns?.size ?: 0
+    LaunchedEffect(favoriteCount) {
+        if (favoriteCount > 0 && listState.firstVisibleItemIndex == favoriteCount + 1 &&
+            listState.firstVisibleItemScrollOffset == 0
+        ) listState.scrollToItem(0)
+    }
 
     Scaffold(
         containerColor = Brand.colors.paper,
@@ -91,9 +110,10 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
             } else {
                 LazyColumn(state = listState, contentPadding = PaddingValues(bottom = 12.dp)) {
                     for (section in sections) {
+                        val isFavorites = section.letter == HymnSections.FAVORITES_LETTER
                         stickyHeader(key = "header-" + section.letter) {
                             Text(
-                                section.letter,
+                                if (isFavorites) "Favorites" else section.letter,
                                 Modifier
                                     .fillMaxWidth()
                                     .background(Brand.colors.paperDeep)
@@ -103,10 +123,13 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
                                 color = Brand.colors.secondary,
                             )
                         }
-                        items(section.hymns, key = { it.filename }) { hymn ->
+                        // A favourite is listed twice, so its keys are kept apart.
+                        items(section.hymns, key = { (if (isFavorites) "fav-" else "") + it.filename }) { hymn ->
                             HymnRow(
                                 hymn,
                                 selected = split && hymn.filename == vm.selected,
+                                starred = hymn.filename in vm.settings.favorites,
+                                onToggleFavorite = { vm.settings.toggleFavorite(hymn.filename) },
                                 onClick = { vm.selected = hymn.filename },
                                 // Side by side, double-tap plays, like double-click on the Mac.
                                 onDoubleClick = if (split && vm.hasAudio(hymn)) {
@@ -138,19 +161,48 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun HymnRow(hymn: Hymn, selected: Boolean, onClick: () -> Unit, onDoubleClick: (() -> Unit)?) {
+private fun HymnRow(
+    hymn: Hymn,
+    selected: Boolean,
+    starred: Boolean,
+    onToggleFavorite: () -> Unit,
+    onClick: () -> Unit,
+    onDoubleClick: (() -> Unit)?,
+) {
+    // Long-press for Add to / Remove from Favorites, like the iPhone's context menu.
+    var menu by remember { mutableStateOf(false) }
+    val haptics = LocalHapticFeedback.current
+    Box {
     Text(
         hymn.name + if (hymn.isChristmas) " " + Hymn.CHRISTMAS_MARKER else "",
         Modifier
             .fillMaxWidth()
             .background(if (selected) Brand.colors.accent.copy(alpha = 0.16f) else Brand.colors.paper)
-            .combinedClickable(onClick = onClick, onDoubleClick = onDoubleClick)
+            .combinedClickable(
+                onClick = onClick,
+                onDoubleClick = onDoubleClick,
+                onLongClick = {
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    menu = true
+                },
+            )
             .semantics { contentDescription = hymn.name + if (hymn.isChristmas) ", Christmas" else "" }
             // Clear of the letter index on the right.
             .padding(start = 20.dp, end = 36.dp, top = 13.dp, bottom = 13.dp),
         fontSize = 17.sp,
         color = Brand.colors.ink,
     )
+    DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+        DropdownMenuItem(
+            text = { Text(if (starred) "Remove from Favorites" else "Add to Favorites") },
+            leadingIcon = { Icon(if (starred) Icons.Rounded.StarOutline else Icons.Rounded.Star, null) },
+            onClick = {
+                menu = false
+                onToggleFavorite()
+            },
+        )
+    }
+    }
 }
 
 @Composable

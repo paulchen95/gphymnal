@@ -128,12 +128,13 @@ private fun BarSurface(modifier: Modifier = Modifier, shape: RoundedCornerShape 
 @Composable
 private fun MiniPlayer(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit) {
     var showNowPlaying by remember { mutableStateOf(false) }
-    val progress = if (playback.duration > 0) playback.position.toFloat() / playback.duration else 0f
+    var scrub by remember { mutableStateOf<Long?>(null) }
+    val position = scrub ?: playback.position
 
     BarSurface(Modifier.fillMaxWidth()) {
-        Box {
+        Column {
             Row(
-                Modifier.padding(start = 10.dp, end = 8.dp, top = 10.dp, bottom = 10.dp),
+                Modifier.padding(start = 10.dp, end = 8.dp, top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(
@@ -147,7 +148,7 @@ private fun MiniPlayer(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
                     Column(Modifier.weight(1f)) {
                         Text(hymn.name, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Text(
-                            formatTime(playback.position) + " / " + formatTime(playback.duration),
+                            formatTime(position) + " / " + formatTime(playback.duration),
                             fontSize = 12.sp,
                             color = Brand.colors.secondary,
                             style = Tabular,
@@ -162,22 +163,19 @@ private fun MiniPlayer(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
                     }
                 }
             }
-            // Spotify-style hairline progress along the bottom edge.
-            Box(
-                Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(horizontal = 14.dp, vertical = 3.dp)
-                    .fillMaxWidth()
-                    .height(2.dp)
-            ) {
-                Box(
-                    Modifier
-                        .fillMaxWidth(progress.coerceIn(0f, 1f))
-                        .fillMaxHeight()
-                        .clip(CircleShape)
-                        .background(Brand.colors.accent)
-                )
-            }
+            // A slim timeline along the bottom: tap or drag it to move through the hymn
+            // without leaving the lyrics.
+            PlaybackTimeline(
+                position = position,
+                duration = playback.duration,
+                onScrub = { scrub = it },
+                onCommit = {
+                    playback.seek(it)
+                    scrub = null
+                },
+                compact = true,
+                modifier = Modifier.padding(horizontal = 14.dp).padding(bottom = 2.dp),
+            )
         }
     }
 
@@ -421,18 +419,29 @@ private fun SkipButton(forward: Boolean, onClick: () -> Unit) {
  * track thickens while touched, inside a tall touch area that's easy to hit with a finger.
  */
 @Composable
-private fun PlaybackTimeline(position: Long, duration: Long, onScrub: (Long) -> Unit, onCommit: (Long) -> Unit) {
+private fun PlaybackTimeline(
+    position: Long,
+    duration: Long,
+    onScrub: (Long) -> Unit,
+    onCommit: (Long) -> Unit,
+    /** The slim version in the mini player. */
+    compact: Boolean = false,
+    modifier: Modifier = Modifier,
+) {
     var touching by remember { mutableStateOf(false) }
-    val height by animateDpAsState(if (touching) 12.dp else 6.dp, label = "track")
+    val height by animateDpAsState(
+        if (compact) (if (touching) 8.dp else 3.dp) else (if (touching) 12.dp else 6.dp),
+        label = "track",
+    )
     val fraction = if (duration > 0) (position.toFloat() / duration).coerceIn(0f, 1f) else 0f
     val scrub by rememberUpdatedState(onScrub)
     val commit by rememberUpdatedState(onCommit)
     val length by rememberUpdatedState(duration)
 
     BoxWithConstraints(
-        Modifier
+        modifier
             .fillMaxWidth()
-            .height(32.dp)
+            .height(if (compact) 22.dp else 32.dp)
             .semantics { contentDescription = "Playback position ${formatTime(position)}" }
             .pointerInput(Unit) {
                 fun timeAt(x: Float) = ((x / size.width).coerceIn(0f, 1f) * length).toLong()

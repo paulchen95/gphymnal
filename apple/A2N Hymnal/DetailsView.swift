@@ -13,6 +13,7 @@ struct DetailsView: View {
     let searchText: String
     @State private var copied = false
     @State private var showTextSize = false
+    @EnvironmentObject private var favorites: Favorites
     @AppStorage(LyricsTextSize.storageKey) private var textSizeStep = LyricsTextSize.defaultStep
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     var hymn: Hymn
@@ -82,6 +83,15 @@ struct DetailsView: View {
         .navigationBarTitleDisplayMode(.inline) // the title is in the content, above the lyrics
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
+                Button {
+                    favorites.toggle(hymn)
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                } label: {
+                    Label(favorites.contains(hymn) ? "Remove from Favorites" : "Add to Favorites",
+                          systemImage: favorites.contains(hymn) ? "star.fill" : "star")
+                }
+                .plainToolbarButton()
+                .help(favorites.contains(hymn) ? "Remove from Favorites" : "Add to Favorites")
                 Button {
                     showTextSize = true
                 } label: {

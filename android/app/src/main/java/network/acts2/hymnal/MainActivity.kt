@@ -3,7 +3,11 @@ package network.acts2.hymnal
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.graphics.Color
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -19,7 +23,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) handleLink(intent)
         setContent {
-            HymnalTheme {
+            val dark = when (viewModel.settings.appearance) {
+                "light" -> false
+                "dark" -> true
+                else -> isSystemInDarkTheme()
+            }
+            // Status and navigation bar icons follow the app's appearance, not the system's.
+            LaunchedEffect(dark) {
+                val style = if (dark) SystemBarStyle.dark(Color.TRANSPARENT)
+                else SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+                enableEdgeToEdge(statusBarStyle = style, navigationBarStyle = style)
+            }
+            HymnalTheme(dark = dark) {
                 AppRoot(viewModel)
             }
         }

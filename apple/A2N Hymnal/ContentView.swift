@@ -10,6 +10,7 @@ struct ContentView: View {
     @StateObject var viewModel = HymnListViewModel()
     @EnvironmentObject private var nowPlaying: NowPlaying
     @EnvironmentObject private var searchState: SearchState
+    @EnvironmentObject private var favorites: Favorites
     @State private var showSettings: Bool = false
     @FocusState private var searchFocused: Bool
     /// The open hymn's filename. Shared by both layouts, so rotating keeps it open.
@@ -118,6 +119,7 @@ struct ContentView: View {
                             // the Mac, ListDoubleClickRecognizer handles double-clicks instead.
                             .iPadDoubleTapToPlay { playHymn(filename: hymn.filename) }
                             .tag(hymn.filename)
+                            .favoriteSwipe(hymn, favorites: favorites)
                             .help(Self.isMac ? "Double-click or press Return to play" : "")
                             .listRowBackground(selection == hymn.filename
                                                ? Color.brandAccent.opacity(0.15) : Color.paper)
@@ -133,6 +135,14 @@ struct ContentView: View {
                                 .contentShape(Rectangle())
                         }
                         .listRowBackground(Color.paper)
+                        .favoriteSwipe(hymn, favorites: favorites)
+                        .contextMenu {
+                            Button {
+                                favorites.toggle(hymn)
+                            } label: {
+                                favoriteLabel(starred: favorites.contains(hymn))
+                            }
+                        }
                     }
                 }
             } header: {
@@ -146,6 +156,11 @@ struct ContentView: View {
         guard let hymn = viewModel.hymns.first(where: { $0.filename == filename }) else { return }
         selection = filename
         nowPlaying.play(hymn)
+    }
+
+    private func toggleFavorite(filename: String) {
+        guard let hymn = viewModel.hymns.first(where: { $0.filename == filename }) else { return }
+        favorites.toggle(hymn)
     }
 
     private func copyLyrics(filename: String) {
@@ -183,7 +198,7 @@ struct ContentView: View {
     }
 
     private var hymnList: some View {
-        let sections = viewModel.sections
+        let sections = viewModel.sections(favorites: favorites.filenames)
         return ScrollViewReader { proxy in
             Group {
                 if isSplit {
@@ -193,7 +208,9 @@ struct ContentView: View {
                     List(selection: $selection) {
                         hymnSections(sections, selectable: true)
                     }
-                    .macPlayAction(play: { playHymn(filename: $0) }, copy: { copyLyrics(filename: $0) })
+                    .macPlayAction(play: { playHymn(filename: $0) }, copy: { copyLyrics(filename: $0) },
+                                   favorite: { toggleFavorite(filename: $0) },
+                                   isFavorite: { favorites.filenames.contains($0) })
                 } else {
                     List {
                         hymnSections(sections, selectable: false)
@@ -246,11 +263,16 @@ private var usesEdgeEffect: Bool {
 private struct SectionHeader: View {
     let letter: String
 
+    /// The Favorites section is indexed "★" but titled in words.
+    private var title: String {
+        letter == HymnListViewModel.favoritesLetter ? "Favorites" : letter
+    }
+
     var body: some View {
         if usesEdgeEffect {
-            Text(letter)
+            Text(title)
         } else {
-            Text(letter)
+            Text(title)
                 .font(.subheadline.weight(.semibold))
                 .foregroundColor(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -277,12 +299,16 @@ private extension View {
     /// Mac only: right-click a hymn for Play and Copy Lyrics. (Not the list's primaryAction,
     /// which on Catalyst fires on a single click; double-click is a gesture on each row.)
     @ViewBuilder
-    func macPlayAction(play: @escaping (String) -> Void, copy: @escaping (String) -> Void) -> some View {
+    func macPlayAction(play: @escaping (String) -> Void, copy: @escaping (String) -> Void,
+                       favorite: @escaping (String) -> Void,
+                       isFavorite: @escaping (String) -> Bool) -> some View {
         #if targetEnvironment(macCatalyst)
         contextMenu(forSelectionType: String.self) { ids in
             if let id = ids.first {
                 Button("Play") { play(id) }
                 Button("Copy Lyrics") { copy(id) }
+                Divider()
+                Button { favorite(id) } label: { favoriteLabel(starred: isFavorite(id)) }
             }
         }
         #else
@@ -421,5 +447,24 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environmentObject(NowPlaying())
             .environmentObject(SearchState())
+    }
+}
+
+/// Star or unstar a hymn. Shared by the list's swipe and context menus and the lyrics page.
+func favoriteLabel(starred: Bool) -> Label<Text, Image> {
+    Label(starred ? "Remove from Favorites" : "Add to Favorites", systemImage: starred ? "star.slash" : "star")
+}
+
+private extension View {
+    /// Swipe a row right to star or unstar it.
+    func favoriteSwipe(_ hymn: Hymn, favorites: Favorites) -> some View {
+        swipeActions(edge: .leading) {
+            Button {
+                favorites.toggle(hymn)
+            } label: {
+                favoriteLabel(starred: favorites.contains(hymn))
+            }
+            .tint(.brandAccent)
+        }
     }
 }

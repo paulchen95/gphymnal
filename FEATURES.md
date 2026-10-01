@@ -30,6 +30,7 @@ them, so the platforms can't drift on those rules.
 | Search highlighting in the lyrics (setting) | ✅ | ✅ | ✅ | Red text. Multi-word matches. |
 | List and lyrics side by side on wide screens | ✅ | ✅ | ✅ | iPad landscape and large iPhones sideways; always on Mac. Portrait iPad pushes. |
 | Rows have no disclosure chevrons | ✅ | ✅ | ✅ | Keeps rows clear of the A–Z index. |
+| Favorites: star a hymn; a Favorites section (★ in the index) leads the list | ✅ | ✅ | ✅ | **[fixture]** `favorites.json`. Star on the lyrics page; iPhone/iPad swipe right or long-press a row, Mac right-click, Android long-press. Saved on the device, by filename. Hidden while searching. |
 
 ## Lyrics page
 
@@ -49,6 +50,7 @@ them, so the platforms can't drift on those rules.
 |---|---|---|---|---|
 | Keeps playing while you browse other hymns | ✅ | ✅ | ✅ | One app-wide player. |
 | Mini player pinned at the bottom; "ready to play" bar on a hymn with nothing loaded | ✅ | ✅ | ✅ | "Play '…' instead" when viewing a different hymn. |
+| Scrub from any page: tap or drag the mini player's timeline | ✅ | ✅ | ✅ | Thickens while touched. |
 | Now Playing: cover card, timeline (tap or drag to seek), ±15 s, play/pause, Start Over, Repeat, View Lyrics | ✅ | ✅ | ✅ | Cover card shows title and opening line on the gold gradient. |
 | Repeat (loop the hymn), remembered | ✅ | ✅ | ✅ | |
 | Background audio | ✅ | ✅ | ✅ | |
@@ -70,6 +72,7 @@ them, so the platforms can't drift on those rules.
 | Settings: About (icon, version), Language, Reading (text size + preview), Display (Christmas, highlighting) | ✅ | ✅ | ✅ | Mac: Settings… (⌘,). |
 | Acts2 Network look: warm paper/ink colours, gold accent, Clash Grotesk titles | ✅ | ✅ | ✅ | Tokens in `apple/A2N Hymnal/Assets.xcassets`; gold is `Color.brandAccent`. Android: `ui/theme/Theme.kt`. |
 | Follows system light/dark mode | ✅ | ✅ | ✅ | |
+| Appearance setting: System, Light or Dark | ✅ | ✅ | ✅ | Settings → Display. |
 | App icon: flat glyph, light and dark | ✅ | ✅ | ✅ | Android: adaptive icon from the same glyph, with a themed (monochrome) layer. |
 | Mac menus: View text size (⌘+ ⌘- ⌘0), Edit → Search Hymns (⌘F), Playback | — | ✅ | — | |
 | Mac minimum window size (760×520) | — | ✅ | — | |
