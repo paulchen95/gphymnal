@@ -30,7 +30,8 @@ them, so the platforms can't drift on those rules.
 | Search highlighting in the lyrics (setting) | ✅ | ✅ | ✅ | Red text. Multi-word matches. |
 | List and lyrics side by side on wide screens | ✅ | ✅ | ✅ | iPad landscape and large iPhones sideways; always on Mac. Portrait iPad pushes. |
 | Rows have no disclosure chevrons | ✅ | ✅ | ✅ | Keeps rows clear of the A–Z index. |
-| Favorites: star a hymn; a Favorites section (★ in the index) leads the list | ✅ | ✅ | ✅ | **[fixture]** `favorites.json`. Star on the lyrics page; iPhone/iPad swipe right or long-press a row, Mac right-click, Android long-press. Saved on the device, by filename. Hidden while searching. |
+| Hold a hymn (right-click on Mac): Play, Add to Favorites, Copy Lyrics | ✅ | ✅ | ✅ | Play starts it without leaving the list. iPhone/iPad also preview the first verse. No per-row play buttons. |
+| Favorites: star a hymn; a Favorites section (★ in the index) leads the list | ✅ | ✅ | ✅ | **[fixture]** `favorites.json`. Star on the lyrics page, or hold a row (right-click on Mac). The section header carries the same ★. In Favorites, swipe left to remove (iPhone/iPad/Android), as in Messages. Saved on the device, by filename. Hidden while searching. |
 
 ## Lyrics page
 
