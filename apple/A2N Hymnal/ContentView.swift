@@ -476,8 +476,8 @@ func favoriteLabel(starred: Bool) -> Label<Text, Image> {
 }
 
 private extension View {
-    /// Swipe a row right to star or unstar it. In the Favorites section, swipe left to
-    /// reveal Remove (a full swipe removes it), the way you delete a message in Messages.
+    /// In the Favorites section, swipe left to reveal Remove (a full swipe removes it), the
+    /// way you delete a message in Messages. Adding is from the star or the hold menu.
     @ViewBuilder
     func favoriteSwipe(_ hymn: Hymn, favorites: Favorites, inFavorites: Bool) -> some View {
         if inFavorites {
@@ -489,14 +489,7 @@ private extension View {
                 }
             }
         } else {
-            swipeActions(edge: .leading) {
-                Button {
-                    favorites.toggle(hymn)
-                } label: {
-                    favoriteLabel(starred: favorites.contains(hymn))
-                }
-                .tint(.brandAccent)
-            }
+            self
         }
     }
 }
