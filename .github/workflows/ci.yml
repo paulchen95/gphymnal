@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apple/**'
+      - 'content/**'
+      - 'scripts/**'
+      - 'tools/**'
+      - '.github/workflows/ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apple/**'
+      - 'content/**'
+      - 'scripts/**'
+      - 'tools/**'
+      - '.github/workflows/ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Filter on Linux before allocating a Mac. Manual runs exercise both checks.
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      content: ${{ steps.filter.outputs.content }}
+      apple: ${{ steps.filter.outputs.apple }}
+    steps:
+      # PR files come from the API; pushes need git to compare with the previous tip.
+      - uses: actions/checkout@v6
+        if: github.event_name != 'pull_request'
+        with:
+          fetch-depth: 1
+      - uses: dorny/paths-filter@v4
+        if: github.event_name != 'workflow_dispatch'
+        id: filter
+        with:
+          base: ${{ github.ref_name }}
+          filters: |
+            content:
+              - 'content/**'
+              - 'tools/**'
+              - '.github/workflows/ci.yml'
+            apple:
+              - 'apple/**'
+              - 'content/**'
+              - 'scripts/**'
+              - '.github/workflows/ci.yml'
+
+  content:
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.content == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Validate shared content
+        run: tools/validate-content
+
+  apple-tests:
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.apple == 'true'
+    # Standard runners are free for this public repo. macos-26 defaults to Xcode 26+:
+    # https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Show Xcode and select an available iPhone simulator
+        run: |
+          xcodebuild -version
+          xcrun simctl list devices available
+          simulator=$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devices"]
+          print(next((d["name"] for runtime, group in devices.items()
+                      if ".iOS-" in runtime for d in group
+                      if d["name"].startswith("iPhone ")), ""))
+          ')
+          test -n "$simulator" || { echo "No available iPhone simulator" >&2; exit 1; }
+          echo "SIMULATOR=$simulator" >> "$GITHUB_ENV"
+      - name: Run Apple unit tests
+        env:
+          XCODEBUILD_ARGS: '-quiet CODE_SIGNING_ALLOWED=NO'
+        # Print the full log on failure because test.sh normally filters build output.
+        run: scripts/test.sh || { cat "${TMPDIR%/}/a2n-hymnal-test.log"; exit 1; }
+      - name: Build Mac Catalyst without signing
+        run: |
+          xcodebuild build -quiet \
+            -project "apple/A2N Hymnal.xcodeproj" \
+            -scheme "A2N Hymnal" \
+            -destination "platform=macOS,variant=Mac Catalyst" \
+            CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+
+  # Add an android job here once android/ contains an app and tests.
