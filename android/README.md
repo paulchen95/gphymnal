@@ -35,11 +35,30 @@ app/src/test/  SharedFixtureTest (content/fixtures/*.json), ContentTest (real hy
 Chinese titles sort by pinyin using Android's built-in ICU (Android 10+). On Android 8–9
 they file under "#". The tests use ICU4J, which gives the same results.
 
-## Before Google Play
+## Releasing
 
-- **Size.** The APK is about 270 MB, nearly all audio, and Google Play's base limit is
-  200 MB. Ship the `music/` folder as an install-time asset pack (Play Asset Delivery), which
-  installs with the app and stays offline. Stores in China take the full APK as built here.
-- **Application ID.** `network.acts2.hymnal` is a placeholder until it's confirmed. It can't
-  change once published.
-- **Signing.** Release builds are unsigned; set up a Play upload key.
+The recordings ship as `music`, a Play **install-time asset pack** (`music/build.gradle.kts`):
+it installs with the app and works offline, but doesn't count toward Google Play's 200 MB
+base limit (the base is ~4 MB). Debug builds put the music straight in the APK instead, so
+`installDebug` plays without Play.
+
+Release builds are signed with the Play **upload key**, kept out of the repo. Its keystore
+is `~/.android-keys/a2n-hymnal-upload.jks` and its passwords are in
+`~/.gradle/gradle.properties` (`A2N_HYMNAL_UPLOAD_*`). Back both up somewhere safe. If the key
+is lost, Google can reset it, since Play App Signing holds the real signing key.
+
+1. Bump `versionName` (same as the Apple app's `MARKETING_VERSION`) and `versionCode`
+   (the date, and it must always go up) in `app/build.gradle.kts`.
+2. `./gradlew bundleRelease` → `app/build/outputs/bundle/release/app-release.aab`. Upload
+   that to Play Console.
+3. For stores in China and sideloading, make one full APK from the same bundle with
+   [bundletool](https://github.com/google/bundletool/releases):
+   ```bash
+   java -jar bundletool.jar build-apks --mode=universal \
+     --bundle=app/build/outputs/bundle/release/app-release.aab --output=hymnal.apks \
+     --ks=$HOME/.android-keys/a2n-hymnal-upload.jks --ks-key-alias=upload
+   unzip hymnal.apks universal.apk
+   ```
+
+The application ID is `network.acts2.hymnal`, matching Tribe's `network.acts2.tribe`. It can't
+change once published.

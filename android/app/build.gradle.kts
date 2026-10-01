@@ -4,10 +4,17 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-// The hymns and recordings live in ../content, shared with the Apple app, and go into the
-// APK's assets as hymns/<locale>/<name>.txt and music/<name>.mp3 — the same paths the Apple
-// app's bundle uses. MP3s are stored uncompressed, at their original quality.
+// The hymns and recordings live in ../content, shared with the Apple app. Symlinks put them
+// in the APK's assets as hymns/<locale>/<name>.txt and music/<name>.mp3, the same paths the
+// Apple app's bundle uses, with the mp3s stored as they are, at full quality:
+//   src/main/assets/hymns   → content/hymns  (every build)
+//   src/debug/assets/music  → content/music  (debug APKs, so installDebug plays)
+//   :music asset pack       → content/music  (release bundles; see music/build.gradle.kts)
 val contentDir = rootProject.file("../content")
+
+// The Play upload key, kept out of the repo. Set these in ~/.gradle/gradle.properties;
+// without them, release builds are unsigned.
+val uploadStoreFile = providers.gradleProperty("A2N_HYMNAL_UPLOAD_STORE_FILE").orNull
 
 android {
     namespace = "network.acts2.hymnal"
@@ -22,12 +29,24 @@ android {
         versionCode = 20260930
     }
 
-    sourceSets["main"].assets.srcDir(contentDir)
+    assetPacks += ":music"
     // The JVM tests read the shared fixtures and the real hymn files.
     sourceSets["test"].resources.srcDir(contentDir.resolve("fixtures"))
 
+    signingConfigs {
+        if (uploadStoreFile != null) {
+            create("upload") {
+                storeFile = file(uploadStoreFile)
+                storePassword = providers.gradleProperty("A2N_HYMNAL_UPLOAD_STORE_PASSWORD").get()
+                keyAlias = providers.gradleProperty("A2N_HYMNAL_UPLOAD_KEY_ALIAS").get()
+                keyPassword = providers.gradleProperty("A2N_HYMNAL_UPLOAD_KEY_PASSWORD").get()
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.findByName("upload")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
@@ -46,8 +65,6 @@ android {
     }
     androidResources {
         noCompress += "mp3"
-        // Leave out the docs and test fixtures in content/ (and the usual hidden files).
-        ignoreAssetsPattern = "!fixtures:!*.md:!.*:!*~"
     }
     testOptions {
         unitTests.all {

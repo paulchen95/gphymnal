@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "A2N Hymnal"
 include(":app")
+include(":music")
