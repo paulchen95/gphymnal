@@ -73,3 +73,4 @@ them, so the platforms can't drift on those rules.
 | App icon: flat glyph, light and dark | ✅ | ✅ | ✅ | Android: adaptive icon from the same glyph, with a themed (monochrome) layer. |
 | Mac menus: View text size (⌘+ ⌘- ⌘0), Edit → Search Hymns (⌘F), Playback | — | ✅ | — | |
 | Mac minimum window size (760×520) | — | ✅ | — | |
+| Mac volume slider in the mini player and Now Playing, with mute | — | ✅ | — | Same volume as ⌘↑/⌘↓. Phones and tablets use their volume buttons. |

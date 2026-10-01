@@ -38,3 +38,17 @@ extension Font {
         .custom(Brand.titleFontName, size: size, relativeTo: style)
     }
 }
+
+extension View {
+    /// A toolbar button drawn as a plain ink outline icon, the same on every platform
+    /// (Android's are too), rather than in the app's gold: Catalyst fills the whole button
+    /// with the tint, and iOS colours the icon.
+    @ViewBuilder
+    func plainToolbarButton() -> some View {
+        #if targetEnvironment(macCatalyst)
+        tint(nil)
+        #else
+        tint(.ink)
+        #endif
+    }
+}
