@@ -12,15 +12,27 @@ dependencies — plain Xcode project, iOS 16+, Swift 5.
 Note the mismatch between names: the repo is `gphymnal`, the app/target/source directory
 is `A2N Hymnal`, and the Swift module is `A2N_Hymnal`.
 
+## Platform parity
+
+`FEATURES.md` lists every user-facing feature and its status on iPhone/iPad, Mac and
+Android. A feature change updates it, and either lands on every platform or files follow-ups
+for the others. Rules that must match exactly (parsing, A–Z grouping, search, links, text
+size) live as examples in `content/fixtures/`, which every app's tests run. Change the
+fixture when a rule changes.
+
 ## Layout
 
 ```
 content/          hymns and audio, shared by every app — adding a hymn happens only here
   hymns/<locale>/<Filename>.txt
   music/<Filename>.mp3
+  FORMAT.md       the hymn file format
+  fixtures/       shared behaviour examples (JSON) every app's tests run
 apple/            Xcode project: iPhone and iPad app (A2N Hymnal/) and tests
 android/          planned Android app (Kotlin + Jetpack Compose), not started
 scripts/test.sh   runs the Apple app's tests
+tools/validate-content   checks every hymn file and mp3 (Python 3, no Xcode needed)
+FEATURES.md       feature list and per-platform status
 ```
 
 ## Commands
@@ -28,7 +40,7 @@ scripts/test.sh   runs the Apple app's tests
 ```bash
 # Test — this is the entry point; it resolves a simulator, filters xcodebuild's
 # noise down to failures plus the summary, and exits non-zero when tests fail.
-scripts/test.sh                                        # all 50 tests, ~45s cold
+scripts/test.sh                                        # all 55 tests, ~45s cold
 scripts/test.sh HymnDataTests                          # one class
 scripts/test.sh HymnDataTests/testHymnsAreSortedByName # one test
 scripts/test.sh HymnParsingTests HymnDataTests         # several
@@ -147,7 +159,9 @@ bundle and tests can read the real shipped hymn and audio files.
 - `HymnParsingTests` — the `key:: value` / `---` format.
 - `HymnFormattingTests` — lyrics styling, credits footer, search highlighting.
 - `HymnListViewModelTests` — Christmas filter, title and lyrics search, and the A–Z sections (Chinese titles file under their pinyin initial).
-- `HymnDataTests` — integrity of the *bundled* content. This is the one that catches a
+- `SharedFixtureTests` — runs `content/fixtures/*.json` against the app's code.
+- `HymnDataTests` — integrity of the *bundled* content (`tools/validate-content` runs the
+  same file checks without Xcode). This is the one that catches a
   badly-formed new hymn: missing keys, unsorted or duplicated entries, an unknown
   `collection::`, a single-colon typo, a translation with no English counterpart, an mp3
   with no matching hymn.
