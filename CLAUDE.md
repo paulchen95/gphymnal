@@ -64,9 +64,11 @@ Its output is extremely noisy — pipe through
 Simulator names change with each Xcode release; `xcrun simctl list devices available`
 shows what exists locally.
 
-There is no linter and no formatter configured. `.circleci/config.yml` is still the
-generated "say hello" stub — CI does not build or test anything, so `scripts/test.sh`
-only ever runs locally.
+There is no linter and no formatter configured. `.github/workflows/ci.yml` validates
+shared content on Linux, runs `scripts/test.sh` on an available iPhone simulator with
+Xcode 26+, and builds Mac Catalyst without signing. It runs on relevant PRs and pushes
+to `main`, or manually; path filters skip checks for unrelated changes.
+`.circleci/config.yml` is still the generated "say hello" stub.
 
 ## Architecture
 
