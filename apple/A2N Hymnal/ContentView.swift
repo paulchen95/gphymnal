@@ -119,7 +119,8 @@ struct ContentView: View {
                             // the Mac, ListDoubleClickRecognizer handles double-clicks instead.
                             .iPadDoubleTapToPlay { playHymn(filename: hymn.filename) }
                             .tag(hymn.filename)
-                            .favoriteSwipe(hymn, favorites: favorites)
+                            .favoriteSwipe(hymn, favorites: favorites,
+                                           inFavorites: section.letter == HymnListViewModel.favoritesLetter)
                             .help(Self.isMac ? "Double-click or press Return to play" : "")
                             .listRowBackground(selection == hymn.filename
                                                ? Color.brandAccent.opacity(0.15) : Color.paper)
@@ -135,7 +136,8 @@ struct ContentView: View {
                                 .contentShape(Rectangle())
                         }
                         .listRowBackground(Color.paper)
-                        .favoriteSwipe(hymn, favorites: favorites)
+                        .favoriteSwipe(hymn, favorites: favorites,
+                                           inFavorites: section.letter == HymnListViewModel.favoritesLetter)
                         .contextMenu {
                             Button {
                                 favorites.toggle(hymn)
@@ -263,16 +265,18 @@ private var usesEdgeEffect: Bool {
 private struct SectionHeader: View {
     let letter: String
 
-    /// The Favorites section is indexed "★" but titled in words.
-    private var title: String {
-        letter == HymnListViewModel.favoritesLetter ? "Favorites" : letter
+    /// The Favorites section is indexed "★" and titled with the same star as the lyrics
+    /// page's button, so the two read as one feature.
+    private var title: Text {
+        guard letter == HymnListViewModel.favoritesLetter else { return Text(letter) }
+        return Text(Image(systemName: "star.fill")).foregroundColor(.brandAccent) + Text(" Favorites")
     }
 
     var body: some View {
         if usesEdgeEffect {
-            Text(title)
+            title
         } else {
-            Text(title)
+            title
                 .font(.subheadline.weight(.semibold))
                 .foregroundColor(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -456,15 +460,27 @@ func favoriteLabel(starred: Bool) -> Label<Text, Image> {
 }
 
 private extension View {
-    /// Swipe a row right to star or unstar it.
-    func favoriteSwipe(_ hymn: Hymn, favorites: Favorites) -> some View {
-        swipeActions(edge: .leading) {
-            Button {
-                favorites.toggle(hymn)
-            } label: {
-                favoriteLabel(starred: favorites.contains(hymn))
+    /// Swipe a row right to star or unstar it. In the Favorites section, swipe left to
+    /// reveal Remove (a full swipe removes it), the way you delete a message in Messages.
+    @ViewBuilder
+    func favoriteSwipe(_ hymn: Hymn, favorites: Favorites, inFavorites: Bool) -> some View {
+        if inFavorites {
+            swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(role: .destructive) {
+                    withAnimation { favorites.toggle(hymn) }
+                } label: {
+                    Label("Remove", systemImage: "star.slash")
+                }
             }
-            .tint(.brandAccent)
+        } else {
+            swipeActions(edge: .leading) {
+                Button {
+                    favorites.toggle(hymn)
+                } label: {
+                    favoriteLabel(starred: favorites.contains(hymn))
+                }
+                .tint(.brandAccent)
+            }
         }
     }
 }
