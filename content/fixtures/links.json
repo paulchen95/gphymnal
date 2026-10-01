@@ -1,0 +1,47 @@
+{
+  "about": "Hymn links. A hymn's slug is its filename in kebab case. a2nhymnal://hymn/<slug> and https://<host>/hymn/<slug> (or /hymnal/<slug>) open it; ?play=1 also plays it.",
+  "slugs": [
+    {
+      "filename": "AmazingGrace",
+      "slug": "amazing-grace"
+    },
+    {
+      "filename": "AbideWithMe",
+      "slug": "abide-with-me"
+    },
+    {
+      "filename": "ItIsWellWithMySoul",
+      "slug": "it-is-well-with-my-soul"
+    }
+  ],
+  "urls": [
+    {
+      "url": "a2nhymnal://hymn/amazing-grace?play=1",
+      "slug": "amazing-grace",
+      "play": true
+    },
+    {
+      "url": "a2nhymnal://hymn/abide-with-me",
+      "slug": "abide-with-me",
+      "play": false
+    },
+    {
+      "url": "https://hymnal.acts2.network/hymn/abide-with-me",
+      "slug": "abide-with-me",
+      "play": false
+    },
+    {
+      "url": "https://acts2.network/hymnal/amazing-grace?play=1",
+      "slug": "amazing-grace",
+      "play": true
+    },
+    {
+      "url": "https://acts2.network/about",
+      "slug": null
+    },
+    {
+      "url": "a2nhymnal://settings",
+      "slug": null
+    }
+  ]
+}

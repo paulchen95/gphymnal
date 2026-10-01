@@ -62,6 +62,11 @@ struct ContentView: View {
             }
             }
             .onAppear { isSplit = split }
+            .onChange(of: searchFocused) { focused in
+                // Whether the cursor is really in the search field (iOS 18+). On the Mac the
+                // field can stay "searching" after you've moved on to the list.
+                searchState.searchFieldFocused = focused
+            }
             .onChange(of: split) { newValue in isSplit = newValue }
         }
         // Shared links (see HymnLink) open straight to the hymn, and can start it playing.
@@ -78,8 +83,11 @@ struct ContentView: View {
             if !isSplit { selection = nil } // back to the list, where the search field is
             DispatchQueue.main.async { searchFocused = true }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .playNextHymn)) { _ in playNeighbour(1) }
+        .onReceive(NotificationCenter.default.publisher(for: .playPreviousHymn)) { _ in playNeighbour(-1) }
         .onReceive(NotificationCenter.default.publisher(for: .playOpenHymn)) { _ in
-            if let hymn = selectedHymn { nowPlaying.play(hymn) }
+            // Not while Settings is up: its form is a list too.
+            if !showSettings, let hymn = selectedHymn { nowPlaying.play(hymn) }
         }
         .sheet(isPresented: $showSettings, content: {
             SettingsView()
@@ -94,6 +102,67 @@ struct ContentView: View {
         #else
         false
         #endif
+    }
+
+    @ViewBuilder
+    private func hymnSections(_ sections: [HymnSection], selectable: Bool) -> some View {
+        ForEach(sections) { section in
+            Section {
+                ForEach(section.hymns) { hymn in
+                    if selectable {
+                        ContentRowView(hymn: hymn)
+                            .foregroundColor(.ink)
+                            .contentShape(Rectangle())
+                            // Double-click plays, as in Spotify and Music; a single click just
+                            // selects, and Return plays the selection via the Playback menu. On
+                            // the Mac, ListDoubleClickRecognizer handles double-clicks instead.
+                            .iPadDoubleTapToPlay { playHymn(filename: hymn.filename) }
+                            .tag(hymn.filename)
+                            .help(Self.isMac ? "Double-click or press Return to play" : "")
+                            .listRowBackground(selection == hymn.filename
+                                               ? Color.brandAccent.opacity(0.15) : Color.paper)
+                    } else {
+                        // A plain button rather than a NavigationLink: no chevron, as in
+                        // Contacts, so rows don't crowd the A–Z index. Setting the selection
+                        // pushes the lyrics page.
+                        Button {
+                            selection = hymn.filename
+                        } label: {
+                            ContentRowView(hymn: hymn)
+                                .foregroundColor(.ink)
+                                .contentShape(Rectangle())
+                        }
+                        .listRowBackground(Color.paper)
+                    }
+                }
+            } header: {
+                SectionHeader(letter: section.letter)
+            }
+            .sectionIndexLetter(section.letter)
+        }
+    }
+
+    private func playHymn(filename: String) {
+        guard let hymn = viewModel.hymns.first(where: { $0.filename == filename }) else { return }
+        selection = filename
+        nowPlaying.play(hymn)
+    }
+
+    private func copyLyrics(filename: String) {
+        guard let hymn = viewModel.hymns.first(where: { $0.filename == filename }) else { return }
+        UIPasteboard.general.string = hymn.plainText
+    }
+
+    /// Plays the hymn `offset` places from the playing (or open) one, in the list's current
+    /// order, and opens its lyrics. Stops at either end of the list.
+    private func playNeighbour(_ offset: Int) {
+        let ordered = viewModel.sections.flatMap(\.hymns)
+        guard let current = nowPlaying.hymn?.filename ?? selection,
+              let index = ordered.firstIndex(where: { $0.filename == current }),
+              ordered.indices.contains(index + offset) else { return }
+        let hymn = ordered[index + offset]
+        selection = hymn.filename
+        nowPlaying.play(hymn)
     }
 
     private var selectedHymn: Hymn? {
@@ -116,40 +185,21 @@ struct ContentView: View {
     private var hymnList: some View {
         let sections = viewModel.sections
         return ScrollViewReader { proxy in
-            List {
-                ForEach(sections) { section in
-                    Section {
-                        ForEach(section.hymns) { hymn in
-                            // A plain button rather than a NavigationLink: no chevron, as in
-                            // Contacts, so rows don't crowd the A–Z index. Setting the selection
-                            // opens the hymn in either layout.
-                            Button {
-                                selection = hymn.filename
-                            } label: {
-                                ContentRowView(hymn: hymn)
-                                    .foregroundColor(.ink)
-                                    .contentShape(Rectangle())
-                            }
-                            // Double-click plays, as in Spotify and Music (single click just
-                            // shows the lyrics). Side-by-side layout only: on iPhone the first
-                            // tap already moves to the lyrics page.
-                            .simultaneousGesture(TapGesture(count: 2).onEnded {
-                                guard isSplit else { return }
-                                selection = hymn.filename
-                                nowPlaying.play(hymn)
-                            })
-                            .help(isSplit ? "Double-click or press Return to play" : "")
-                            .listRowBackground(
-                                selection == hymn.filename && isSplit
-                                    ? Color.brandAccent.opacity(0.15) : Color.paper
-                            )
-                        }
-                    } header: {
-                        SectionHeader(letter: section.letter)
+            Group {
+                if isSplit {
+                    // Side by side: a real selectable list, as in Mail and Music. Clicking or
+                    // arrowing through hymns selects them (showing the lyrics); double-click
+                    // or Return plays the selection.
+                    List(selection: $selection) {
+                        hymnSections(sections, selectable: true)
                     }
-                    .sectionIndexLetter(section.letter)
+                    .macPlayAction(play: { playHymn(filename: $0) }, copy: { copyLyrics(filename: $0) })
+                } else {
+                    List {
+                        hymnSections(sections, selectable: false)
+                    }
                 }
-            } //: LIST
+            }
             .listStyle(.plain)
             .background(SearchStateReporter(state: searchState))
             .scrollContentBackground(.hidden)
@@ -201,6 +251,33 @@ private struct SectionHeader: View {
 }
 
 private extension View {
+    /// iPad side-by-side list: double-tap a hymn to play it. (The Mac uses
+    /// ListDoubleClickRecognizer, which counts clicks the way macOS does.)
+    @ViewBuilder
+    func iPadDoubleTapToPlay(_ play: @escaping () -> Void) -> some View {
+        #if targetEnvironment(macCatalyst)
+        self
+        #else
+        simultaneousGesture(TapGesture(count: 2).onEnded(play))
+        #endif
+    }
+
+    /// Mac only: right-click a hymn for Play and Copy Lyrics. (Not the list's primaryAction,
+    /// which on Catalyst fires on a single click; double-click is a gesture on each row.)
+    @ViewBuilder
+    func macPlayAction(play: @escaping (String) -> Void, copy: @escaping (String) -> Void) -> some View {
+        #if targetEnvironment(macCatalyst)
+        contextMenu(forSelectionType: String.self) { ids in
+            if let id = ids.first {
+                Button("Play") { play(id) }
+                Button("Copy Lyrics") { copy(id) }
+            }
+        }
+        #else
+        self
+        #endif
+    }
+
     /// Lets ⌘F put the cursor in the search field (iOS 18 and later; earlier versions just
     /// show the list).
     @ViewBuilder

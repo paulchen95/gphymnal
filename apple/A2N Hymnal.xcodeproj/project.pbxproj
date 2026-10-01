@@ -32,6 +32,8 @@
 		AAB2000000000000000000B3 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A3 /* AppIcon.icon */; };
 		AAB2000000000000000000B4 /* ClashGrotesk-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A4 /* ClashGrotesk-Semibold.ttf */; };
 		AAB2000000000000000000B5 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A5 /* Brand.swift */; };
+		AAB2000000000000000000B7 /* SharedFixtureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A7 /* SharedFixtureTests.swift */; };
+		AAB2000000000000000000B8 /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A8 /* fixtures */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,9 @@
 		AAB2000000000000000000A3 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		AAB2000000000000000000A4 /* ClashGrotesk-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ClashGrotesk-Semibold.ttf; path = Fonts/ClashGrotesk-Semibold.ttf; sourceTree = "<group>"; };
 		AAB2000000000000000000A5 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		AAB2000000000000000000A6 /* A2N Hymnal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "A2N Hymnal.entitlements"; sourceTree = "<group>"; };
+		AAB2000000000000000000A7 /* SharedFixtureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFixtureTests.swift; sourceTree = "<group>"; };
+		AAB2000000000000000000A8 /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fixtures; path = ../../content/fixtures; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +128,7 @@
 				C38F377D26B3CEA2002603EA /* Hymn.swift */,
 				009F744C27A9204B00580D62 /* HymnList.swift */,
 				AAB2000000000000000000A3 /* AppIcon.icon */,
+				AAB2000000000000000000A6 /* A2N Hymnal.entitlements */,
 				AAB2000000000000000000A4 /* ClashGrotesk-Semibold.ttf */,
 				C38F377226B3CE2E002603EA /* Assets.xcassets */,
 				C38F377726B3CE2E002603EA /* Info.plist */,
@@ -155,6 +161,8 @@
 				AAB100000000000000000065 /* HymnFormattingTests.swift */,
 				AAB100000000000000000066 /* HymnListViewModelTests.swift */,
 				AAB100000000000000000067 /* HymnDataTests.swift */,
+				AAB2000000000000000000A8 /* fixtures */,
+				AAB2000000000000000000A7 /* SharedFixtureTests.swift */,
 			);
 			path = "A2N HymnalTests";
 			sourceTree = "<group>";
@@ -259,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAB2000000000000000000B8 /* fixtures in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +304,7 @@
 				AAB1000000000000000000C9 /* HymnFormattingTests.swift in Sources */,
 				AAB1000000000000000000CA /* HymnListViewModelTests.swift in Sources */,
 				AAB1000000000000000000CB /* HymnDataTests.swift in Sources */,
+				AAB2000000000000000000B7 /* SharedFixtureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,7 +447,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2026.0930;
+				CURRENT_PROJECT_VERSION = 2026.0930.4;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
@@ -449,6 +459,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 5.4.0;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "A2N Hymnal/A2N Hymnal.entitlements";
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				SUPPORTS_MACCATALYST = YES;
@@ -464,7 +475,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2026.0930;
+				CURRENT_PROJECT_VERSION = 2026.0930.4;
 				DEVELOPMENT_ASSET_PATHS = "\"A2N Hymnal/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "A2N Hymnal/Info.plist";
@@ -476,6 +487,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 5.4.0;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "A2N Hymnal/A2N Hymnal.entitlements";
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
 				SUPPORTS_MACCATALYST = YES;

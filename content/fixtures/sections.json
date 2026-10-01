@@ -1,0 +1,81 @@
+{
+  "about": "A-Z grouping of the hymn list. Letters A-Z then '#'. A title files under its first letter or digit in Latin script (pinyin for Chinese, accents removed, leading punctuation skipped); anything that isn't A-Z goes under '#'. Within a section, hymns sort by that Latin form.",
+  "cases": [
+    {
+      "name": "English titles",
+      "names": [
+        "Zion",
+        "'Tis So Sweet",
+        "10,000 Reasons",
+        "Amazing Grace",
+        "Abide With Me",
+        "Ésaïe",
+        "Because He Lives",
+        "Be Thou My Vision"
+      ],
+      "expect": [
+        {
+          "letter": "A",
+          "names": [
+            "Abide With Me",
+            "Amazing Grace"
+          ]
+        },
+        {
+          "letter": "B",
+          "names": [
+            "Be Thou My Vision",
+            "Because He Lives"
+          ]
+        },
+        {
+          "letter": "E",
+          "names": [
+            "Ésaïe"
+          ]
+        },
+        {
+          "letter": "T",
+          "names": [
+            "'Tis So Sweet"
+          ]
+        },
+        {
+          "letter": "Z",
+          "names": [
+            "Zion"
+          ]
+        },
+        {
+          "letter": "#",
+          "names": [
+            "10,000 Reasons"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chinese titles file under their pinyin initial",
+      "names": [
+        "奇异恩典",
+        "奇異恩典",
+        "你真伟大"
+      ],
+      "expect": [
+        {
+          "letter": "N",
+          "names": [
+            "你真伟大"
+          ]
+        },
+        {
+          "letter": "Q",
+          "names": [
+            "奇异恩典",
+            "奇異恩典"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -128,7 +128,12 @@ struct ReadyToPlayBar: View {
         .padding(.bottom, 6)
         .accessibilityLabel("Play " + hymn.name)
         .help("Play this hymn (Space or Return)")
-        .task(id: hymn.filename) { duration = Mp3Player.duration(of: hymn.filename) }
+        // Read off the main thread: opening the mp3 there stalled the app just long enough,
+        // right as a hymn opened, to miss the second click of a double-click on the Mac.
+        .task(id: hymn.filename) {
+            let name = hymn.filename
+            duration = await Task.detached(priority: .userInitiated) { Mp3Player.duration(of: name) }.value
+        }
     }
 }
 
