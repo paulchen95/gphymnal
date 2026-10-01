@@ -118,6 +118,7 @@ private fun BarSurface(modifier: Modifier = Modifier, shape: RoundedCornerShape 
         modifier.widthIn(max = 640.dp),
         shape = shape,
         color = Brand.colors.surface,
+        contentColor = Brand.colors.ink,
         shadowElevation = 8.dp,
         content = content,
     )
@@ -325,9 +326,10 @@ private fun NowPlaying(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
             hymn, full = true,
             modifier = Modifier
                 .padding(top = 12.dp)
+                // Shrinks on short screens so the controls below always fit.
+                .weight(1f, fill = false)
                 .widthIn(max = 360.dp)
-                .fillMaxWidth()
-                .aspectRatio(1f)
+                .aspectRatio(1f, matchHeightConstraintsFirst = true)
                 .scale(coverScale),
         )
         Spacer(Modifier.height(28.dp))
