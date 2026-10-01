@@ -223,6 +223,7 @@ struct ContentView: View {
                 } label: {
                     Label("Settings", systemImage: "gearshape")
                 }
+                .plainToolbarButton()
             }
         } //: TOOLBAR
     }
@@ -230,12 +231,23 @@ struct ContentView: View {
 
 /// A pinned letter header. On iOS 26 it's the system header inside a hard top scroll edge
 /// effect (see `pinnedHeaderEdgeEffect`), so rows fade out behind it as they do under the nav
-/// bar. Earlier versions have no edge effect, so there it sits on a solid bar instead.
+/// bar. Earlier versions have no edge effect, and on the Mac the effect frosts the whole
+/// section rather than a strip under the letter, so there it sits on a solid bar instead.
+/// Pinned headers sit in a scroll edge effect on iOS 26, but not on the Mac (see SectionHeader).
+private var usesEdgeEffect: Bool {
+    #if targetEnvironment(macCatalyst)
+    return false
+    #else
+    if #available(iOS 26, *) { return true }
+    return false
+    #endif
+}
+
 private struct SectionHeader: View {
     let letter: String
 
     var body: some View {
-        if #available(iOS 26, *) {
+        if usesEdgeEffect {
             Text(letter)
         } else {
             Text(letter)
@@ -339,8 +351,13 @@ private extension View {
     /// extends the frosted area under the nav bar down over the pinned header.
     @ViewBuilder
     func pinnedHeaderEdgeEffect() -> some View {
-        if #available(iOS 26, *) {
+        if #available(iOS 26, *), usesEdgeEffect {
             scrollEdgeEffectStyle(.hard, for: .top)
+        } else if #available(iOS 26, *) {
+            // On the Mac, a solid bar instead: the edge effect there frosts far down the list.
+            scrollEdgeEffectHidden(true, for: .all)
+                .toolbarBackground(Color.paper, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
         } else {
             self
         }

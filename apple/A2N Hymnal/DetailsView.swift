@@ -87,6 +87,7 @@ struct DetailsView: View {
                 } label: {
                     Label("Text Size", systemImage: "textformat.size")
                 }
+                .plainToolbarButton()
                 .popover(isPresented: $showTextSize) {
                     TextSizeControl(step: $textSizeStep)
                         .padding()
@@ -100,6 +101,7 @@ struct DetailsView: View {
                 } label: {
                     Label(copied ? "Copied" : "Copy", systemImage: copied ? "checkmark" : "doc.on.doc")
                 }
+                .plainToolbarButton()
                 if HymnLink.isSharingEnabled {
                     ShareLink(item: hymn.plainText, subject: Text(hymn.name)) {
                         Label("Share", systemImage: "square.and.arrow.up")
