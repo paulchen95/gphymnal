@@ -30,6 +30,8 @@ them, so the platforms can't drift on those rules.
 | Search highlighting in the lyrics (setting) | ✅ | ✅ | ✅ | Red text. Multi-word matches. |
 | List and lyrics side by side on wide screens | ✅ | ✅ | ✅ | iPad landscape and large iPhones sideways; always on Mac. Portrait iPad pushes. |
 | Rows have no disclosure chevrons | ✅ | ✅ | ✅ | Keeps rows clear of the A–Z index. |
+| Hold a hymn (right-click on Mac): Play, Add to Favorites, Copy Lyrics | ✅ | ✅ | ✅ | Play starts it without leaving the list. iPhone/iPad also preview the first verse. No per-row play buttons. |
+| Favorites: star a hymn; a Favorites section (★ in the index) leads the list | ✅ | ✅ | ✅ | **[fixture]** `favorites.json`. Star on the lyrics page, or hold a row (right-click on Mac). The section header carries the same ★. In Favorites, swipe left to remove (iPhone/iPad/Android), as in Messages. Saved on the device, by filename. Hidden while searching. |
 
 ## Lyrics page
 
@@ -49,6 +51,7 @@ them, so the platforms can't drift on those rules.
 |---|---|---|---|---|
 | Keeps playing while you browse other hymns | ✅ | ✅ | ✅ | One app-wide player. |
 | Mini player pinned at the bottom; "ready to play" bar on a hymn with nothing loaded | ✅ | ✅ | ✅ | "Play '…' instead" when viewing a different hymn. |
+| Scrub from any page: tap or drag the mini player's timeline | ✅ | ✅ | ✅ | Thickens while touched. Both timelines (mini player and Now Playing) preview like Spotify's: with a pointer over them (Mac, iPad trackpad/mouse, Android mouse) the track thickens, a knob marks the position, a lighter band runs to the pointer and a bubble shows the time a click jumps to; a finger gets the knob and bubble while down. Gold, not green. |
 | Now Playing: cover card, timeline (tap or drag to seek), ±15 s, play/pause, Start Over, Repeat, View Lyrics | ✅ | ✅ | ✅ | Cover card shows title and opening line on the gold gradient. |
 | Repeat (loop the hymn), remembered | ✅ | ✅ | ✅ | |
 | Background audio | ✅ | ✅ | ✅ | |
@@ -70,6 +73,7 @@ them, so the platforms can't drift on those rules.
 | Settings: About (icon, version), Language, Reading (text size + preview), Display (Christmas, highlighting) | ✅ | ✅ | ✅ | Mac: Settings… (⌘,). |
 | Acts2 Network look: warm paper/ink colours, gold accent, Clash Grotesk titles | ✅ | ✅ | ✅ | Tokens in `apple/A2N Hymnal/Assets.xcassets`; gold is `Color.brandAccent`. Android: `ui/theme/Theme.kt`. |
 | Follows system light/dark mode | ✅ | ✅ | ✅ | |
+| Appearance setting: System, Light or Dark | ✅ | ✅ | ✅ | Settings → Display. |
 | App icon: flat glyph, light and dark | ✅ | ✅ | ✅ | Android: adaptive icon from the same glyph, with a themed (monochrome) layer. |
 | Mac menus: View text size (⌘+ ⌘- ⌘0), Edit → Search Hymns (⌘F), Playback | — | ✅ | — | |
 | Mac minimum window size (760×520) | — | ✅ | — | |

@@ -16,6 +16,8 @@ struct A2N_HymnalApp: App {
     @StateObject var settings = Settings()
     @StateObject var nowPlaying = NowPlaying()
     @StateObject var searchState = SearchState()
+    @StateObject var favorites = Favorites()
+    @AppStorage(Appearance.storageKey) private var appearance = Appearance.system.rawValue
     
     init() {
         try? AVAudioSession.sharedInstance().setCategory(.playback)
@@ -27,6 +29,8 @@ struct A2N_HymnalApp: App {
                 .environmentObject(settings)
                 .environmentObject(nowPlaying)
                 .environmentObject(searchState)
+                .environmentObject(favorites)
+                .preferredColorScheme(Appearance(rawValue: appearance)?.colorScheme)
                 // Set explicitly: the asset catalog's global accent (NSAccentColorName) isn't
                 // being picked up on its own.
                 .tint(.brandAccent)

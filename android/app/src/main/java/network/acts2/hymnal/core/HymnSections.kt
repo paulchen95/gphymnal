@@ -16,7 +16,17 @@ object HymnSections {
             .toSortedMap(compareBy<String> { it == "#" }.thenBy { it })
             .map { (letter, group) -> HymnSection(letter, group.sortedBy { it.sortKey }) }
 
-    /** Everything the list shows: Christmas hymns dropped if hidden, then search, then sections. */
-    fun visible(hymns: List<Hymn>, query: String, showChristmas: Boolean): List<HymnSection> =
-        sections(search(hymns.filter { showChristmas || !it.isChristmas }, query))
+    /** The index letter and key of the Favorites section. */
+    const val FAVORITES_LETTER = "★"
+
+    /**
+     * Everything the list shows: Christmas hymns dropped if hidden, then search, then sections,
+     * led by a Favorites section of the starred hymns (they stay in A–Z too), which is left
+     * out while searching. `fixtures/favorites.json`.
+     */
+    fun visible(hymns: List<Hymn>, query: String, showChristmas: Boolean, favorites: Set<String> = emptySet()): List<HymnSection> {
+        val shown = search(hymns.filter { showChristmas || !it.isChristmas }, query)
+        val starred = if (query.isEmpty()) shown.filter { it.filename in favorites }.sortedBy { it.sortKey } else emptyList()
+        return (if (starred.isEmpty()) emptyList() else listOf(HymnSection(FAVORITES_LETTER, starred))) + sections(shown)
+    }
 }

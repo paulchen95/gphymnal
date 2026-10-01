@@ -11,6 +11,58 @@ class Settings: ObservableObject {
     @AppStorage("hymnLocale") public var hymnLocale = "en-us"
     @AppStorage("enableSearchHighlighting") public var enableSearchHighlighting = true
     @AppStorage(LyricsTextSize.storageKey) public var lyricsTextSizeStep = LyricsTextSize.defaultStep
+    @AppStorage(Appearance.storageKey) public var appearance = Appearance.system.rawValue
+}
+
+/// Light or dark, or whatever the system uses (the default). Set in Settings.
+enum Appearance: String, CaseIterable, Identifiable {
+    case system, light, dark
+
+    static let storageKey = "appearance"
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .system: return "System"
+        case .light: return "Light"
+        case .dark: return "Dark"
+        }
+    }
+
+    /// For `preferredColorScheme`: nil follows the system.
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+}
+
+/// Hymns the reader has starred, listed in a Favorites section at the top of the hymn list
+/// (see `HymnListViewModel.sections(favorites:)`). Kept by filename, so a favourite holds
+/// across languages, and saved on this device only.
+final class Favorites: ObservableObject {
+    static let storageKey = "favoriteHymns"
+
+    @Published private(set) var filenames: Set<String>
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        filenames = Set(defaults.stringArray(forKey: Self.storageKey) ?? [])
+    }
+
+    func contains(_ hymn: Hymn) -> Bool { filenames.contains(hymn.filename) }
+
+    func toggle(_ hymn: Hymn) {
+        if filenames.contains(hymn.filename) {
+            filenames.remove(hymn.filename)
+        } else {
+            filenames.insert(hymn.filename)
+        }
+        defaults.set(filenames.sorted(), forKey: Self.storageKey)
+    }
 }
 
 /// The reader's lyrics size, set from the lyrics page or Settings (one stored value, so the

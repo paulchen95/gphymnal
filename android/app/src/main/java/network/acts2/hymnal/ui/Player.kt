@@ -4,6 +4,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,7 +64,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.PointerType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -71,9 +79,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import network.acts2.hymnal.HymnalViewModel
@@ -128,12 +139,13 @@ private fun BarSurface(modifier: Modifier = Modifier, shape: RoundedCornerShape 
 @Composable
 private fun MiniPlayer(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit) {
     var showNowPlaying by remember { mutableStateOf(false) }
-    val progress = if (playback.duration > 0) playback.position.toFloat() / playback.duration else 0f
+    var scrub by remember { mutableStateOf<Long?>(null) }
+    val position = scrub ?: playback.position
 
     BarSurface(Modifier.fillMaxWidth()) {
-        Box {
+        Column {
             Row(
-                Modifier.padding(start = 10.dp, end = 8.dp, top = 10.dp, bottom = 10.dp),
+                Modifier.padding(start = 10.dp, end = 8.dp, top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(
@@ -147,7 +159,7 @@ private fun MiniPlayer(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
                     Column(Modifier.weight(1f)) {
                         Text(hymn.name, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Text(
-                            formatTime(playback.position) + " / " + formatTime(playback.duration),
+                            formatTime(position) + " / " + formatTime(playback.duration),
                             fontSize = 12.sp,
                             color = Brand.colors.secondary,
                             style = Tabular,
@@ -162,22 +174,19 @@ private fun MiniPlayer(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
                     }
                 }
             }
-            // Spotify-style hairline progress along the bottom edge.
-            Box(
-                Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(horizontal = 14.dp, vertical = 3.dp)
-                    .fillMaxWidth()
-                    .height(2.dp)
-            ) {
-                Box(
-                    Modifier
-                        .fillMaxWidth(progress.coerceIn(0f, 1f))
-                        .fillMaxHeight()
-                        .clip(CircleShape)
-                        .background(Brand.colors.accent)
-                )
-            }
+            // A slim timeline along the bottom: tap or drag it to move through the hymn
+            // without leaving the lyrics.
+            PlaybackTimeline(
+                position = position,
+                duration = playback.duration,
+                onScrub = { scrub = it },
+                onCommit = {
+                    playback.seek(it)
+                    scrub = null
+                },
+                compact = true,
+                modifier = Modifier.padding(horizontal = 14.dp).padding(bottom = 2.dp),
+            )
         }
     }
 
@@ -417,44 +426,162 @@ private fun SkipButton(forward: Boolean, onClick: () -> Unit) {
 }
 
 /**
- * The timeline, as in Apple Music: tap anywhere on it to jump there, or drag to scrub. The
- * track thickens while touched, inside a tall touch area that's easy to hit with a finger.
+ * The timeline, as in Apple Music: tap anywhere on it to jump there, or drag to scrub, inside
+ * a tall touch area that's easy to hit with a finger.
+ *
+ * It previews where you'd land the way Spotify's desktop player does. With a mouse over it the
+ * track thickens and brightens, a knob marks the playback position, a lighter band runs from
+ * there to the pointer, and a bubble above the pointer shows the time a click would jump to. A
+ * finger gets the knob and the bubble while it's down.
  */
 @Composable
-private fun PlaybackTimeline(position: Long, duration: Long, onScrub: (Long) -> Unit, onCommit: (Long) -> Unit) {
-    var touching by remember { mutableStateOf(false) }
-    val height by animateDpAsState(if (touching) 12.dp else 6.dp, label = "track")
+private fun PlaybackTimeline(
+    position: Long,
+    duration: Long,
+    onScrub: (Long) -> Unit,
+    onCommit: (Long) -> Unit,
+    /** The slim version in the mini player. */
+    compact: Boolean = false,
+    modifier: Modifier = Modifier,
+) {
+    /** Where a finger or a pressed mouse is, along the track, in px; null otherwise. */
+    var dragX by remember { mutableStateOf<Float?>(null) }
+    /** Where a hovering mouse is, along the track, in px; null otherwise. */
+    var hoverX by remember { mutableStateOf<Float?>(null) }
+    val touching = dragX != null
+    val active = touching || hoverX != null
+    val height by animateDpAsState(
+        when {
+            compact -> if (touching) 8.dp else if (hoverX != null) 5.dp else 3.dp
+            else -> if (touching) 12.dp else if (hoverX != null) 8.dp else 6.dp
+        },
+        label = "track",
+    )
     val fraction = if (duration > 0) (position.toFloat() / duration).coerceIn(0f, 1f) else 0f
     val scrub by rememberUpdatedState(onScrub)
     val commit by rememberUpdatedState(onCommit)
     val length by rememberUpdatedState(duration)
 
     BoxWithConstraints(
-        Modifier
+        modifier
             .fillMaxWidth()
-            .height(32.dp)
+            .height(if (compact) 22.dp else 32.dp)
             .semantics { contentDescription = "Playback position ${formatTime(position)}" }
             .pointerInput(Unit) {
                 fun timeAt(x: Float) = ((x / size.width).coerceIn(0f, 1f) * length).toLong()
                 awaitEachGesture {
                     val down = awaitFirstDown()
-                    touching = true
                     var x = down.position.x
+                    dragX = x
                     scrub(timeAt(x))
                     drag(down.id) { change ->
                         change.consume()
                         x = change.position.x
+                        dragX = x
                         scrub(timeAt(x))
                     }
-                    touching = false
+                    dragX = null
                     commit(timeAt(x))
+                }
+            }
+            // A mouse's hover, seen before the drag handler consumes anything.
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent(PointerEventPass.Initial)
+                        val change = event.changes.firstOrNull() ?: continue
+                        if (change.type != PointerType.Mouse) continue
+                        hoverX = when (event.type) {
+                            PointerEventType.Exit -> null
+                            else -> change.position.x
+                        }
+                    }
                 }
             },
         contentAlignment = Alignment.CenterStart,
     ) {
-        Box(Modifier.fillMaxWidth().height(height).clip(CircleShape).background(Brand.colors.ink.copy(alpha = 0.15f)))
-        Box(Modifier.fillMaxWidth(fraction).height(height).clip(CircleShape).background(Brand.colors.accent))
+        val width = constraints.maxWidth.toFloat()
+        val progressX = width * fraction
+        val density = LocalDensity.current
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(height)
+                .clip(CircleShape)
+                .background(Brand.colors.ink.copy(alpha = if (active) 0.22f else 0.15f)),
+        ) {
+            val pointer = hoverX?.coerceIn(0f, width)
+            // The stretch a click would skip over: ahead of the playback position it fills in
+            // lightly; behind it, it lightens the gold.
+            if (pointer != null && !touching && pointer > progressX) {
+                Box(Modifier.width(with(density) { pointer.toDp() }).fillMaxHeight().background(Brand.colors.accent.copy(alpha = 0.35f)))
+            }
+            Box(
+                Modifier
+                    .fillMaxWidth(fraction)
+                    .fillMaxHeight()
+                    .clip(CircleShape)
+                    .background(Brand.colors.accent.copy(alpha = if (active) 1f else 0.85f)),
+            )
+            if (pointer != null && !touching && pointer < progressX) {
+                Box(
+                    Modifier
+                        .offset { IntOffset(pointer.roundToInt(), 0) }
+                        .width(with(density) { (progressX - pointer).toDp() })
+                        .fillMaxHeight()
+                        .background(Color.White.copy(alpha = 0.45f)),
+                )
+            }
+        }
+        if (active) {
+            val knob = if (compact) 12.dp else 16.dp
+            Box(
+                Modifier
+                    .offset { IntOffset((progressX - knob.toPx() / 2).roundToInt(), 0) }
+                    .size(knob)
+                    .shadow(2.dp, CircleShape)
+                    .background(Color.White, CircleShape),
+            )
+        }
+        val bubbleAt = dragX ?: hoverX
+        if (bubbleAt != null) {
+            val pointerX = bubbleAt.coerceIn(0f, width)
+            // Clear of the knob for a mouse; well clear of the fingertip for touch.
+            val gap = if (hoverX != null) 6.dp else 26.dp
+            TimeBubble(
+                formatTime(((pointerX / width).coerceIn(0f, 1f) * duration).toLong()),
+                Modifier.layout { measurable, _ ->
+                    val bubble = measurable.measure(Constraints())
+                    // Laid out at the track's centre line with no size of its own, so it draws
+                    // above the track without pushing anything around. Centred over the
+                    // pointer, but kept within the track's ends.
+                    layout(0, 0) {
+                        val x = (pointerX - bubble.width / 2f).coerceIn(0f, (width - bubble.width).coerceAtLeast(0f))
+                        val y = -(bubble.height + gap.toPx() + height.toPx() / 2)
+                        bubble.place(x.roundToInt(), y.roundToInt())
+                    }
+                },
+            )
+        }
     }
+}
+
+/** The small dark label over the timeline showing the time you'd jump to; dark in both themes. */
+@Composable
+private fun TimeBubble(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text,
+        modifier
+            .clearAndSetSemantics {}
+            .shadow(4.dp, RoundedCornerShape(6.dp))
+            .background(Color(0xFF292929), RoundedCornerShape(6.dp))
+            .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(6.dp))
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        color = Color.White,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.SemiBold,
+        style = Tabular,
+    )
 }
 
 /** Digits of equal width, so the times don't jiggle as they count. */

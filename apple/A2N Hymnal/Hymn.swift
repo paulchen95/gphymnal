@@ -71,6 +71,20 @@ struct Hymn: Identifiable {
             .first { !$0.isEmpty && $0 != "[Refrain]" && $0 != "[Tag]" } ?? ""
     }
 
+    /// The first verse (up to the first blank line), without [Refrain]/[Tag] markers, for the
+    /// preview you get by holding a hymn in the list.
+    var firstVerse: String {
+        var lines: [String] = []
+        for line in text.split(omittingEmptySubsequences: false, whereSeparator: \.isNewline) {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+            if trimmed.isEmpty {
+                if lines.isEmpty { continue } else { break }
+            }
+            if trimmed != "[Refrain]" && trimmed != "[Tag]" { lines.append(trimmed) }
+        }
+        return lines.joined(separator: "\n")
+    }
+
     /// The hymn as plain text for copying and sharing: title, lyrics without the
     /// [Refrain]/[Tag] markers, then the credits.
     var plainText: String {

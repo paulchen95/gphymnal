@@ -82,6 +82,15 @@ struct SettingsView : View {
 
                 // MARK: - Display
                 Section {
+                    Picker(selection: settings.$appearance) {
+                        ForEach(Appearance.allCases) { appearance in
+                            Text(appearance.title).tag(appearance.rawValue)
+                        }
+                    } label: {
+                        Label("Appearance", systemImage: "circle.lefthalf.filled")
+                    }
+                    .listRowBackground(Color.surface)
+
                     Toggle(isOn: settings.$showChristmas) {
                         Label {
                             Text("Christmas Hymns")

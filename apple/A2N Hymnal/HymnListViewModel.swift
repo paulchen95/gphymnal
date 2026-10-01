@@ -28,6 +28,9 @@ class HymnListViewModel: ObservableObject {
         }
     }
     
+    /// The index letter and id of the Favorites section.
+    static let favoritesLetter = "★"
+
     /// `filteredHymns` grouped by first letter, A–Z then "#", for the indexed list.
     var sections: [HymnSection] {
         let grouped = Dictionary(grouping: filteredHymns, by: \.indexLetter)
@@ -36,6 +39,15 @@ class HymnListViewModel: ObservableObject {
             .map { letter in
                 HymnSection(letter: letter, hymns: grouped[letter]!.sorted { $0.sortKey < $1.sortKey })
             }
+    }
+
+    /// `sections`, led by a Favorites section of the starred hymns (they stay in A–Z too).
+    /// Left out while searching. `content/fixtures/favorites.json` pins the rules.
+    func sections(favorites: Set<String>) -> [HymnSection] {
+        let starred = searchText.isEmpty
+            ? filteredHymns.filter { favorites.contains($0.filename) }.sorted { $0.sortKey < $1.sortKey }
+            : []
+        return (starred.isEmpty ? [] : [HymnSection(letter: Self.favoritesLetter, hymns: starred)]) + sections
     }
 
     init() {

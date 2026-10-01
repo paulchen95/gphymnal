@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BorderColor
+import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.UnfoldMore
 import androidx.compose.material3.DropdownMenu
@@ -149,6 +150,33 @@ fun SettingsScreen(vm: HymnalViewModel, onDone: () -> Unit) {
 
                 // Display
                 Group(header = "Display", footer = "When you search, matching words in the lyrics are shown in red.") {
+                    var appearanceMenu by remember { mutableStateOf(false) }
+                    Box {
+                        SettingRow(
+                            icon = { Icon(Icons.Rounded.Contrast, null, tint = Brand.colors.accent) },
+                            label = "Appearance",
+                            onClick = { appearanceMenu = true },
+                        ) {
+                            Text(appearanceTitle(settings.appearance), color = Brand.colors.secondary)
+                            Icon(Icons.Rounded.UnfoldMore, null, Modifier.size(18.dp), tint = Brand.colors.secondary)
+                        }
+                        DropdownMenu(
+                            expanded = appearanceMenu,
+                            onDismissRequest = { appearanceMenu = false },
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                        ) {
+                            for (option in listOf("system", "light", "dark")) {
+                                DropdownMenuItem(
+                                    text = { Text(appearanceTitle(option)) },
+                                    onClick = {
+                                        appearanceMenu = false
+                                        settings.appearance = option
+                                    },
+                                )
+                            }
+                        }
+                    }
+                    HorizontalDivider(Modifier.padding(start = 56.dp), color = MaterialTheme.colorScheme.outlineVariant)
                     SettingRow(
                         icon = { Text(Hymn.CHRISTMAS_MARKER, fontSize = 20.sp) },
                         label = "Christmas Hymns",
@@ -231,4 +259,10 @@ private fun BrandSwitch(checked: Boolean, onChange: (Boolean) -> Unit) {
             checkedThumbColor = Brand.colors.onAccent,
         ),
     )
+}
+
+private fun appearanceTitle(value: String) = when (value) {
+    "light" -> "Light"
+    "dark" -> "Dark"
+    else -> "System"
 }

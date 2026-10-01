@@ -21,6 +21,8 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.FormatSize
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -84,6 +86,13 @@ fun LyricsPane(vm: HymnalViewModel, hymn: Hymn, split: Boolean, contentPadding: 
                 }
             },
             actions = {
+                val starred = hymn.filename in vm.settings.favorites
+                IconButton(onClick = { vm.settings.toggleFavorite(hymn.filename) }) {
+                    Icon(
+                        if (starred) Icons.Rounded.Star else Icons.Rounded.StarOutline,
+                        contentDescription = if (starred) "Remove from Favorites" else "Add to Favorites",
+                    )
+                }
                 TextSizeButton(step) { vm.settings.lyricsTextSizeStep = it }
                 CopyButton(hymn)
             },

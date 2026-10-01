@@ -1,0 +1,59 @@
+{
+  "about": "Favorites. Starred hymns (by filename) get a section at the top of the list, indexed '★' and titled 'Favorites', sorted like any section. They stay in their A-Z sections too. The section is left out while searching, and hidden Christmas hymns stay hidden. Here each hymn's filename is its name.",
+  "cases": [
+    {
+      "name": "favorites come first, and stay in A-Z",
+      "names": ["Be Thou My Vision", "Amazing Grace", "Abide With Me"],
+      "favorites": ["Be Thou My Vision", "Abide With Me"],
+      "query": "",
+      "show_christmas": true,
+      "expect": [
+        { "letter": "★", "names": ["Abide With Me", "Be Thou My Vision"] },
+        { "letter": "A", "names": ["Abide With Me", "Amazing Grace"] },
+        { "letter": "B", "names": ["Be Thou My Vision"] }
+      ]
+    },
+    {
+      "name": "no favorites, no section",
+      "names": ["Amazing Grace"],
+      "favorites": [],
+      "query": "",
+      "show_christmas": true,
+      "expect": [
+        { "letter": "A", "names": ["Amazing Grace"] }
+      ]
+    },
+    {
+      "name": "left out while searching",
+      "names": ["Amazing Grace", "Abide With Me"],
+      "favorites": ["Amazing Grace"],
+      "query": "grace",
+      "show_christmas": true,
+      "expect": [
+        { "letter": "A", "names": ["Amazing Grace"] }
+      ]
+    },
+    {
+      "name": "hidden Christmas hymns stay hidden",
+      "names": ["Silent Night", "Amazing Grace"],
+      "christmas": ["Silent Night"],
+      "favorites": ["Silent Night", "Amazing Grace"],
+      "query": "",
+      "show_christmas": false,
+      "expect": [
+        { "letter": "★", "names": ["Amazing Grace"] },
+        { "letter": "A", "names": ["Amazing Grace"] }
+      ]
+    },
+    {
+      "name": "a favorite that isn't in this language is ignored",
+      "names": ["Amazing Grace"],
+      "favorites": ["NotInThisLanguage"],
+      "query": "",
+      "show_christmas": true,
+      "expect": [
+        { "letter": "A", "names": ["Amazing Grace"] }
+      ]
+    }
+  ]
+}

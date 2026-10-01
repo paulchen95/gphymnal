@@ -33,6 +33,30 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.StarOutline
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import network.acts2.hymnal.core.HymnSections
+import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -58,6 +82,16 @@ import network.acts2.hymnal.ui.theme.Brand
 fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) {
     val sections = vm.sections
     val scope = rememberCoroutineScope()
+    val clipboard = LocalClipboardManager.current
+
+    // When Favorites appears above a list that was at the top, show it rather than keeping
+    // the old first row in place (which would leave Favorites just off the top).
+    val favoriteCount = sections.firstOrNull { it.letter == HymnSections.FAVORITES_LETTER }?.hymns?.size ?: 0
+    LaunchedEffect(favoriteCount) {
+        if (favoriteCount > 0 && listState.firstVisibleItemIndex == favoriteCount + 1 &&
+            listState.firstVisibleItemScrollOffset == 0
+        ) listState.scrollToItem(0)
+    }
 
     Scaffold(
         containerColor = Brand.colors.paper,
@@ -91,9 +125,15 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
             } else {
                 LazyColumn(state = listState, contentPadding = PaddingValues(bottom = 12.dp)) {
                     for (section in sections) {
+                        val isFavorites = section.letter == HymnSections.FAVORITES_LETTER
                         stickyHeader(key = "header-" + section.letter) {
+                            // Favorites carries the same star as the lyrics page's button.
+                            val accent = Brand.colors.accent
                             Text(
-                                section.letter,
+                                if (isFavorites) buildAnnotatedString {
+                                    withStyle(SpanStyle(color = accent)) { append("★") }
+                                    append(" Favorites")
+                                } else AnnotatedString(section.letter),
                                 Modifier
                                     .fillMaxWidth()
                                     .background(Brand.colors.paperDeep)
@@ -103,16 +143,24 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
                                 color = Brand.colors.secondary,
                             )
                         }
-                        items(section.hymns, key = { it.filename }) { hymn ->
+                        // A favourite is listed twice, so its keys are kept apart.
+                        items(section.hymns, key = { (if (isFavorites) "fav-" else "") + it.filename }) { hymn ->
+                            // In Favorites, swipe left to remove, like deleting a message.
+                            SwipeToRemove(enabled = isFavorites, onRemove = { vm.settings.toggleFavorite(hymn.filename) }) {
                             HymnRow(
                                 hymn,
                                 selected = split && hymn.filename == vm.selected,
+                                starred = hymn.filename in vm.settings.favorites,
+                                onToggleFavorite = { vm.settings.toggleFavorite(hymn.filename) },
+                                onPlay = if (vm.hasAudio(hymn)) { { vm.play(hymn) } } else null,
+                                onCopy = { clipboard.setText(AnnotatedString(hymn.plainText)) },
                                 onClick = { vm.selected = hymn.filename },
                                 // Side by side, double-tap plays, like double-click on the Mac.
                                 onDoubleClick = if (split && vm.hasAudio(hymn)) {
                                     { vm.selected = hymn.filename; vm.play(hymn) }
                                 } else null,
                             )
+                            }
                             HorizontalDivider(Modifier.padding(start = 20.dp), color = MaterialTheme.colorScheme.outlineVariant)
                         }
                     }
@@ -138,19 +186,69 @@ fun HymnListPane(vm: HymnalViewModel, listState: LazyListState, split: Boolean) 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun HymnRow(hymn: Hymn, selected: Boolean, onClick: () -> Unit, onDoubleClick: (() -> Unit)?) {
+private fun HymnRow(
+    hymn: Hymn,
+    selected: Boolean,
+    starred: Boolean,
+    onToggleFavorite: () -> Unit,
+    /** Null when the hymn has no recording. */
+    onPlay: (() -> Unit)?,
+    onCopy: () -> Unit,
+    onClick: () -> Unit,
+    onDoubleClick: (() -> Unit)?,
+) {
+    // Long-press for Play (first: it's why you'd hold rather than tap), Favorites and Copy
+    // Lyrics, the same menu as holding a hymn on iPhone.
+    var menu by remember { mutableStateOf(false) }
+    val haptics = LocalHapticFeedback.current
+    Box {
     Text(
         hymn.name + if (hymn.isChristmas) " " + Hymn.CHRISTMAS_MARKER else "",
         Modifier
             .fillMaxWidth()
             .background(if (selected) Brand.colors.accent.copy(alpha = 0.16f) else Brand.colors.paper)
-            .combinedClickable(onClick = onClick, onDoubleClick = onDoubleClick)
+            .combinedClickable(
+                onClick = onClick,
+                onDoubleClick = onDoubleClick,
+                onLongClick = {
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    menu = true
+                },
+            )
             .semantics { contentDescription = hymn.name + if (hymn.isChristmas) ", Christmas" else "" }
             // Clear of the letter index on the right.
             .padding(start = 20.dp, end = 36.dp, top = 13.dp, bottom = 13.dp),
         fontSize = 17.sp,
         color = Brand.colors.ink,
     )
+    DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+        DropdownMenuItem(
+            text = { Text("Play") },
+            leadingIcon = { Icon(Icons.Rounded.PlayArrow, null) },
+            enabled = onPlay != null,
+            onClick = {
+                menu = false
+                onPlay?.invoke()
+            },
+        )
+        DropdownMenuItem(
+            text = { Text(if (starred) "Remove from Favorites" else "Add to Favorites") },
+            leadingIcon = { Icon(if (starred) Icons.Rounded.StarOutline else Icons.Rounded.Star, null) },
+            onClick = {
+                menu = false
+                onToggleFavorite()
+            },
+        )
+        DropdownMenuItem(
+            text = { Text("Copy Lyrics") },
+            leadingIcon = { Icon(Icons.Rounded.ContentCopy, null) },
+            onClick = {
+                menu = false
+                onCopy()
+            },
+        )
+    }
+    }
 }
 
 @Composable
@@ -200,5 +298,40 @@ private fun NoSearchResults(query: String) {
         Icon(Icons.Rounded.Search, null, Modifier.size(48.dp), tint = Brand.colors.secondary)
         Text("No Results for “$query”", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         Text("Check the spelling or try a new search.", color = Brand.colors.secondary)
+    }
+}
+
+/** Swipe a row left to reveal a red Remove and take it out of Favorites. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SwipeToRemove(enabled: Boolean, onRemove: () -> Unit, content: @Composable () -> Unit) {
+    if (!enabled) {
+        content()
+        return
+    }
+    val remove by rememberUpdatedState(onRemove)
+    val state = rememberSwipeToDismissBoxState(confirmValueChange = {
+        if (it == SwipeToDismissBoxValue.EndToStart) remove()
+        false // the row leaves with the Favorites list; don't keep it swiped off
+    })
+    SwipeToDismissBox(
+        state = state,
+        enableDismissFromStartToEnd = false,
+        backgroundContent = {
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFE5484D))
+                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Rounded.StarOutline, null, tint = Color.White)
+                Spacer(Modifier.size(8.dp))
+                Text("Remove", color = Color.White, fontWeight = FontWeight.SemiBold)
+            }
+        },
+    ) {
+        content()
     }
 }
