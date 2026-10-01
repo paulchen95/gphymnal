@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project
 
 **A2N Hymnal** (bundle id `org.gracepointonline.GP-Hymnal`, formerly "GP Hymnal") is a
-SwiftUI iOS/iPadApp: an offline hymnal with lyrics, credits, royalty-free audio, and
+SwiftUI iOS/iPad/Mac app, with a Kotlin + Compose Android app in `android/`: an offline hymnal with lyrics, credits, royalty-free audio, and
 Chinese translations. It ships to the App Store. No package manager, no third-party
 dependencies — plain Xcode project, iOS 16+, Swift 5.
 
@@ -29,7 +29,7 @@ content/          hymns and audio, shared by every app — adding a hymn happens
   FORMAT.md       the hymn file format
   fixtures/       shared behaviour examples (JSON) every app's tests run
 apple/            Xcode project: iPhone and iPad app (A2N Hymnal/) and tests
-android/          planned Android app (Kotlin + Jetpack Compose), not started
+android/          Android app (Kotlin + Jetpack Compose); see android/README.md
 scripts/test.sh   runs the Apple app's tests
 tools/validate-content   checks every hymn file and mp3 (Python 3, no Xcode needed)
 FEATURES.md       feature list and per-platform status
@@ -63,6 +63,14 @@ Its output is extremely noisy — pipe through
 `grep -E "error:|Executed .* tests|\*\* TEST"`. Swap `test` for `build` to just build.
 Simulator names change with each Xcode release; `xcrun simctl list devices available`
 shows what exists locally.
+
+Android (JDK 17+; Android Studio's bundled JDK works):
+
+```bash
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+(cd android && ./gradlew testDebugUnitTest)   # shared fixtures + content, no emulator
+(cd android && ./gradlew installDebug)        # onto a running emulator or device
+```
 
 There is no linter and no formatter configured. `.github/workflows/ci.yml` validates
 shared content on Linux, runs `scripts/test.sh` on an available iPhone simulator with

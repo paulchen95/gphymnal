@@ -1,0 +1,8 @@
+<resources>
+    <!-- Compose draws everything; this only colours the window before the first frame. -->
+    <style name="Theme.Hymnal" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/paper</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'apple/**'
+      - 'android/**'
       - 'content/**'
       - 'scripts/**'
       - 'tools/**'
@@ -13,6 +14,7 @@ on:
     branches: [main]
     paths:
       - 'apple/**'
+      - 'android/**'
       - 'content/**'
       - 'scripts/**'
       - 'tools/**'
@@ -37,6 +39,7 @@ jobs:
     outputs:
       content: ${{ steps.filter.outputs.content }}
       apple: ${{ steps.filter.outputs.apple }}
+      android: ${{ steps.filter.outputs.android }}
     steps:
       # PR files come from the API; pushes need git to compare with the previous tip.
       - uses: actions/checkout@v6
@@ -56,6 +59,10 @@ jobs:
               - 'apple/**'
               - 'content/**'
               - 'scripts/**'
+              - '.github/workflows/ci.yml'
+            android:
+              - 'android/**'
+              - 'content/**'
               - '.github/workflows/ci.yml'
 
   content:
@@ -109,4 +116,22 @@ jobs:
             -destination "platform=macOS,variant=Mac Catalyst" \
             CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
-  # Add an android job here once android/ contains an app and tests.
+  # JVM unit tests only (shared fixtures + content), on Linux: no emulator, no APK build.
+  android-tests:
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.android == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - name: Run Android unit tests
+        working-directory: android
+        run: ./gradlew --no-daemon testDebugUnitTest
