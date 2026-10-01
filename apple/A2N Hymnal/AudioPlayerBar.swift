@@ -348,8 +348,13 @@ struct NowPlayingView: View {
 }
 
 /// The timeline under the title, in the style of Apple Music: tap anywhere on it to jump
-/// there, or drag to scrub. The track thickens while it's being touched. A plain Slider only
-/// moves when you drag its thumb.
+/// there, or drag to scrub. A plain Slider only moves when you drag its thumb.
+///
+/// It previews where you'd land the way Spotify's desktop player does. With a pointer over
+/// it (Mac, or an iPad with a trackpad or mouse) the track thickens and brightens, a knob
+/// marks the playback position, a lighter band runs from there to the pointer, and a bubble
+/// above the pointer shows the time a click would jump to. A finger gets the knob and the
+/// bubble while it's down.
 private struct PlaybackTimeline: View {
     let position: TimeInterval
     let duration: TimeInterval
@@ -359,38 +364,95 @@ private struct PlaybackTimeline: View {
     /// The slim version in the mini player.
     var compact = false
 
-    @State private var isTouching = false
+    /// Where a finger or a pressed pointer is, along the track; nil otherwise.
+    @State private var dragX: CGFloat?
+    /// Where a hovering pointer is, along the track; nil otherwise.
+    @State private var hoverX: CGFloat?
 
     private var fraction: Double {
         duration > 0 ? min(max(position / duration, 0), 1) : 0
     }
 
+    private var isTouching: Bool { dragX != nil }
+    private var isActive: Bool { dragX != nil || hoverX != nil }
+    /// A tall touch area around a thin track, so it's easy to hit with a finger.
+    private var frameHeight: CGFloat { compact ? 22 : 32 }
+
+    private var trackHeight: CGFloat {
+        if compact { return isTouching ? 8 : (hoverX != nil ? 5 : 3) }
+        return isTouching ? 12 : (hoverX != nil ? 8 : 6)
+    }
+
     var body: some View {
         GeometryReader { geometry in
-            let height: CGFloat = compact ? (isTouching ? 8 : 3) : (isTouching ? 12 : 6)
+            let width = geometry.size.width
+            let progressX = width * fraction
             ZStack(alignment: .leading) {
-                Capsule().fill(Color.primary.opacity(0.15))
-                Capsule().fill(Color.brandAccent.opacity(isTouching ? 1 : 0.85))
-                    .frame(width: geometry.size.width * fraction)
+                Capsule().fill(Color.primary.opacity(isActive ? 0.22 : 0.15))
+                    .frame(height: trackHeight)
+                // The stretch a click would skip over: ahead of the playback position it
+                // fills in lightly; behind it, it lightens the gold.
+                if let hoverX, dragX == nil {
+                    let x = min(max(hoverX, 0), width)
+                    let ahead = x >= progressX
+                    Capsule().fill(Color.brandAccent.opacity(0.35))
+                        .frame(width: ahead ? x : 0, height: trackHeight)
+                    Capsule().fill(Color.brandAccent.opacity(isActive ? 1 : 0.85))
+                        .frame(width: progressX, height: trackHeight)
+                    if !ahead {
+                        Rectangle().fill(Color.white.opacity(0.45))
+                            .frame(width: progressX - x, height: trackHeight)
+                            .offset(x: x)
+                    }
+                } else {
+                    Capsule().fill(Color.brandAccent.opacity(isActive ? 1 : 0.85))
+                        .frame(width: progressX, height: trackHeight)
+                }
             }
-            .frame(height: height)
+            .frame(height: trackHeight)
+            .clipShape(Capsule())
             .frame(maxHeight: .infinity)
+            .overlay(alignment: .leading) {
+                if isActive {
+                    let knob: CGFloat = compact ? 12 : 16
+                    Circle().fill(Color.white)
+                        .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+                        .frame(width: knob, height: knob)
+                        .offset(x: progressX - knob / 2)
+                }
+            }
+            .overlay {
+                if let x = dragX ?? hoverX {
+                    let pointerX = min(max(x, 0), width)
+                    // Clear of the knob for a pointer; well clear of the fingertip for touch.
+                    let gap: CGFloat = hoverX != nil ? 6 : 26
+                    BubblePlacement(x: pointerX, bottom: frameHeight / 2 - trackHeight / 2 - gap) {
+                        TimeBubble(time: time(at: pointerX, width: width))
+                    }
+                }
+            }
             .contentShape(Rectangle())
+            .onContinuousHover { phase in
+                switch phase {
+                case .active(let location): hoverX = location.x
+                case .ended: hoverX = nil
+                }
+            }
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
-                        isTouching = true
-                        onScrub(time(at: value.location.x, width: geometry.size.width))
+                        dragX = value.location.x
+                        onScrub(time(at: value.location.x, width: width))
                     }
                     .onEnded { value in
-                        isTouching = false
-                        onCommit(time(at: value.location.x, width: geometry.size.width))
+                        dragX = nil
+                        onCommit(time(at: value.location.x, width: width))
                     }
             )
             .animation(.easeOut(duration: 0.15), value: isTouching)
+            .animation(.easeOut(duration: 0.15), value: hoverX != nil)
         }
-        // A tall touch area around a thin track, so it's easy to hit with a finger.
-        .frame(height: compact ? 22 : 32)
+        .frame(height: frameHeight)
         .accessibilityElement()
         .accessibilityLabel("Playback Position")
         .accessibilityValue(PlayerTime.format(position))
@@ -406,6 +468,50 @@ private struct PlaybackTimeline: View {
     private func time(at x: CGFloat, width: CGFloat) -> TimeInterval {
         guard width > 0 else { return 0 }
         return Double(min(max(x / width, 0), 1)) * duration
+    }
+}
+
+/// Places the time bubble with its bottom edge at `bottom` and centred on `x`, but kept
+/// within the timeline's ends. It may stick out above the timeline; nothing clips it.
+private struct BubblePlacement: Layout {
+    let x: CGFloat
+    let bottom: CGFloat
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        proposal.replacingUnspecifiedDimensions()
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            let left = min(max(x - size.width / 2, 0), max(bounds.width - size.width, 0))
+            subview.place(at: CGPoint(x: bounds.minX + left, y: bounds.minY + bottom - size.height),
+                          proposal: ProposedViewSize(size))
+        }
+    }
+}
+
+/// The small dark label over the timeline showing the time you'd jump to. Dark in light and
+/// dark mode alike, with a faint edge so it still reads against a dark background.
+private struct TimeBubble: View {
+    let time: TimeInterval
+
+    var body: some View {
+        Text(PlayerTime.format(time))
+            .font(.caption.weight(.semibold).monospacedDigit())
+            .foregroundColor(.white)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(Color(white: 0.16))
+                    .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .strokeBorder(Color.white.opacity(0.12)))
+                    .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
+            )
+            .fixedSize()
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
     }
 }
 
