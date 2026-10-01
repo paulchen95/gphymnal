@@ -24,9 +24,10 @@ android {
         applicationId = "network.acts2.hymnal"
         minSdk = 26
         targetSdk = 36
-        // Same as the Apple app's MARKETING_VERSION; versionCode is the date.
+        // Same as the Apple app's MARKETING_VERSION. versionCode is the date plus a two-digit
+        // build number (YYYYMMDDNN), like the Apple build numbers; it must go up every upload.
         versionName = "5.4.0"
-        versionCode = 20260930
+        versionCode = 2026093002
     }
 
     assetPacks += ":music"

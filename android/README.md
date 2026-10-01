@@ -48,7 +48,8 @@ is `~/.android-keys/a2n-hymnal-upload.jks` and its passwords are in
 is lost, Google can reset it, since Play App Signing holds the real signing key.
 
 1. Bump `versionName` (same as the Apple app's `MARKETING_VERSION`) and `versionCode`
-   (the date, and it must always go up) in `app/build.gradle.kts`.
+   (`YYYYMMDDNN`: the date and a build number; it must go up with every upload) in
+   `app/build.gradle.kts`.
 2. `./gradlew bundleRelease` → `app/build/outputs/bundle/release/app-release.aab`. Upload
    that to Play Console.
 3. For stores in China and sideloading, make one full APK from the same bundle with
