@@ -43,6 +43,7 @@ them, so the platforms can't drift on those rules.
 | Lyrics fade under the top bar and the player | ✅ | ✅ | ✅ | |
 | Pinch to zoom | ✅ | ✅ | ◐ | Android: pinching steps the text size and the lyrics reflow. |
 | Copy lyrics as plain text | ✅ | ✅ | ✅ | Title, lyrics without markers, credits. |
+| Reopens on the hymn that was open when the app was quit | ✅ | ✅ | ✅ | Saved on the device, by filename, so it survives a language change. Only the page: audio doesn't resume. Falls back to the list if the hymn is gone. Each Mac/iPad window keeps its own while running; a new launch takes the last one opened. |
 | Share | — | — | — | Hidden until web links are live (`HymnLink.isSharingEnabled`). |
 
 ## Playback

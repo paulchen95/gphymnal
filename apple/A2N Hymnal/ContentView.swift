@@ -13,8 +13,9 @@ struct ContentView: View {
     @EnvironmentObject private var favorites: Favorites
     @State private var showSettings: Bool = false
     @FocusState private var searchFocused: Bool
-    /// The open hymn's filename. Shared by both layouts, so rotating keeps it open.
-    @State private var selection: String?
+    /// The open hymn's filename. Shared by both layouts, so rotating keeps it open. Starts on
+    /// the hymn open when the app was last quit, and is saved whenever it changes.
+    @State private var selection: String? = LastOpenHymn.load()
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     /// Whether the list and lyrics are side by side, so the open hymn is highlighted in the list.
     @State private var isSplit = false
@@ -62,7 +63,14 @@ struct ContentView: View {
                 }
             }
             }
-            .onAppear { isSplit = split }
+            .onAppear {
+                isSplit = split
+                // The reopened hymn may be gone (removed, or not in this language): show the list.
+                if selection != nil, selectedHymn == nil {
+                    selection = nil
+                    LastOpenHymn.save(nil) // onChange doesn't see a change made this early
+                }
+            }
             .onChange(of: searchFocused) { focused in
                 // Whether the cursor is really in the search field (iOS 18+). On the Mac the
                 // field can stay "searching" after you've moved on to the list.
@@ -70,6 +78,7 @@ struct ContentView: View {
             }
             .onChange(of: split) { newValue in isSplit = newValue }
         }
+        .onChange(of: selection) { LastOpenHymn.save($0) }
         // Shared links (see HymnLink) open straight to the hymn, and can start it playing.
         .onOpenURL { url in
             guard let link = HymnLink.parse(url),
