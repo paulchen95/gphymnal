@@ -240,7 +240,7 @@ struct ContentView: View {
             .background(SearchStateReporter(state: searchState))
             .scrollContentBackground(.hidden)
             .background(Color.paper.ignoresSafeArea())
-            .pinnedHeaderEdgeEffect()
+            .solidTopBar()
             .sectionIndex(sections.map(\.letter), proxy: proxy)
             .overlay {
                 if sections.isEmpty && !viewModel.searchText.isEmpty {
@@ -265,20 +265,10 @@ struct ContentView: View {
     }
 }
 
-/// A pinned letter header. On iOS 26 it's the system header inside a hard top scroll edge
-/// effect (see `pinnedHeaderEdgeEffect`), so rows fade out behind it as they do under the nav
-/// bar. Earlier versions have no edge effect, and on the Mac the effect frosts the whole
-/// section rather than a strip under the letter, so there it sits on a solid bar instead.
-/// Pinned headers sit in a scroll edge effect on iOS 26, but not on the Mac (see SectionHeader).
-private var usesEdgeEffect: Bool {
-    #if targetEnvironment(macCatalyst)
-    return false
-    #else
-    if #available(iOS 26, *) { return true }
-    return false
-    #endif
-}
-
+/// A pinned letter header on a solid bar. Not iOS 26's hard top scroll edge effect: on the
+/// Mac it frosted the whole section rather than a strip under the letter, and on iPhone it
+/// got stuck frosting the top section after the list reloaded (switching language, then
+/// playing a hymn).
 private struct SectionHeader: View {
     let letter: String
 
@@ -290,18 +280,14 @@ private struct SectionHeader: View {
     }
 
     var body: some View {
-        if usesEdgeEffect {
-            title
-        } else {
-            title
-                .font(.subheadline.weight(.semibold))
-                .foregroundColor(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
-                .padding(.vertical, 6)
-                .background(Color.paperDeep)
-                .listRowInsets(EdgeInsets())
-        }
+        title
+            .font(.subheadline.weight(.semibold))
+            .foregroundColor(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal)
+            .padding(.vertical, 6)
+            .background(Color.paperDeep)
+            .listRowInsets(EdgeInsets())
     }
 }
 
@@ -393,20 +379,28 @@ private struct MiniPlayerInset: ViewModifier {
 }
 
 private extension View {
-    /// Apple's guidance for pinned headers under Liquid Glass: a hard top edge effect, which
-    /// extends the frosted area under the nav bar down over the pinned header.
+    /// A solid top bar instead of iOS 26's scroll edge effect, which frosts far down the list
+    /// behind pinned headers (see SectionHeader).
     @ViewBuilder
-    func pinnedHeaderEdgeEffect() -> some View {
-        if #available(iOS 26, *), usesEdgeEffect {
-            scrollEdgeEffectStyle(.hard, for: .top)
-        } else if #available(iOS 26, *) {
-            // On the Mac, a solid bar instead: the edge effect there frosts far down the list.
+    func solidTopBar() -> some View {
+        #if targetEnvironment(macCatalyst)
+        if #available(iOS 26, *) {
             scrollEdgeEffectHidden(true, for: .all)
                 .toolbarBackground(Color.paper, for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
         } else {
             self
         }
+        #else
+        if #available(iOS 26, *) {
+            // The paper bar shows only once rows scroll under it; forcing it visible on the
+            // iPhone hides the large title.
+            scrollEdgeEffectHidden(true, for: .top)
+                .toolbarBackground(Color.paper, for: .navigationBar)
+        } else {
+            self
+        }
+        #endif
     }
 }
 
