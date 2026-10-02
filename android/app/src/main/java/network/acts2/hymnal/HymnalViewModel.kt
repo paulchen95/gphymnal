@@ -24,8 +24,11 @@ class HymnalViewModel(application: Application) : AndroidViewModel(application) 
     var hymns by mutableStateOf<List<Hymn>>(emptyList())
         private set
     var query by mutableStateOf("")
-    /** The open hymn's filename, shared by the side-by-side and one-page layouts. */
-    var selected by mutableStateOf<String?>(null)
+    /**
+     * The open hymn's filename, shared by the side-by-side and one-page layouts. Saved, so the
+     * app reopens on the hymn that was open when it was last closed.
+     */
+    var selected by settings::lastOpenHymn
     var showSettings by mutableStateOf(false)
     /** The cursor is in the search field, so Space and Return belong to it. */
     var searchFocused by mutableStateOf(false)
@@ -48,6 +51,8 @@ class HymnalViewModel(application: Application) : AndroidViewModel(application) 
         val locale = settings.hymnLocale
         viewModelScope.launch {
             hymns = withContext(Dispatchers.IO) { repository.load(locale) }
+            // The reopened hymn may be gone (removed, or not in this language): show the list.
+            if (hymns.none { it.filename == selected }) selected = null
             pendingLink?.let { pendingLink = null; open(it) }
         }
     }

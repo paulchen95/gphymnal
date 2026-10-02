@@ -39,6 +39,21 @@ enum Appearance: String, CaseIterable, Identifiable {
     }
 }
 
+/// The hymn whose lyrics were open last, by filename, so the app reopens on it after a quit.
+/// Each window keeps its own selection while running (see `ContentView`); this is only what a
+/// new launch or window starts on. Nil means the list, with no hymn open.
+enum LastOpenHymn {
+    static let storageKey = "lastOpenHymn"
+
+    static func load(from defaults: UserDefaults = .standard) -> String? {
+        defaults.string(forKey: storageKey)
+    }
+
+    static func save(_ filename: String?, to defaults: UserDefaults = .standard) {
+        defaults.set(filename, forKey: storageKey)
+    }
+}
+
 /// Hymns the reader has starred, listed in a Favorites section at the top of the hymn list
 /// (see `HymnListViewModel.sections(favorites:)`). Kept by filename, so a favourite holds
 /// across languages, and saved on this device only.

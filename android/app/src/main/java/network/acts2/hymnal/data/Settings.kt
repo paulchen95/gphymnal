@@ -24,6 +24,9 @@ class Settings(context: Context) {
     /** Starred hymns by filename, for the Favorites section; on this device only. */
     var favorites by prefs.stringSet("favoriteHymns")
 
+    /** The hymn whose lyrics were open last, so the app reopens on it; null for the list. */
+    var lastOpenHymn by prefs.nullableString("lastOpenHymn")
+
     fun toggleFavorite(filename: String) {
         favorites = if (filename in favorites) favorites - filename else favorites + filename
     }
@@ -46,6 +49,9 @@ private fun SharedPreferences.boolean(key: String, default: Boolean): ReadWriteP
 
 private fun SharedPreferences.string(key: String, default: String): ReadWriteProperty<Any, String> =
     Pref(getString(key, default) ?: default) { edit { putString(key, it) } }
+
+private fun SharedPreferences.nullableString(key: String): ReadWriteProperty<Any, String?> =
+    Pref(getString(key, null)) { edit { putString(key, it) } }
 
 private fun SharedPreferences.int(key: String, default: Int): ReadWriteProperty<Any, Int> =
     Pref(getInt(key, default)) { edit { putInt(key, it) } }
