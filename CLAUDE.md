@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project
 
 **A2N Hymnal** (bundle id `org.gracepointonline.GP-Hymnal`, formerly "GP Hymnal") is a
-SwiftUI iOS/iPad/Mac app, with a Kotlin + Compose Android app in `android/`: an offline hymnal with lyrics, credits, royalty-free audio, and
+SwiftUI iOS/iPad/Mac app, with a Kotlin + Compose app in `android/` that ships to Android and,
+through Compose Multiplatform, Windows: an offline hymnal with lyrics, credits, royalty-free audio, and
 Chinese translations. It ships to the App Store. No package manager, no third-party
 dependencies — plain Xcode project, iOS 16+, Swift 5.
 
@@ -14,8 +15,8 @@ is `A2N Hymnal`, and the Swift module is `A2N_Hymnal`.
 
 ## Platform parity
 
-`FEATURES.md` lists every user-facing feature and its status on iPhone/iPad, Mac and
-Android. A feature change updates it, and either lands on every platform or files follow-ups
+`FEATURES.md` lists every user-facing feature and its status on iPhone/iPad, Mac, Android
+and Windows. A feature change updates it, and either lands on every platform or files follow-ups
 for the others. Rules that must match exactly (parsing, A–Z grouping, search, links, text
 size) live as examples in `content/fixtures/`, which every app's tests run. Change the
 fixture when a rule changes.
@@ -29,7 +30,7 @@ content/          hymns and audio, shared by every app — adding a hymn happens
   FORMAT.md       the hymn file format
   fixtures/       shared behaviour examples (JSON) every app's tests run
 apple/            Xcode project: iPhone and iPad app (A2N Hymnal/) and tests
-android/          Android app (Kotlin + Jetpack Compose); see android/README.md
+android/          Kotlin + Compose: shared/ (rules and screens), app/ (Android), desktop/ (Windows); see android/README.md
 scripts/test.sh   runs the Apple app's tests
 tools/validate-content   checks every hymn file and mp3 (Python 3, no Xcode needed)
 FEATURES.md       feature list and per-platform status
@@ -68,13 +69,16 @@ Android (JDK 17+; Android Studio's bundled JDK works):
 
 ```bash
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
-(cd android && ./gradlew testDebugUnitTest)   # shared fixtures + content, no emulator
+(cd android && ./gradlew :shared:desktopTest) # shared fixtures + content, no emulator
 (cd android && ./gradlew installDebug)        # onto a running emulator or device
+(cd android && ./gradlew :desktop:run)        # the Windows app, in a window on any OS
 ```
+
+The Windows installer (`:desktop:packageMsi`) builds only on Windows; CI makes it.
 
 There is no linter and no formatter configured. `.github/workflows/ci.yml` validates
 shared content on Linux, runs `scripts/test.sh` on an available iPhone simulator with
-Xcode 26+, and builds Mac Catalyst without signing. It runs on relevant PRs and pushes
+Xcode 26+, builds Mac Catalyst without signing, runs the Kotlin tests, and builds the Windows MSI. It runs on relevant PRs and pushes
 to `main`, or manually; path filters skip checks for unrelated changes.
 `.circleci/config.yml` is still the generated "say hello" stub.
 

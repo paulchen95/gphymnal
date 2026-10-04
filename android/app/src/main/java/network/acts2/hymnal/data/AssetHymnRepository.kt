@@ -8,27 +8,15 @@ import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.core.HymnParser
 import java.text.Normalizer
 
-/**
- * The hymns and recordings bundled in the APK's assets (`hymns/<locale>/<name>.txt`,
- * `music/<name>.mp3`), copied there from `content/` at build time. Nothing is downloaded.
- */
-class HymnRepository(private val assets: AssetManager) {
-    /** Filenames that have a recording. */
-    val recordings: Set<String> by lazy {
-        assets.list("music").orEmpty().filter { it.endsWith(".mp3") }.map { it.removeSuffix(".mp3") }.toSet()
-    }
+/** The hymns and recordings in the APK's assets (and the `music` asset pack). */
+class AssetHymnRepository(private val assets: AssetManager) : HymnRepository() {
+    override fun list(folder: String): List<String> = assets.list(folder).orEmpty().toList()
 
-    fun hasAudio(hymn: Hymn): Boolean = hymn.filename in recordings
+    override fun readText(path: String): String = assets.open(path).bufferedReader().use { it.readText() }
 
-    /** Every hymn in [locale], sorted by title. Slow-ish: call off the main thread. */
-    fun load(locale: String): List<Hymn> =
-        assets.list("hymns/$locale").orEmpty().filter { it.endsWith(".txt") }.map { file ->
-            val text = assets.open("hymns/$locale/$file").bufferedReader().use { it.readText() }
-            HymnParser.parse(text, file.removeSuffix(".txt"), locale, AndroidLatinizer)
-        }.sortedBy { it.name }
+    override val latinizer: HymnParser.Latinizer = AndroidLatinizer
 
-    /** Length of a recording in milliseconds without loading it for playback; 0 if there isn't one. */
-    fun duration(hymn: Hymn): Long {
+    override fun duration(hymn: Hymn): Long {
         if (!hasAudio(hymn)) return 0
         return runCatching {
             assets.openFd("music/${hymn.filename}.mp3").use { fd ->

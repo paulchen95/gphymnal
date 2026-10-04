@@ -1,17 +1,29 @@
 package network.acts2.hymnal.data
 
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.content.edit
 import network.acts2.hymnal.core.LyricsTextSize
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+/**
+ * Where settings are saved: SharedPreferences on Android, `java.util.prefs` on the desktop.
+ * Absent keys return null.
+ */
+interface SettingsStore {
+    fun getBoolean(key: String): Boolean?
+    fun getString(key: String): String?
+    fun getInt(key: String): Int?
+    fun getStringSet(key: String): Set<String>?
+    fun putBoolean(key: String, value: Boolean)
+    /** Null removes the key. */
+    fun putString(key: String, value: String?)
+    fun putInt(key: String, value: Int)
+    fun putStringSet(key: String, value: Set<String>)
+}
+
 /** Saved settings, as Compose state. The keys match the Apple app's `@AppStorage` keys. */
-class Settings(context: Context) {
-    private val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+class Settings(prefs: SettingsStore) {
 
     var showChristmas by prefs.boolean("showChristmasHymns", true)
     var hymnLocale by prefs.string("hymnLocale", "en-us")
@@ -44,17 +56,17 @@ private class Pref<T>(
     }
 }
 
-private fun SharedPreferences.boolean(key: String, default: Boolean): ReadWriteProperty<Any, Boolean> =
-    Pref(getBoolean(key, default)) { edit { putBoolean(key, it) } }
+private fun SettingsStore.boolean(key: String, default: Boolean): ReadWriteProperty<Any, Boolean> =
+    Pref(getBoolean(key) ?: default) { putBoolean(key, it) }
 
-private fun SharedPreferences.string(key: String, default: String): ReadWriteProperty<Any, String> =
-    Pref(getString(key, default) ?: default) { edit { putString(key, it) } }
+private fun SettingsStore.string(key: String, default: String): ReadWriteProperty<Any, String> =
+    Pref(getString(key) ?: default) { putString(key, it) }
 
-private fun SharedPreferences.nullableString(key: String): ReadWriteProperty<Any, String?> =
-    Pref(getString(key, null)) { edit { putString(key, it) } }
+private fun SettingsStore.nullableString(key: String): ReadWriteProperty<Any, String?> =
+    Pref(getString(key)) { putString(key, it) }
 
-private fun SharedPreferences.int(key: String, default: Int): ReadWriteProperty<Any, Int> =
-    Pref(getInt(key, default)) { edit { putInt(key, it) } }
+private fun SettingsStore.int(key: String, default: Int): ReadWriteProperty<Any, Int> =
+    Pref(getInt(key) ?: default) { putInt(key, it) }
 
-private fun SharedPreferences.stringSet(key: String): ReadWriteProperty<Any, Set<String>> =
-    Pref(getStringSet(key, emptySet())?.toSet() ?: emptySet()) { edit { putStringSet(key, it) } }
+private fun SettingsStore.stringSet(key: String): ReadWriteProperty<Any, Set<String>> =
+    Pref(getStringSet(key) ?: emptySet()) { putStringSet(key, it) }

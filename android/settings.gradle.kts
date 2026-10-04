@@ -14,5 +14,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "A2N Hymnal"
+include(":shared")
 include(":app")
+include(":desktop")
 include(":music")

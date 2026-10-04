@@ -46,17 +46,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import network.acts2.hymnal.BuildConfig
 import network.acts2.hymnal.HymnalViewModel
-import network.acts2.hymnal.R
 import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.core.Locales
 import network.acts2.hymnal.core.LyricsTextSize
+import network.acts2.hymnal.resources.Res
+import network.acts2.hymnal.resources.about_icon
 import network.acts2.hymnal.ui.theme.Brand
+import org.jetbrains.compose.resources.painterResource
 
 /** About, Language, Reading (text size and a preview), Display — the same as the Apple app. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +88,7 @@ fun SettingsScreen(vm: HymnalViewModel, onDone: () -> Unit) {
                 Group(footer = "A simple hymnal that works offline. Included music is royalty-free and copyright-free.") {
                     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painterResource(R.mipmap.about_icon), null,
+                            painterResource(Res.drawable.about_icon), null,
                             Modifier
                                 .size(60.dp)
                                 .clip(RoundedCornerShape(13.dp))
@@ -98,7 +98,7 @@ fun SettingsScreen(vm: HymnalViewModel, onDone: () -> Unit) {
                         Column {
                             Text("A2N Hymnal", fontWeight = FontWeight.SemiBold, fontSize = 17.sp)
                             Text(
-                                "Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                                "Version ${vm.version}",
                                 color = Brand.colors.secondary,
                                 fontSize = 15.sp,
                             )

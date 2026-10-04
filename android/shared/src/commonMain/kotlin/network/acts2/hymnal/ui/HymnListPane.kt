@@ -62,6 +62,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.isSecondaryPressed
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
@@ -198,7 +201,7 @@ private fun HymnRow(
     onDoubleClick: (() -> Unit)?,
 ) {
     // Long-press for Play (first: it's why you'd hold rather than tap), Favorites and Copy
-    // Lyrics, the same menu as holding a hymn on iPhone.
+    // Lyrics, the same menu as holding a hymn on iPhone. A mouse right-clicks for it, as on the Mac.
     var menu by remember { mutableStateOf(false) }
     val haptics = LocalHapticFeedback.current
     Box {
@@ -207,6 +210,17 @@ private fun HymnRow(
         Modifier
             .fillMaxWidth()
             .background(if (selected) Brand.colors.accent.copy(alpha = 0.16f) else Brand.colors.paper)
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        if (event.type == PointerEventType.Press && event.buttons.isSecondaryPressed) {
+                            event.changes.forEach { it.consume() }
+                            menu = true
+                        }
+                    }
+                }
+            }
             .combinedClickable(
                 onClick = onClick,
                 onDoubleClick = onDoubleClick,

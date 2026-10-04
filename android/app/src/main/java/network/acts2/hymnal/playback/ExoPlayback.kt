@@ -22,12 +22,10 @@ import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.data.Settings
 
 /**
- * The one app-wide player (the Apple app's `NowPlaying` + `Mp3Player`): the loaded hymn
- * keeps playing while you browse. Its state is Compose state, so the mini player and Now
- * Playing redraw as it changes. `PlaybackService` wraps the same player in a media session
- * for background playback and the system controls.
+ * The app-wide [Playback] on Media3's ExoPlayer. `PlaybackService` wraps the same player in
+ * a media session for background playback and the system controls.
  */
-class Playback(context: Context, private val settings: Settings) {
+class ExoPlayback(context: Context, private val settings: Settings) : Playback {
     val player: ExoPlayer = ExoPlayer.Builder(context)
         .setAudioAttributes(
             AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build(),
@@ -36,20 +34,18 @@ class Playback(context: Context, private val settings: Settings) {
         .setHandleAudioBecomingNoisy(true)
         .build()
 
-    /** The loaded hymn, or null when the player is closed. */
-    var hymn by mutableStateOf<Hymn?>(null)
+    override var hymn by mutableStateOf<Hymn?>(null)
         private set
-    var isPlaying by mutableStateOf(false)
+    override var isPlaying by mutableStateOf(false)
         private set
-    /** Milliseconds. */
-    var position by mutableLongStateOf(0)
+    override var position by mutableLongStateOf(0)
         private set
-    var duration by mutableLongStateOf(0)
+    override var duration by mutableLongStateOf(0)
         private set
-    var volume by mutableFloatStateOf(1f)
+    override var volume by mutableFloatStateOf(1f)
         private set
 
-    var repeats: Boolean
+    override var repeats: Boolean
         get() = settings.repeatHymn
         set(value) {
             settings.repeatHymn = value
@@ -96,8 +92,7 @@ class Playback(context: Context, private val settings: Settings) {
         }
     }
 
-    /** Loads [hymn] and plays it from the start, replacing whatever was loaded. */
-    fun play(hymn: Hymn) {
+    override fun play(hymn: Hymn) {
         this.hymn = hymn
         val item = MediaItem.Builder()
             .setMediaId(hymn.filename)
@@ -116,27 +111,26 @@ class Playback(context: Context, private val settings: Settings) {
         position = 0
     }
 
-    fun toggle() = if (player.isPlaying) player.pause() else player.play()
+    override fun toggle() = if (player.isPlaying) player.pause() else player.play()
 
-    fun seek(toMs: Long) {
+    override fun seek(toMs: Long) {
         player.seekTo(toMs.coerceIn(0, duration.coerceAtLeast(0)))
         update()
     }
 
-    fun skip(seconds: Int) = seek(player.currentPosition + seconds * 1000L)
+    override fun skip(seconds: Int) = seek(player.currentPosition + seconds * 1000L)
 
-    fun restart() {
+    override fun restart() {
         player.seekTo(0)
         player.play()
     }
 
-    fun changeVolume(by: Float) {
+    override fun changeVolume(by: Float) {
         volume = (volume + by).coerceIn(0f, 1f)
         player.volume = volume
     }
 
-    /** Puts the mini player away. */
-    fun close() {
+    override fun close() {
         player.stop()
         player.clearMediaItems()
         hymn = null

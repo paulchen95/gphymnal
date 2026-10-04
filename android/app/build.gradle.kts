@@ -10,7 +10,6 @@ plugins {
 //   src/main/assets/hymns   → content/hymns  (every build)
 //   src/debug/assets/music  → content/music  (debug APKs, so installDebug plays)
 //   :music asset pack       → content/music  (release bundles; see music/build.gradle.kts)
-val contentDir = rootProject.file("../content")
 
 // The Play upload key, kept out of the repo. Set these in ~/.gradle/gradle.properties;
 // without them, release builds are unsigned.
@@ -24,15 +23,12 @@ android {
         applicationId = "network.acts2.hymnal"
         minSdk = 26
         targetSdk = 36
-        // Same as the Apple app's MARKETING_VERSION. versionCode is the date plus a two-digit
-        // build number (YYYYMMDDNN), like the Apple build numbers; it must go up every upload.
-        versionName = "5.4.0"
-        versionCode = 2026100102
+        // Set in gradle.properties, shared with the desktop app.
+        versionName = providers.gradleProperty("hymnal.versionName").get()
+        versionCode = providers.gradleProperty("hymnal.versionCode").get().toInt()
     }
 
     assetPacks += ":music"
-    // The JVM tests read the shared fixtures and the real hymn files.
-    sourceSets["test"].resources.srcDir(contentDir.resolve("fixtures"))
 
     signingConfigs {
         if (uploadStoreFile != null) {
@@ -67,14 +63,11 @@ android {
     androidResources {
         noCompress += "mp3"
     }
-    testOptions {
-        unitTests.all {
-            it.systemProperty("contentDir", contentDir.absolutePath)
-        }
-    }
 }
 
 dependencies {
+    // The screens and rules, shared with the desktop app.
+    implementation(project(":shared"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -87,9 +80,4 @@ dependencies {
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.session)
     debugImplementation(libs.compose.ui.tooling)
-
-    testImplementation(libs.junit)
-    testImplementation(libs.json)
-    // The app uses Android's built-in ICU for pinyin; the JVM tests need their own copy.
-    testImplementation(libs.icu4j)
 }

@@ -117,6 +117,7 @@ jobs:
             CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
   # JVM unit tests only (shared fixtures + content), on Linux: no emulator, no APK build.
+  # android/ also holds the shared module and the desktop app, so this covers them too.
   android-tests:
     needs: changes
     if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.android == 'true'
@@ -132,6 +133,70 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: gradle
-      - name: Run Android unit tests
+      - name: Run Android and shared unit tests
         working-directory: android
-        run: ./gradlew --no-daemon testDebugUnitTest
+        run: ./gradlew --no-daemon testDebugUnitTest :shared:desktopTest :desktop:compileKotlin
+
+  # The Windows installer, built on Windows (jpackage can't cross-build). The run number is
+  # its Windows build number, so each test build installs over the last. Unsigned, so
+  # SmartScreen warns on install.
+  windows-installer:
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.android == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - name: Build the MSI
+        working-directory: android
+        shell: bash
+        run: ./gradlew --no-daemon :desktop:packageMsi -Phymnal.windowsBuild=${{ github.run_number }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: a2n-hymnal-windows-msi
+          path: android/desktop/build/compose/binaries/main/msi/*.msi
+          retention-days: 14
+
+  # Each Windows build from main (or a manual run) becomes a GitHub pre-release, so testers get
+  # a plain download link. Not for pull requests, which can't write releases.
+  windows-prerelease:
+    needs: windows-installer
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: a2n-hymnal-windows-msi
+          path: msi
+      - name: Publish the pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD: ${{ github.run_number }}
+        run: |
+          msi=$(ls msi/*.msi)
+          mv "$msi" "msi/A2N-Hymnal-Windows-build-$BUILD.msi"
+          cat > notes.md <<EOF
+          A test build of A2N Hymnal for Windows 10 and 11, from \`${GITHUB_SHA::7}\` on \`${GITHUB_REF_NAME}\`.
+
+          **To install:** download the .msi and double-click it. No administrator rights needed; it installs a Start menu entry and works offline.
+
+          The installer isn't code-signed yet, so Windows warns you twice:
+          1. Your browser may say the file isn't commonly downloaded: choose **Keep**.
+          2. "Windows protected your PC": click **More info**, then **Run anyway**.
+
+          A newer build installs over this one. Settings → About shows the build number: include it when you report a problem.
+          EOF
+          gh release create "windows-build-$BUILD" msi/*.msi \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "Windows test build $BUILD" --notes-file notes.md

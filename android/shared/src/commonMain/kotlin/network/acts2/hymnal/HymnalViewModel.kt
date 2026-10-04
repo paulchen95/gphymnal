@@ -1,11 +1,11 @@
 package network.acts2.hymnal
 
-import android.app.Application
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.AndroidViewModel
+import androidx.compose.ui.input.key.Key
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,14 +13,21 @@ import kotlinx.coroutines.withContext
 import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.core.HymnLink
 import network.acts2.hymnal.core.HymnSections
+import network.acts2.hymnal.data.HymnRepository
+import network.acts2.hymnal.data.Settings
+import network.acts2.hymnal.playback.Playback
 
-/** What the screens show: the hymns, search, the open hymn, and Settings. */
-class HymnalViewModel(application: Application) : AndroidViewModel(application) {
-    private val app = application as HymnalApp
-    val settings = app.settings
-    val playback = app.playback
-    val repository = app.repository
-
+/**
+ * What the screens show: the hymns, search, the open hymn, and Settings. The app supplies
+ * the platform parts: saved settings, the bundled hymns, the player, and its version for About.
+ */
+class HymnalViewModel(
+    val settings: Settings,
+    val repository: HymnRepository,
+    val playback: Playback,
+    /** "5.4.0 (2026100102)", shown in Settings → About. */
+    val version: String,
+) : ViewModel() {
     var hymns by mutableStateOf<List<Hymn>>(emptyList())
         private set
     var query by mutableStateOf("")
@@ -34,6 +41,8 @@ class HymnalViewModel(application: Application) : AndroidViewModel(application) 
     var searchFocused by mutableStateOf(false)
     /** Bumped to ask the list to focus its search field (Ctrl+F). */
     var focusSearchRequest by mutableStateOf(0)
+    /** The key of the shortcut just pressed, so its release is taken too (`Shortcuts.kt`). */
+    internal var shortcutKeyDown: Key? = null
 
     val sections by derivedStateOf { HymnSections.visible(hymns, query, settings.showChristmas, settings.favorites) }
     val selectedHymn by derivedStateOf { hymns.firstOrNull { it.filename == selected } }
