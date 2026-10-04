@@ -9,6 +9,10 @@ coreKtx = "1.16.0"
 junit = "4.13.2"
 json = "20250517"
 icu4j = "77.1"
+composeMultiplatform = "1.8.2"
+lifecycleMultiplatform = "2.9.1"
+coroutines = "1.10.2"
+javafx = "21.0.8"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -26,9 +30,17 @@ media3-session = { module = "androidx.media3:media3-session", version.ref = "med
 junit = { module = "junit:junit", version.ref = "junit" }
 json = { module = "org.json:json", version.ref = "json" }
 icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
+# Compose Multiplatform: the screens shared by Android and the desktop (Windows) app.
+cmp-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleMultiplatform" }
+cmp-material-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-asset-pack = { id = "com.android.asset-pack", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }

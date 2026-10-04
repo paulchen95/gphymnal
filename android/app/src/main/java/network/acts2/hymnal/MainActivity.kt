@@ -11,12 +11,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import network.acts2.hymnal.core.HymnLink
 import network.acts2.hymnal.ui.AppRoot
 import network.acts2.hymnal.ui.theme.HymnalTheme
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: HymnalViewModel by viewModels()
+    private val viewModel: HymnalViewModel by viewModels {
+        viewModelFactory {
+            initializer {
+                val app = application as HymnalApp
+                HymnalViewModel(
+                    app.settings, app.repository, app.playback,
+                    version = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                )
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -50,41 +62,9 @@ class MainActivity : ComponentActivity() {
         HymnLink.parse(url)?.let(viewModel::open)
     }
 
-    /**
-     * Hardware-keyboard shortcuts, the same as the Mac app's (Spotify's), with Ctrl for ⌘.
-     * Off while typing in search, where Space, Return and the arrows belong to the field.
-     */
+    /** Hardware-keyboard shortcuts (`Shortcuts.kt`), the same as the Mac app's with Ctrl for ⌘. */
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.action == KeyEvent.ACTION_DOWN && handleShortcut(event)) return true
+        if (viewModel.handleShortcut(androidx.compose.ui.input.key.KeyEvent(event))) return true
         return super.dispatchKeyEvent(event)
-    }
-
-    private fun handleShortcut(event: KeyEvent): Boolean {
-        val vm = viewModel
-        val playback = vm.playback
-        val ctrl = event.isCtrlPressed
-        val shift = event.isShiftPressed
-        if (ctrl && event.keyCode == KeyEvent.KEYCODE_F) {
-            vm.showSettings = false
-            vm.focusSearchRequest++
-            return true
-        }
-        if (vm.searchFocused || vm.showSettings) return false
-        when {
-            !ctrl && event.keyCode == KeyEvent.KEYCODE_SPACE -> vm.playPause()
-            !ctrl && event.keyCode == KeyEvent.KEYCODE_ENTER -> {
-                if (vm.selectedHymn == null) return false
-                vm.playSelected()
-            }
-            ctrl && shift && event.keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> playback.skip(15)
-            ctrl && shift && event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> playback.skip(-15)
-            ctrl && event.keyCode == KeyEvent.KEYCODE_DPAD_RIGHT -> vm.next()
-            ctrl && event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT -> vm.previous()
-            ctrl && event.keyCode == KeyEvent.KEYCODE_DPAD_UP -> playback.changeVolume(0.1f)
-            ctrl && event.keyCode == KeyEvent.KEYCODE_DPAD_DOWN -> playback.changeVolume(-0.1f)
-            ctrl && event.keyCode == KeyEvent.KEYCODE_R -> playback.repeats = !playback.repeats
-            else -> return false
-        }
-        return true
     }
 }

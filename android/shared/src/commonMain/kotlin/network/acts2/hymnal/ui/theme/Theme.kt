@@ -9,10 +9,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import network.acts2.hymnal.R
+import network.acts2.hymnal.resources.Res
+import network.acts2.hymnal.resources.clash_grotesk_semibold
+import org.jetbrains.compose.resources.Font
 
 /**
  * The Acts2 Network look, matching the Apple app's asset catalog: warm paper and ink,
@@ -53,7 +54,7 @@ val LocalBrand = staticCompositionLocalOf { Light }
 
 object Brand {
     val colors: BrandColors @Composable get() = LocalBrand.current
-    val titleFont = FontFamily(Font(R.font.clash_grotesk_semibold, FontWeight.SemiBold))
+    val titleFont: FontFamily @Composable get() = FontFamily(Font(Res.font.clash_grotesk_semibold, FontWeight.SemiBold))
     /** The "album art" gradient on the Now Playing card. */
     val coverGradient = listOf(Color(0xFFDE991A), Color(0xFF8C4A0A))
 }
