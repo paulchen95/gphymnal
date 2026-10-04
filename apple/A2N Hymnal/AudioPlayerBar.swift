@@ -228,112 +228,47 @@ struct NowPlayingView: View {
 
     private var position: TimeInterval { scrubTime ?? player.currentTime }
 
+    /// Compact on a phone in landscape: too short to stack the cover over the controls.
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
     var body: some View {
-        VStack(spacing: 0) {
-            HymnCover(hymn: hymn, style: .full)
-                .aspectRatio(1, contentMode: .fit)
-                .frame(maxWidth: 360)
-                .padding(.top, 36)
-                .scaleEffect(player.state == PlayerState.Playing ? 1 : 0.92)
-                .animation(.spring(response: 0.4, dampingFraction: 0.7), value: player.state)
+        Group {
+            if verticalSizeClass == .compact {
+                // Cover beside the controls, as in Apple Music, so nothing is cut off.
+                HStack(spacing: 32) {
+                    cover
+                        .padding(.vertical, 24)
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 12)
+                        titleAndAuthor
+                        timeline
+                        transport
+                        Spacer(minLength: 12)
+                        footer
+                    }
+                }
+            } else {
+                VStack(spacing: 0) {
+                    cover
+                        .padding(.top, 36)
 
-            Spacer(minLength: 20)
+                    Spacer(minLength: 20)
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(hymn.name)
-                    .font(.brandTitle(size: 24, relativeTo: .title2))
-                    .lineLimit(2)
-                if !hymn.author.isEmpty {
-                    Text(hymn.author)
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
+                    titleAndAuthor
+                    timeline
+                    transport
+
+                    #if targetEnvironment(macCatalyst)
+                    VolumeControl(player: player)
+                        .frame(maxWidth: 320)
+                        .padding(.top, 20)
+                    #endif
+
+                    Spacer(minLength: 20)
+
+                    footer
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            VStack(spacing: 4) {
-                PlaybackTimeline(
-                    position: position,
-                    duration: player.duration,
-                    onScrub: { scrubTime = $0 },
-                    onCommit: { time in
-                        player.seek(to: time)
-                        scrubTime = nil
-                    },
-                    onStep: { player.skip(by: $0) }
-                )
-
-                HStack {
-                    Text(PlayerTime.format(position))
-                    Spacer()
-                    Text("-" + PlayerTime.format(player.duration - position))
-                }
-                .font(.caption.monospacedDigit())
-                .foregroundColor(.secondary)
-                .accessibilityHidden(true)
-            }
-            .padding(.top, 16)
-
-            HStack(spacing: 48) {
-                Button {
-                    player.skip(by: -15)
-                } label: {
-                    Label("Back 15 Seconds", systemImage: "gobackward.15")
-                }
-                .help("Back 15 seconds")
-                PlayPauseButton(player: player, size: 72)
-                Button {
-                    player.skip(by: 15)
-                } label: {
-                    Label("Forward 15 Seconds", systemImage: "goforward.15")
-                }
-                .help("Forward 15 seconds")
-            }
-            .labelStyle(.iconOnly)
-            .font(.title)
-            .foregroundColor(.primary)
-            .padding(.top, 12)
-
-            #if targetEnvironment(macCatalyst)
-            VolumeControl(player: player)
-                .frame(maxWidth: 320)
-                .padding(.top, 20)
-            #endif
-
-            Spacer(minLength: 20)
-
-            HStack {
-                Button {
-                    _ = player.restart()
-                } label: {
-                    Label("Start Over", systemImage: "arrow.counterclockwise")
-                }
-                .disabled(player.state == PlayerState.Stopped)
-
-                Spacer()
-
-                Button {
-                    player.repeats.toggle()
-                } label: {
-                    Label("Repeat", systemImage: "repeat.1")
-                        .labelStyle(.iconOnly)
-                        .font(.body.weight(.semibold))
-                        .foregroundColor(player.repeats ? .onAccent : .secondary)
-                        .frame(width: 36, height: 36)
-                        .background(Circle().fill(player.repeats ? Color.brandAccent : Color.clear))
-                }
-                .accessibilityValue(player.repeats ? "On" : "Off")
-                .help(player.repeats ? "Repeat is on (⌥⌘R)" : "Repeat (⌥⌘R)")
-
-                Spacer()
-
-                Button(action: onShowLyrics) {
-                    Label("View Lyrics", systemImage: "text.quote")
-                }
-            }
-            .font(.subheadline.weight(.semibold))
-            .padding(.bottom, 12)
         }
         .padding(.horizontal, 28)
         // Bare icons and text, no bezels: the Mac otherwise puts a light box behind each.
@@ -344,6 +279,111 @@ struct NowPlayingView: View {
                            startPoint: .top, endPoint: .center)
                 .ignoresSafeArea()
         )
+    }
+
+    private var cover: some View {
+        HymnCover(hymn: hymn, style: .full)
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: 360)
+            .scaleEffect(player.state == PlayerState.Playing ? 1 : 0.92)
+            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: player.state)
+    }
+
+    private var titleAndAuthor: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(hymn.name)
+                .font(.brandTitle(size: 24, relativeTo: .title2))
+                .lineLimit(2)
+            if !hymn.author.isEmpty {
+                Text(hymn.author)
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var timeline: some View {
+        VStack(spacing: 4) {
+            PlaybackTimeline(
+                position: position,
+                duration: player.duration,
+                onScrub: { scrubTime = $0 },
+                onCommit: { time in
+                    player.seek(to: time)
+                    scrubTime = nil
+                },
+                onStep: { player.skip(by: $0) }
+            )
+
+            HStack {
+                Text(PlayerTime.format(position))
+                Spacer()
+                Text("-" + PlayerTime.format(player.duration - position))
+            }
+            .font(.caption.monospacedDigit())
+            .foregroundColor(.secondary)
+            .accessibilityHidden(true)
+        }
+        .padding(.top, 16)
+    }
+
+    private var transport: some View {
+        HStack(spacing: 48) {
+            Button {
+                player.skip(by: -15)
+            } label: {
+                Label("Back 15 Seconds", systemImage: "gobackward.15")
+            }
+            .help("Back 15 seconds")
+            PlayPauseButton(player: player, size: 72)
+            Button {
+                player.skip(by: 15)
+            } label: {
+                Label("Forward 15 Seconds", systemImage: "goforward.15")
+            }
+            .help("Forward 15 seconds")
+        }
+        .labelStyle(.iconOnly)
+        .font(.title)
+        .foregroundColor(.primary)
+        .padding(.top, 12)
+    }
+
+    /// Start Over, Repeat and View Lyrics along the bottom.
+    private var footer: some View {
+        HStack {
+            Button {
+                _ = player.restart()
+            } label: {
+                Label("Start Over", systemImage: "arrow.counterclockwise")
+            }
+            .disabled(player.state == PlayerState.Stopped)
+
+            Spacer()
+
+            Button {
+                player.repeats.toggle()
+            } label: {
+                Label("Repeat", systemImage: "repeat.1")
+                    .labelStyle(.iconOnly)
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(player.repeats ? .onAccent : .secondary)
+                    .frame(width: 36, height: 36)
+                    .background(Circle().fill(player.repeats ? Color.brandAccent : Color.clear))
+            }
+            .accessibilityValue(player.repeats ? "On" : "Off")
+            .help(player.repeats ? "Repeat is on (⌥⌘R)" : "Repeat (⌥⌘R)")
+
+            Spacer()
+
+            Button(action: onShowLyrics) {
+                Label("View Lyrics", systemImage: "text.quote")
+            }
+        }
+        .font(.subheadline.weight(.semibold))
+        .padding(.bottom, 12)
     }
 }
 
