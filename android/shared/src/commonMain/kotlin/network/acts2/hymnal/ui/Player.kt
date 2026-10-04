@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -316,32 +318,18 @@ fun HymnCover(hymn: Hymn, full: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
-/** Now Playing: cover card, title, timeline, transport, and Start Over / Repeat / View Lyrics. */
+/**
+ * Now Playing: cover card, title, timeline, transport, and Start Over / Repeat / View Lyrics.
+ * On a short, wide screen (a phone in landscape) the cover sits beside the rest, as on iPhone.
+ */
 @Composable
 private fun NowPlaying(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit) {
     var scrub by remember { mutableStateOf<Long?>(null) }
     val position = scrub ?: playback.position
     val coverScale by animateFloatAsState(if (playback.isPlaying) 1f else 0.92f, label = "cover")
+    val wash = Brush.verticalGradient(listOf(lerp(Brand.colors.paper, Brand.colors.accent, 0.18f), Brand.colors.paper))
 
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(Brush.verticalGradient(listOf(lerp(Brand.colors.paper, Brand.colors.accent, 0.18f), Brand.colors.paper)))
-            .padding(horizontal = 28.dp)
-            .padding(bottom = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        HymnCover(
-            hymn, full = true,
-            modifier = Modifier
-                .padding(top = 12.dp)
-                // Shrinks on short screens so the controls below always fit.
-                .weight(1f, fill = false)
-                .widthIn(max = 360.dp)
-                .aspectRatio(1f, matchHeightConstraintsFirst = true)
-                .scale(coverScale),
-        )
-        Spacer(Modifier.height(28.dp))
+    val details: @Composable ColumnScope.() -> Unit = {
         Column(Modifier.fillMaxWidth()) {
             Text(hymn.name, fontFamily = Brand.titleFont, fontSize = 24.sp, lineHeight = 28.sp, maxLines = 2)
             if (hymn.author.isNotEmpty()) {
@@ -364,7 +352,7 @@ private fun NowPlaying(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
             Text("-" + formatTime(playback.duration - position), fontSize = 12.sp, color = Brand.colors.secondary, style = Tabular)
         }
         Row(
-            Modifier.padding(top = 12.dp),
+            Modifier.padding(top = 12.dp).align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(40.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -373,37 +361,84 @@ private fun NowPlaying(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
             SkipButton(forward = true) { playback.skip(15) }
         }
         Spacer(Modifier.height(20.dp))
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            TextButton(onClick = playback::restart) {
-                Icon(Icons.Rounded.RestartAlt, null, Modifier.size(20.dp))
-                Spacer(Modifier.size(6.dp))
-                Text("Start Over", fontWeight = FontWeight.SemiBold)
-            }
-            Spacer(Modifier.weight(1f))
-            IconButton(
-                onClick = { playback.repeats = !playback.repeats },
-                modifier = Modifier.semantics { stateDescription = if (playback.repeats) "On" else "Off" },
+        NowPlayingFooter(playback, onShowLyrics)
+    }
+
+    BoxWithConstraints(Modifier.fillMaxWidth().background(wash)) {
+        val coverMax = (maxHeight - 32.dp).coerceAtLeast(120.dp)
+        if (maxWidth > maxHeight && maxHeight < 480.dp) {
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 28.dp).padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(32.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    Modifier
-                        .size(36.dp)
-                        .clip(CircleShape)
-                        .background(if (playback.repeats) Brand.colors.accent else Color.Transparent),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        Icons.Rounded.RepeatOne,
-                        contentDescription = "Repeat",
-                        tint = if (playback.repeats) Brand.colors.onAccent else Brand.colors.secondary,
+                Box(Modifier.weight(0.4f), contentAlignment = Alignment.Center) {
+                    HymnCover(
+                        hymn, full = true,
+                        modifier = Modifier
+                            .heightIn(max = coverMax)
+                            .widthIn(max = 360.dp)
+                            .aspectRatio(1f, matchHeightConstraintsFirst = true)
+                            .scale(coverScale),
                     )
                 }
+                Column(Modifier.weight(0.6f), content = details)
             }
-            Spacer(Modifier.weight(1f))
-            TextButton(onClick = onShowLyrics) {
-                Icon(Icons.Rounded.FormatQuote, null, Modifier.size(20.dp))
-                Spacer(Modifier.size(6.dp))
-                Text("View Lyrics", fontWeight = FontWeight.SemiBold)
+        } else {
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 28.dp).padding(bottom = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                HymnCover(
+                    hymn, full = true,
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        // Shrinks on short screens so the controls below always fit.
+                        .weight(1f, fill = false)
+                        .widthIn(max = 360.dp)
+                        .aspectRatio(1f, matchHeightConstraintsFirst = true)
+                        .scale(coverScale),
+                )
+                Spacer(Modifier.height(28.dp))
+                details()
             }
+        }
+    }
+}
+
+/** Start Over, Repeat and View Lyrics along the bottom of Now Playing. */
+@Composable
+private fun NowPlayingFooter(playback: Playback, onShowLyrics: () -> Unit) {
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        TextButton(onClick = playback::restart) {
+            Icon(Icons.Rounded.RestartAlt, null, Modifier.size(20.dp))
+            Spacer(Modifier.size(6.dp))
+            Text("Start Over", fontWeight = FontWeight.SemiBold)
+        }
+        Spacer(Modifier.weight(1f))
+        IconButton(
+            onClick = { playback.repeats = !playback.repeats },
+            modifier = Modifier.semantics { stateDescription = if (playback.repeats) "On" else "Off" },
+        ) {
+            Box(
+                Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(if (playback.repeats) Brand.colors.accent else Color.Transparent),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    Icons.Rounded.RepeatOne,
+                    contentDescription = "Repeat",
+                    tint = if (playback.repeats) Brand.colors.onAccent else Brand.colors.secondary,
+                )
+            }
+        }
+        Spacer(Modifier.weight(1f))
+        TextButton(onClick = onShowLyrics) {
+            Icon(Icons.Rounded.FormatQuote, null, Modifier.size(20.dp))
+            Spacer(Modifier.size(6.dp))
+            Text("View Lyrics", fontWeight = FontWeight.SemiBold)
         }
     }
 }
