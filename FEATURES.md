@@ -15,7 +15,7 @@ them, so the platforms can't drift on those rules.
 
 | Feature | iPhone / iPad | Mac | Android | Windows | Notes |
 |---|---|---|---|---|---|
-| All hymns, lyrics and audio bundled; fully offline | ✅ | ✅ | ✅ | ✅ | Audio at full quality (96 kbps MP3), never streamed or re-encoded. Must work behind China's firewall. Android: the APK is ~270 MB, over Google Play's 200 MB base limit, so Play needs an install-time asset pack; a full APK for stores in China. Windows: the recordings install next to the app (MSI). |
+| All hymns, lyrics and audio bundled; fully offline | ✅ | ✅ | ✅ | ✅ | Audio at full quality (96 kbps MP3), never streamed or re-encoded. Must work behind China's firewall. Android: the APK is ~270 MB, over Google Play's 200 MB base limit, so Play needs an install-time asset pack; a full APK for stores in China. Windows: the recordings install next to the app, from the MSI or the Microsoft Store package (MSIX). |
 | Languages: English, Chinese (Simplified), Chinese (Traditional) | ✅ | ✅ | ✅ | ✅ | Chinese is "beta" in Settings. Translations reuse the English filename. |
 | Hymn file format (`key:: value`, `---`, `text::` last) | ✅ | ✅ | ✅ | ✅ | **[fixture]** `parsing.json`. See `content/FORMAT.md`. |
 | `[Refrain]` bold italic, `[Tag]` italic, until the next blank line | ✅ | ✅ | ✅ | ✅ | Markers aren't shown. |
