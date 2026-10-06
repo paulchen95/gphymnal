@@ -1,0 +1,20 @@
+{
+  "about": "Analytics events. Every app sends these names and properties to the same Mixpanel project, so a chart covers every platform. Each case builds one event from its inputs; the app must produce exactly this name and these properties. Every event also carries the super properties 'platform' (one of the values in 'platforms') and 'app_version'. Never send search text or lyrics: a search is tracked by its length and result count only.",
+  "platforms": ["ios", "ipados", "macos", "android", "windows"],
+  "search_debounce_ms": 1500,
+  "cases": [
+    { "event": "App Opened", "properties": {} },
+    { "event": "Hymn Viewed", "properties": { "hymn": "AmazingGrace", "locale": "en-us" } },
+    { "event": "Hymn Played", "properties": { "hymn": "AmazingGrace", "locale": "zh-cn" } },
+    { "event": "Hymn Finished", "properties": { "hymn": "AmazingGrace", "locale": "en-us" } },
+    { "event": "Repeat Toggled", "properties": { "enabled": true } },
+    { "event": "Hymn Searched", "properties": { "query_length": 5, "result_count": 12 } },
+    { "event": "Favorite Added", "properties": { "hymn": "AmazingGrace" } },
+    { "event": "Favorite Removed", "properties": { "hymn": "AmazingGrace" } },
+    { "event": "Setting Changed", "properties": { "setting": "language", "value": "zh-tw" } },
+    { "event": "Setting Changed", "properties": { "setting": "text_size", "value": 115 } },
+    { "event": "Setting Changed", "properties": { "setting": "appearance", "value": "dark" } },
+    { "event": "Setting Changed", "properties": { "setting": "christmas_hymns", "value": false } },
+    { "event": "Setting Changed", "properties": { "setting": "search_highlighting", "value": true } }
+  ]
+}

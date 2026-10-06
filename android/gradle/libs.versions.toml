@@ -13,6 +13,7 @@ composeMultiplatform = "1.8.2"
 lifecycleMultiplatform = "2.9.1"
 coroutines = "1.10.2"
 javafx = "21.0.8"
+mixpanel = "8.11.1"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -30,6 +31,7 @@ media3-session = { module = "androidx.media3:media3-session", version.ref = "med
 junit = { module = "junit:junit", version.ref = "junit" }
 json = { module = "org.json:json", version.ref = "json" }
 icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
+mixpanel-android = { module = "com.mixpanel.android:mixpanel-android", version.ref = "mixpanel" }
 # Compose Multiplatform: the screens shared by Android and the desktop (Windows) app.
 cmp-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleMultiplatform" }
 cmp-material-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }

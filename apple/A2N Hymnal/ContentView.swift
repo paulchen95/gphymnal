@@ -78,7 +78,10 @@ struct ContentView: View {
             }
             .onChange(of: split) { newValue in isSplit = newValue }
         }
-        .onChange(of: selection) { LastOpenHymn.save($0) }
+        .onChange(of: selection) { filename in
+            LastOpenHymn.save(filename)
+            if let filename { Analytics.track(.hymnViewed(filename, locale: Analytics.locale)) }
+        }
         // Shared links (see HymnLink) open straight to the hymn, and can start it playing.
         .onOpenURL { url in
             guard let link = HymnLink.parse(url),

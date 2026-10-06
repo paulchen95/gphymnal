@@ -1,6 +1,8 @@
 package network.acts2.hymnal
 
 import com.ibm.icu.text.Transliterator
+import network.acts2.hymnal.analytics.Analytics
+import network.acts2.hymnal.analytics.AnalyticsEvent
 import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.core.HymnLink
 import network.acts2.hymnal.core.HymnParser
@@ -115,6 +117,28 @@ class SharedFixtureTest {
         // Clamped at both ends, even with a very small or very large system font.
         assertEquals(14f, LyricsTextSize.pointSize(0, fontScale = 0.5f))
         assertEquals(48f, LyricsTextSize.pointSize(multipliers.lastIndex, fontScale = 2f))
+    }
+
+    @Test
+    fun analytics() {
+        val json = fixture("analytics.json")
+        assertEquals(json.getLong("search_debounce_ms"), Analytics.SEARCH_DEBOUNCE_MS)
+        for (case in json.getJSONArray("cases").objects()) {
+            val p = case.getJSONObject("properties")
+            val event = when (val name = case.getString("event")) {
+                "App Opened" -> AnalyticsEvent.appOpened()
+                "Hymn Viewed" -> AnalyticsEvent.hymnViewed(p.getString("hymn"), p.getString("locale"))
+                "Hymn Played" -> AnalyticsEvent.hymnPlayed(p.getString("hymn"), p.getString("locale"))
+                "Hymn Finished" -> AnalyticsEvent.hymnFinished(p.getString("hymn"), p.getString("locale"))
+                "Repeat Toggled" -> AnalyticsEvent.repeatToggled(p.getBoolean("enabled"))
+                "Hymn Searched" -> AnalyticsEvent.hymnSearched(p.getInt("query_length"), p.getInt("result_count"))
+                "Favorite Added" -> AnalyticsEvent.favoriteAdded(p.getString("hymn"))
+                "Favorite Removed" -> AnalyticsEvent.favoriteRemoved(p.getString("hymn"))
+                "Setting Changed" -> AnalyticsEvent.settingChanged(p.getString("setting"), p.get("value"))
+                else -> error("No builder for analytics event '$name'")
+            }
+            assertEquals(case.toString(), AnalyticsEvent(case.getString("event"), p.toMap()), event)
+        }
     }
 }
 

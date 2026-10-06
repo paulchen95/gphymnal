@@ -4,6 +4,9 @@
     <!-- Background playback, with controls in the notification and on the lock screen. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <!-- Anonymous usage analytics (Mixpanel; see ANALYTICS.md). Nothing else uses the network. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".HymnalApp"

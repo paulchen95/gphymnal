@@ -77,7 +77,8 @@ compose.desktop {
             vendor = "Acts2 Network"
             appResourcesRootDir.set(bundledContent)
             // From ./gradlew :desktop:suggestRuntimeModules.
-            modules("java.instrument", "java.prefs", "jdk.jfr", "jdk.unsupported")
+            // Plus java.net.http, for analytics (MixpanelHttpSink).
+            modules("java.instrument", "java.net.http", "java.prefs", "jdk.jfr", "jdk.unsupported")
 
             windows {
                 iconFile.set(project.file("icons/hymnal.ico"))

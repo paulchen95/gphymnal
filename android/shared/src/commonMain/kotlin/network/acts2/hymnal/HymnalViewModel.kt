@@ -4,12 +4,17 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.input.key.Key
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import network.acts2.hymnal.analytics.Analytics
+import network.acts2.hymnal.analytics.AnalyticsEvent
 import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.core.HymnLink
 import network.acts2.hymnal.core.HymnSections
@@ -35,7 +40,14 @@ class HymnalViewModel(
      * The open hymn's filename, shared by the side-by-side and one-page layouts. Saved, so the
      * app reopens on the hymn that was open when it was last closed.
      */
-    var selected by settings::lastOpenHymn
+    var selected: String?
+        get() = settings.lastOpenHymn
+        set(value) {
+            if (value != null && value != settings.lastOpenHymn) {
+                Analytics.track(AnalyticsEvent.hymnViewed(value, settings.hymnLocale))
+            }
+            settings.lastOpenHymn = value
+        }
     var showSettings by mutableStateOf(false)
     /** The cursor is in the search field, so Space and Return belong to it. */
     var searchFocused by mutableStateOf(false)
@@ -53,6 +65,18 @@ class HymnalViewModel(
 
     init {
         reload()
+        trackSearches()
+    }
+
+    /** Counts a search once the text has sat still for a moment, not every keystroke. */
+    private fun trackSearches() {
+        viewModelScope.launch {
+            snapshotFlow { query }.collectLatest { text ->
+                if (text.isBlank()) return@collectLatest
+                delay(Analytics.SEARCH_DEBOUNCE_MS)
+                Analytics.track(AnalyticsEvent.hymnSearched(text.length, sections.sumOf { it.hymns.size }))
+            }
+        }
     }
 
     /** Re-reads the hymns, e.g. after the language changes. */
@@ -69,7 +93,9 @@ class HymnalViewModel(
     fun hasAudio(hymn: Hymn) = repository.hasAudio(hymn)
 
     fun play(hymn: Hymn) {
-        if (hasAudio(hymn)) playback.play(hymn)
+        if (!hasAudio(hymn)) return
+        playback.play(hymn)
+        Analytics.track(AnalyticsEvent.hymnPlayed(hymn.filename, settings.hymnLocale))
     }
 
     /** Opens a hymn from a link, and plays it if the link says `?play=1`. */

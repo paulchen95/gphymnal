@@ -114,4 +114,34 @@ final class SharedFixtureTests: XCTestCase {
         let range = try XCTUnwrap(fixture["point_range"] as? [Double])
         XCTAssertEqual([Double(LyricsTextSize.pointRange.lowerBound), Double(LyricsTextSize.pointRange.upperBound)], range)
     }
+    func testAnalytics() throws {
+        let fixture = try fixture("analytics")
+        XCTAssertEqual(Int(Analytics.searchDebounce * 1000), fixture["search_debounce_ms"] as? Int)
+        for testCase in try cases(fixture) {
+            let name = try XCTUnwrap(testCase["event"] as? String)
+            let p = try XCTUnwrap(testCase["properties"] as? [String: Any])
+            let string = { (key: String) in p[key] as? String ?? "" }
+            let event: AnalyticsEvent
+            switch name {
+            case "App Opened": event = .appOpened()
+            case "Hymn Viewed": event = .hymnViewed(string("hymn"), locale: string("locale"))
+            case "Hymn Played": event = .hymnPlayed(string("hymn"), locale: string("locale"))
+            case "Hymn Finished": event = .hymnFinished(string("hymn"), locale: string("locale"))
+            case "Repeat Toggled": event = .repeatToggled(p["enabled"] as? Bool ?? false)
+            case "Hymn Searched":
+                event = .hymnSearched(queryLength: p["query_length"] as? Int ?? -1, resultCount: p["result_count"] as? Int ?? -1)
+            case "Favorite Added": event = .favoriteAdded(string("hymn"))
+            case "Favorite Removed": event = .favoriteRemoved(string("hymn"))
+            case "Setting Changed": event = .settingChanged(string("setting"), value: try XCTUnwrap(p["value"] as? AnyHashable))
+            default: XCTFail("No builder for analytics event '\(name)'"); continue
+            }
+            // Compared as JSON, which is what reaches Mixpanel, so true and 1 stay different.
+            XCTAssertEqual(event.name, name)
+            XCTAssertEqual(try json(event.properties), try json(p), name)
+        }
+    }
+
+    private func json(_ object: Any) throws -> String {
+        String(decoding: try JSONSerialization.data(withJSONObject: object, options: .sortedKeys), as: UTF8.self)
+    }
 }

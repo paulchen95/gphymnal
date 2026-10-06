@@ -7,8 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **A2N Hymnal** (bundle id `org.gracepointonline.GP-Hymnal`, formerly "GP Hymnal") is a
 SwiftUI iOS/iPad/Mac app, with a Kotlin + Compose app in `android/` that ships to Android and,
 through Compose Multiplatform, Windows: an offline hymnal with lyrics, credits, royalty-free audio, and
-Chinese translations. It ships to the App Store. No package manager, no third-party
-dependencies — plain Xcode project, iOS 16+, Swift 5.
+Chinese translations. It ships to the App Store. Plain Xcode project, iOS 16+, Swift 5; the one
+third-party dependency is Mixpanel's Swift SDK (Swift Package Manager), for analytics.
 
 Note the mismatch between names: the repo is `gphymnal`, the app/target/source directory
 is `A2N Hymnal`, and the Swift module is `A2N_Hymnal`.
@@ -34,6 +34,7 @@ android/          Kotlin + Compose: shared/ (rules and screens), app/ (Android),
 scripts/test.sh   runs the Apple app's tests
 tools/validate-content   checks every hymn file and mp3 (Python 3, no Xcode needed)
 FEATURES.md       feature list and per-platform status
+ANALYTICS.md      Mixpanel events, the same on every platform
 ```
 
 ## Commands
@@ -164,6 +165,10 @@ credits footer whose labels come from `locales` in `Locales.swift` (which also d
 set of supported locales — adding a language means adding an entry there *and* a
 `content/hymns/<locale>/` directory). `ZoomableScrollView` is a `UIViewRepresentable` pinch-zoom
 workaround for an iOS 15 SwiftUI regression; leave it alone unless the zoom breaks.
+
+Usage analytics (`Analytics.swift`) go to Mixpanel, in the project the Android and Windows
+apps use too; `ANALYTICS.md` lists the events. A new user action worth counting gets an event
+in `content/fixtures/analytics.json` and on every platform.
 
 ## Tests
 

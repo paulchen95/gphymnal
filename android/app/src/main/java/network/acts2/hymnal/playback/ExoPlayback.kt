@@ -18,6 +18,8 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import network.acts2.hymnal.analytics.Analytics
+import network.acts2.hymnal.analytics.AnalyticsEvent
 import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.data.Settings
 
@@ -69,6 +71,7 @@ class ExoPlayback(context: Context, private val settings: Settings) : Playback {
                 if (state == Player.STATE_ENDED) {
                     player.pause()
                     player.seekTo(0)
+                    hymn?.let { Analytics.track(AnalyticsEvent.hymnFinished(it.filename, settings.hymnLocale)) }
                 }
                 update()
             }
