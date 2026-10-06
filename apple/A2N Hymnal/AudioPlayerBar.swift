@@ -230,6 +230,7 @@ struct NowPlayingView: View {
 
     /// Compact on a phone in landscape: too short to stack the cover over the controls.
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         Group {
@@ -271,6 +272,13 @@ struct NowPlayingView: View {
             }
         }
         .padding(.horizontal, 28)
+        .overlay(alignment: .topTrailing) {
+            // A phone swipes the sheet down; on a Mac or iPad nothing says how to leave,
+            // and a click outside the sheet doesn't close it.
+            if UIDevice.current.userInterfaceIdiom != .phone {
+                closeButton
+            }
+        }
         // Bare icons and text, no bezels: the Mac otherwise puts a light box behind each.
         .buttonStyle(.borderless)
         .background(
@@ -279,6 +287,23 @@ struct NowPlayingView: View {
                            startPoint: .top, endPoint: .center)
                 .ignoresSafeArea()
         )
+    }
+
+    private var closeButton: some View {
+        Button {
+            dismiss()
+        } label: {
+            Label("Close", systemImage: "xmark")
+                .labelStyle(.iconOnly)
+                .font(.body.weight(.semibold))
+                .foregroundColor(.secondary)
+                .frame(width: 30, height: 30)
+                .background(Circle().fill(Color.primary.opacity(0.08)))
+                .contentShape(Circle())
+        }
+        .keyboardShortcut(.cancelAction)
+        .help("Close (Esc)")
+        .padding(14)
     }
 
     private var cover: some View {
