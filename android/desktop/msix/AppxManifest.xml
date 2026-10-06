@@ -48,6 +48,8 @@
 
   <!-- A regular desktop app: the bundled Java runtime, JavaFX audio and settings in the registry. -->
   <Capabilities>
+    <!-- Anonymous usage analytics (Mixpanel; see ANALYTICS.md). -->
+    <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 </Package>

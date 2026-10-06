@@ -77,6 +77,7 @@ them, so the platforms can't drift on those rules.
 | Acts2 Network look: warm paper/ink colours, gold accent, Clash Grotesk titles | ✅ | ✅ | ✅ | ✅ | Tokens in `apple/A2N Hymnal/Assets.xcassets`; gold is `Color.brandAccent`. Android and Windows: `android/shared/.../ui/theme/Theme.kt`. |
 | Follows system light/dark mode | ✅ | ✅ | ✅ | ✅ | |
 | Appearance setting: System, Light or Dark | ✅ | ✅ | ✅ | ✅ | Settings → Display. |
+| Anonymous usage analytics (Mixpanel), one project for every platform | ✅ | ✅ | ✅ | ✅ | **[fixture]** `analytics.json`. See `ANALYTICS.md`. SDKs on Apple and Android; Mixpanel's HTTP API on Windows. Queued offline. No setting to turn it off. |
 | App icon: flat glyph, light and dark | ✅ | ✅ | ✅ | ✅ | Android: adaptive icon from the same glyph, with a themed (monochrome) layer. Windows: the glyph on a white rounded square (`android/desktop/icons/hymnal.ico`). |
 | Mac menus: View text size (⌘+ ⌘- ⌘0), Edit → Search Hymns (⌘F), Playback | — | ✅ | — | — | |
 | Mac and Windows minimum window size (760×520) | — | ✅ | — | ✅ | |

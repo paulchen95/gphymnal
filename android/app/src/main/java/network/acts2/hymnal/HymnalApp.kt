@@ -5,6 +5,7 @@ import android.content.ComponentName
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.google.common.util.concurrent.ListenableFuture
+import network.acts2.hymnal.analytics.Analytics
 import network.acts2.hymnal.data.AssetHymnRepository
 import network.acts2.hymnal.data.Settings
 import network.acts2.hymnal.data.SharedPreferencesStore
@@ -24,6 +25,7 @@ class HymnalApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Analytics.sink = MixpanelSink(this, BuildConfig.VERSION_NAME)
         settings = Settings(SharedPreferencesStore(this))
         repository = AssetHymnRepository(assets)
         playback = ExoPlayback(this, settings)

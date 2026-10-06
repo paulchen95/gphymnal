@@ -5,6 +5,7 @@
 //  Created by Paul Chen on 12/5/23.
 //
 import SwiftUI
+import Combine
 
 struct HymnSection: Identifiable {
     let letter: String
@@ -16,6 +17,7 @@ class HymnListViewModel: ObservableObject {
     @State var settings = Settings()
     @Published var hymns = [Hymn]()
     @Published var searchText: String = ""
+    private var searchTracking: AnyCancellable?
 
     var filteredHymns: [Hymn] {
         let catFilteredHymns = hymns.filter { hymn in
@@ -52,6 +54,14 @@ class HymnListViewModel: ObservableObject {
 
     init() {
         regenHymnList()
+        // Counts a search once the text has sat still for a moment, not every keystroke.
+        searchTracking = $searchText
+            .debounce(for: .seconds(Analytics.searchDebounce), scheduler: RunLoop.main)
+            .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+            .sink { [weak self] text in
+                guard let self else { return }
+                Analytics.track(.hymnSearched(queryLength: text.count, resultCount: self.filteredHymns.count))
+            }
     }
     
     func regenHymnList() {

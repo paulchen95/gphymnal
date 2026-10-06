@@ -32,6 +32,8 @@
 		AAB2000000000000000000B3 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A3 /* AppIcon.icon */; };
 		AAB2000000000000000000B4 /* ClashGrotesk-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A4 /* ClashGrotesk-Semibold.ttf */; };
 		AAB2000000000000000000B5 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A5 /* Brand.swift */; };
+		AAB300000000000000000005 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB300000000000000000004 /* Analytics.swift */; };
+		AAB300000000000000000002 /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = AAB300000000000000000003 /* Mixpanel */; };
 		AAB2000000000000000000B7 /* SharedFixtureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A7 /* SharedFixtureTests.swift */; };
 		AAB2000000000000000000B8 /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = AAB2000000000000000000A8 /* fixtures */; };
 /* End PBXBuildFile section */
@@ -75,6 +77,7 @@
 		AAB2000000000000000000A3 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		AAB2000000000000000000A4 /* ClashGrotesk-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ClashGrotesk-Semibold.ttf; path = Fonts/ClashGrotesk-Semibold.ttf; sourceTree = "<group>"; };
 		AAB2000000000000000000A5 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		AAB300000000000000000004 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		AAB2000000000000000000A6 /* A2N Hymnal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "A2N Hymnal.entitlements"; sourceTree = "<group>"; };
 		AAB2000000000000000000A7 /* SharedFixtureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFixtureTests.swift; sourceTree = "<group>"; };
 		AAB2000000000000000000A8 /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fixtures; path = ../../content/fixtures; sourceTree = "<group>"; };
@@ -85,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAB300000000000000000002 /* Mixpanel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +144,7 @@
 				AAB2000000000000000000A1 /* SectionIndex.swift */,
 				AAB2000000000000000000A2 /* AudioPlayerBar.swift */,
 				AAB2000000000000000000A5 /* Brand.swift */,
+				AAB300000000000000000004 /* Analytics.swift */,
 				19055F1C2B5ABD70006D271F /* Locales.swift */,
 				19055F1E2B5ACE73006D271F /* Settings.swift */,
 			);
@@ -184,6 +189,7 @@
 			);
 			name = "A2N Hymnal";
 			packageProductDependencies = (
+				AAB300000000000000000003 /* Mixpanel */,
 			);
 			productName = "GP Hymnal";
 			productReference = C38F376B26B3CE2D002603EA /* A2N Hymnal.app */;
@@ -238,6 +244,7 @@
 			);
 			mainGroup = C38F376226B3CE2D002603EA;
 			packageReferences = (
+				AAB300000000000000000001 /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 			);
 			productRefGroup = C38F376C26B3CE2D002603EA /* Products */;
 			projectDirPath = "";
@@ -284,6 +291,7 @@
 				AAB2000000000000000000B1 /* SectionIndex.swift in Sources */,
 				AAB2000000000000000000B2 /* AudioPlayerBar.swift in Sources */,
 				AAB2000000000000000000B5 /* Brand.swift in Sources */,
+				AAB300000000000000000005 /* Analytics.swift in Sources */,
 				194D87582B24EF0400B45D1F /* ContentRowView.swift in Sources */,
 				C38F378026B3D04D002603EA /* DetailsView.swift in Sources */,
 				C38F376F26B3CE2D002603EA /* A2N_HymnalApp.swift in Sources */,
@@ -566,6 +574,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AAB300000000000000000001 /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AAB300000000000000000003 /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAB300000000000000000001 /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C38F376326B3CE2D002603EA /* Project object */;
 }

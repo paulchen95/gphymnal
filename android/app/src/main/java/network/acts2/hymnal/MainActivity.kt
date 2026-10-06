@@ -13,6 +13,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import network.acts2.hymnal.analytics.Analytics
+import network.acts2.hymnal.analytics.AnalyticsEvent
 import network.acts2.hymnal.core.HymnLink
 import network.acts2.hymnal.ui.AppRoot
 import network.acts2.hymnal.ui.theme.HymnalTheme
@@ -33,7 +35,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) handleLink(intent)
+        if (savedInstanceState == null) {
+            Analytics.track(AnalyticsEvent.appOpened())
+            handleLink(intent)
+        }
         setContent {
             val dark = when (viewModel.settings.appearance) {
                 "light" -> false

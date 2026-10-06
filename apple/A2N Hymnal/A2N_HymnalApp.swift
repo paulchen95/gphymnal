@@ -22,6 +22,7 @@ struct A2N_HymnalApp: App {
     init() {
         try? AVAudioSession.sharedInstance().setCategory(.playback)
         Brand.applyNavigationBarAppearance()
+        Analytics.start()
     }
     var body: some Scene {
         WindowGroup {

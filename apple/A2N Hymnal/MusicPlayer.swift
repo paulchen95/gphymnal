@@ -13,6 +13,8 @@ enum PlayerState {
 }
 
 class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
+    /// The hymn's filename.
+    let name: String
     var mp3File: URL?
     var player: AVAudioPlayer?
     @Published var state: PlayerState = PlayerState.Stopped
@@ -39,6 +41,7 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
     var duration: TimeInterval { player?.duration ?? 0 }
 
     init (name: String) {
+        self.name = name
         super.init()
         mp3File = Bundle.main.url(forResource: name, withExtension: "mp3", subdirectory: "music")
         if let mp3File = mp3File {
@@ -119,6 +122,7 @@ class Mp3Player: NSObject, ObservableObject, AVAudioPlayerDelegate {
         state = PlayerState.Stopped
         stopProgressTimer()
         currentTime = 0
+        Analytics.track(.hymnFinished(name, locale: Analytics.locale))
     }
 
     // MARK: - Progress
@@ -157,6 +161,7 @@ final class NowPlaying: ObservableObject {
             self.hymn = hymn
         }
         _ = player?.play()
+        Analytics.track(.hymnPlayed(hymn.filename, locale: Analytics.locale))
     }
 
     /// Stops playback and dismisses the mini player.

@@ -15,6 +15,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import network.acts2.hymnal.HymnalViewModel
+import network.acts2.hymnal.analytics.Analytics
+import network.acts2.hymnal.analytics.AnalyticsEvent
 import network.acts2.hymnal.core.LyricsTextSize
 import network.acts2.hymnal.data.Settings
 import network.acts2.hymnal.handleShortcut
@@ -26,10 +28,15 @@ import java.io.File
 import java.util.prefs.Preferences
 
 fun main() {
-    val settings = Settings(PreferencesStore(Preferences.userRoot().node("network/acts2/hymnal")))
+    val prefs = Preferences.userRoot().node("network/acts2/hymnal")
+    val version = System.getProperty("hymnal.version") ?: "dev"
+    val analytics = MixpanelHttpSink(prefs, appVersion = version.substringBefore(' '))
+    Analytics.sink = analytics
+    Analytics.track(AnalyticsEvent.appOpened())
+    val settings = Settings(PreferencesStore(prefs))
     val repository = FileHymnRepository(contentDir())
     val playback = JavaFxPlayback(settings, repository)
-    val vm = HymnalViewModel(settings, repository, playback, version = System.getProperty("hymnal.version") ?: "dev")
+    val vm = HymnalViewModel(settings, repository, playback, version = version)
 
     application {
         val icon = remember {
@@ -43,6 +50,7 @@ fun main() {
         Window(
             onCloseRequest = {
                 playback.close()
+                analytics.shutdown()
                 exitApplication()
             },
             title = "A2N Hymnal",

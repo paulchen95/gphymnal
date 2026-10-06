@@ -79,5 +79,7 @@ dependencies {
     implementation(libs.compose.material.icons)
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.session)
+    // Usage analytics; Windows sends the same events over HTTP (see ANALYTICS.md).
+    implementation(libs.mixpanel.android)
     debugImplementation(libs.compose.ui.tooling)
 }

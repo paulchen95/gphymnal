@@ -73,8 +73,10 @@ final class Favorites: ObservableObject {
     func toggle(_ hymn: Hymn) {
         if filenames.contains(hymn.filename) {
             filenames.remove(hymn.filename)
+            Analytics.track(.favoriteRemoved(hymn.filename))
         } else {
             filenames.insert(hymn.filename)
+            Analytics.track(.favoriteAdded(hymn.filename))
         }
         defaults.set(filenames.sorted(), forKey: Self.storageKey)
     }

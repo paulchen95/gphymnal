@@ -13,3 +13,4 @@ needs updating.
 | `links.json` | Hymn link slugs and URL forms |
 | `text-size.json` | Lyrics text size steps and limits |
 | `favorites.json` | The Favorites section at the top of the list |
+| `analytics.json` | Mixpanel event names and properties (see `../../ANALYTICS.md`) |

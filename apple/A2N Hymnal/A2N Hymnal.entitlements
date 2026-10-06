@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- Required for the Mac App Store. The app needs nothing else: no network, no files. -->
+	<!-- Required for the Mac App Store. -->
 	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<!-- Outgoing connections, for anonymous usage analytics only (Mixpanel; see ANALYTICS.md).
+	     No files, no incoming connections. -->
+	<key>com.apple.security.network.client</key>
 	<true/>
 </dict>
 </plist>

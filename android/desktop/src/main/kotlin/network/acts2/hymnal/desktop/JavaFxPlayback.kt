@@ -14,6 +14,8 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import network.acts2.hymnal.analytics.Analytics
+import network.acts2.hymnal.analytics.AnalyticsEvent
 import network.acts2.hymnal.core.Hymn
 import network.acts2.hymnal.data.Settings
 import network.acts2.hymnal.playback.Playback
@@ -68,6 +70,8 @@ class JavaFxPlayback(private val settings: Settings, private val repository: Fil
                 player.seek(Duration.ZERO)
                 if (repeats) player.play() else player.pause()
                 position = 0
+                // Only a real stop, as on Apple and Android, where a repeating hymn never ends.
+                if (!repeats) Analytics.track(AnalyticsEvent.hymnFinished(hymn.filename, settings.hymnLocale))
             }
         }
         player.play()

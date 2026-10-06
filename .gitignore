@@ -2,6 +2,12 @@
 .DS_Store
 GP Hymnal/.DS_Store
 *.xcuserstate
-project.xcworkspace/
+# Ignore Xcode's workspace state, but keep the Swift package versions pinned (Package.resolved).
+project.xcworkspace/*
+!project.xcworkspace/xcshareddata/
+project.xcworkspace/xcshareddata/*
+!project.xcworkspace/xcshareddata/swiftpm/
+project.xcworkspace/xcshareddata/swiftpm/*
+!project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 xcuserdata/
 GP Hymnal.xcodeproj/project.xcworkspace/
