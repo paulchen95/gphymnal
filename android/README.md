@@ -72,7 +72,7 @@ with `desktop/msix/package.ps1`, which packs `:desktop:createDistributable`'s ou
 `make-icons.sh`). The manifest's identity is from Partner Center (Acts2 Network's account,
 app "A2N Hymnal", Store ID `9NGC6DQX5QZH`) and must never change. To release, download the
 artifact from a CI run on `main` and upload it as a new submission in Partner Center. Installed
-copies update themselves.
+copies update themselves. The listing's text and images are in `desktop/store-listing/`.
 
 ## Releasing
 
