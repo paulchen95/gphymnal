@@ -65,6 +65,15 @@ needs a code-signing certificate (or Azure Trusted Signing); the Microsoft Store
 Keep `upgradeUuid` in `desktop/build.gradle.kts` unchanged forever, so new versions install
 over old ones.
 
+**Microsoft Store.** The Store gets an MSIX package of the same app, which the Store signs.
+CI builds it next to the MSI (artifact `a2n-hymnal-windows-msix`, `A2N-Hymnal-5.4.N.0.msix`)
+with `desktop/msix/package.ps1`, which packs `:desktop:createDistributable`'s output with
+`desktop/msix/AppxManifest.xml` and the icons in `desktop/msix/Assets` (made by
+`make-icons.sh`). The manifest's identity is from Partner Center (Acts2 Network's account,
+app "A2N Hymnal", Store ID `9NGC6DQX5QZH`) and must never change. To release, download the
+artifact from a CI run on `main` and upload it as a new submission in Partner Center. Installed
+copies update themselves.
+
 ## Releasing
 
 The version is set once, in `gradle.properties` (`hymnal.versionName`, `hymnal.versionCode`),
