@@ -46,6 +46,11 @@ Copy-Item (Join-Path $staging 'AppxManifest.xml') $pri
 Copy-Item (Join-Path $msix 'Assets') $pri -Recurse
 & $makepri createconfig /cf (Join-Path $pri 'priconfig.xml') /dq en-US /pv 10.0.0 /o
 if ($LASTEXITCODE) { throw 'makepri createconfig failed' }
+# Keep every scale in the one resources.pri. The default config splits scales into separate
+# .pri files meant for bundles, so a single package would show only its 100% icons.
+$config = [xml](Get-Content (Join-Path $pri 'priconfig.xml') -Raw)
+$config.SelectNodes('//packaging') | ForEach-Object { [void]$_.ParentNode.RemoveChild($_) }
+$config.Save((Join-Path $pri 'priconfig.xml'))
 & $makepri new /pr $pri /cf (Join-Path $pri 'priconfig.xml') /mn (Join-Path $pri 'AppxManifest.xml') /of (Join-Path $staging 'resources.pri') /o
 if ($LASTEXITCODE) { throw 'makepri new failed' }
 
