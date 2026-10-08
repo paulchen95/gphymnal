@@ -5,11 +5,12 @@ Upload-ready graphics and copy for the App Store Connect product page (iOS app v
 | File | App Store Connect slot |
 |---|---|
 | `iphone-6.9/1-…7-….png` | iPhone 6.9" screenshots (1320×2868), in this order |
+| `iphone-6.3/1-…7-….png` | iPhone 6.1"/6.3" "medium display" screenshots (1206×2622), the same set scaled down |
 | `ipad-13/1-…5-….png` | iPad 13" screenshots (2064×2752), in this order |
 | `header-3840x1646.png` | Product page header (3840×1646) |
 
-App Store Connect scales the 6.9" screenshots for smaller iPhones, and for iPhone Duo until it
-gets its own. The screenshots are real captures from the simulator (iPhone 17 Pro Max, iPad
+App Store Connect rejects the 6.9" set in the medium-display slot, so `iphone-6.3/` is the same
+set resized (`sips -z 2622 1206`). The screenshots are real captures from the simulator (iPhone 17 Pro Max, iPad
 Pro 13-inch) with a 9:41 status bar, saved without an alpha channel, which App Store Connect
 rejects. The iPad set is portrait, at the 150% text size, because the simulators run headless
 here and can't be rotated. To retake them, launch with analytics off so the captures don't
