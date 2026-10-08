@@ -8,6 +8,7 @@ Upload-ready graphics and copy for the App Store Connect product page (iOS app v
 | `iphone-6.3/1-…7-….png` | iPhone 6.1"/6.3" "medium display" screenshots (1206×2622), the same set scaled down |
 | `ipad-13/1-…5-….png` | iPad 13" screenshots (2064×2752), in this order |
 | `header-3840x1646.png` | Product page header (3840×1646) |
+| `search-3840x2560.png` | Search results image (3840×2560) |
 
 App Store Connect rejects the 6.9" set in the medium-display slot, so `iphone-6.3/` is the same
 set resized (`sips -z 2622 1206`). The screenshots are real captures from the simulator (iPhone 17 Pro Max, iPad
@@ -21,6 +22,14 @@ SIMCTL_CHILD_XCTestConfigurationFilePath=screenshots xcrun simctl launch <udid> 
   org.gracepointonline.GP-Hymnal -hymnLocale en-us -lastOpenHymn "" \
   -favoriteHymns '("AmazingGrace","GreatIsThyFaithfulness","ItIsWellWithMySoul")'
 xcrun simctl status_bar <udid> override --time 9:41 --batteryState discharging --batteryLevel 100
+```
+
+`make-art.py` draws the header and the search image from the iPhone screenshots, the app icon
+and Clash Grotesk; run it from the repo root after retaking the screenshots:
+
+```bash
+python3 apple/store-listing/make-art.py 3840 1646 apple/store-listing/header-3840x1646.png
+python3 apple/store-listing/make-art.py 3840 2560 apple/store-listing/search-3840x2560.png
 ```
 
 ## Promotional text (170 max)
