@@ -35,7 +35,7 @@ tf='apple/A2N Hymnal/Fonts/ClashGrotesk-Semibold.ttf'; ts=round(isz*0.62)
 while ImageFont.truetype(tf,ts).getlength('A2N Hymnal')>textw*0.85: ts-=4
 title=ImageFont.truetype(tf,ts)
 body=ImageFont.truetype('/System/Library/Fonts/SFNS.ttf',round(isz*0.2))
-lines=['Over 120 classic hymns, with lyrics','and a recording for each.','English and Chinese. Works offline.']
+lines=['Over 120 classic hymns, with lyrics','and a recording for each.','Works anywhere, even offline.']
 lh=round(body.size*1.45); gap1=round(isz*0.28); gap2=round(isz*0.22)
 th=title.getbbox('A2N Hymnal')[3]
 total=isz+gap1+th+gap2+lh*len(lines)
