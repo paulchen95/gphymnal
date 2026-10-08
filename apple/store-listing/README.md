@@ -5,11 +5,14 @@ Upload-ready graphics and copy for the App Store Connect product page (iOS app v
 | File | App Store Connect slot |
 |---|---|
 | `iphone-6.9/1-…7-….png` | iPhone 6.9" screenshots (1320×2868), in this order |
+| `iphone-6.3/1-…7-….png` | iPhone 6.1"/6.3" "medium display" screenshots (1206×2622), the same set scaled down |
 | `ipad-13/1-…5-….png` | iPad 13" screenshots (2064×2752), in this order |
-| `header-3840x1646.png` | Product page header (3840×1646) |
+| `header-5244x2950.png` | Product page header (5244×2950), the one to use |
+| `header-3840x1646.png` | Product page header, the other accepted size |
+| `search-3840x2560.png` | Search results image (3840×2560) |
 
-App Store Connect scales the 6.9" screenshots for smaller iPhones, and for iPhone Duo until it
-gets its own. The screenshots are real captures from the simulator (iPhone 17 Pro Max, iPad
+App Store Connect rejects the 6.9" set in the medium-display slot, so `iphone-6.3/` is the same
+set resized (`sips -z 2622 1206`). The screenshots are real captures from the simulator (iPhone 17 Pro Max, iPad
 Pro 13-inch) with a 9:41 status bar, saved without an alpha channel, which App Store Connect
 rejects. The iPad set is portrait, at the 150% text size, because the simulators run headless
 here and can't be rotated. To retake them, launch with analytics off so the captures don't
@@ -20,6 +23,18 @@ SIMCTL_CHILD_XCTestConfigurationFilePath=screenshots xcrun simctl launch <udid> 
   org.gracepointonline.GP-Hymnal -hymnLocale en-us -lastOpenHymn "" \
   -favoriteHymns '("AmazingGrace","GreatIsThyFaithfulness","ItIsWellWithMySoul")'
 xcrun simctl status_bar <udid> override --time 9:41 --batteryState discharging --batteryLevel 100
+```
+
+`make-art.py` draws the headers and the search image from the iPhone screenshots in Clash
+Grotesk. It keeps everything away from the edges and top: the iPhone App Store crops the
+header's sides and puts its back and share buttons and the Dynamic Island over the top, and
+shows the app's icon and name just below, so the art doesn't repeat them. Run it from the repo
+root after retaking the screenshots:
+
+```bash
+python3 apple/store-listing/make-art.py 5244 2950 apple/store-listing/header-5244x2950.png
+python3 apple/store-listing/make-art.py 3840 1646 apple/store-listing/header-3840x1646.png
+python3 apple/store-listing/make-art.py 3840 2560 apple/store-listing/search-3840x2560.png
 ```
 
 ## Promotional text (170 max)
