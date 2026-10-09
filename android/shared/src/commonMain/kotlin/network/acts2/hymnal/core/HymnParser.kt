@@ -19,7 +19,8 @@ object HymnParser {
 
     fun parse(fileContent: String, filename: String, locale: String = "en-us", latinizer: Latinizer = Latinizer { it }): Hymn {
         val values = mutableMapOf<String, String>()
-        for (part in fileContent.split("---")) {
+        // Windows checks the files out with CRLF, and a "\r" left before "key::" hides the key.
+        for (part in fileContent.replace("\r\n", "\n").split("---")) {
             val key = keys.firstOrNull { part.replace("\n", "").startsWith("$it::") } ?: continue
             val raw = part.split("::")[1]
             values[key] = if (key == "text") raw.trimSpaces() else raw.replace("\n", "").trimSpaces()
