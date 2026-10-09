@@ -34,6 +34,21 @@ class ContentTest {
         }
     }
 
+    /** Windows checks the files out with CRLF line endings; they must parse the same. */
+    @Test
+    fun windowsLineEndingsParseTheSame() {
+        for (locale in Locales.all.keys) {
+            for (file in content.resolve("hymns/$locale").listFiles { f -> f.extension == "txt" }!!) {
+                val lf = file.readText().replace("\r\n", "\n")
+                assertEquals(
+                    "${file.name} ($locale)",
+                    HymnParser.parse(lf, file.nameWithoutExtension, locale, TestLatinizer),
+                    HymnParser.parse(lf.replace("\n", "\r\n"), file.nameWithoutExtension, locale, TestLatinizer),
+                )
+            }
+        }
+    }
+
     @Test
     fun translationsReuseEnglishFilenames() {
         val english = hymns("en-us").map(Hymn::filename).toSet()

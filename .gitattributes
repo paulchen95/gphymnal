@@ -1,0 +1,5 @@
+# Hymn files keep LF endings on every checkout, Windows included: the Windows app is built
+# there and bundles them as checked out.
+content/hymns/** text eol=lf
+content/fixtures/** text eol=lf
+content/music/** binary
