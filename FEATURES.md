@@ -56,7 +56,7 @@ them, so the platforms can't drift on those rules.
 | Mini player pinned at the bottom; "ready to play" bar on a hymn with nothing loaded | ✅ | ✅ | ✅ | ✅ | "Play '…' instead" when viewing a different hymn. |
 | Scrub from any page: tap or drag the mini player's timeline | ✅ | ✅ | ✅ | ✅ | Thickens while touched. Both timelines (mini player and Now Playing) preview like Spotify's: with a pointer over them (Mac, iPad trackpad/mouse, Android mouse) the track thickens, a knob marks the position, a lighter band runs to the pointer and a bubble shows the time a click jumps to; a finger gets the knob and bubble while down. Gold, not green. |
 | Now Playing: cover card, timeline (tap or drag to seek), ±15 s, play/pause, Start Over, Repeat, View Lyrics | ✅ | ✅ | ✅ | ✅ | Cover card shows title and opening line on the gold gradient. On a phone in landscape (iPhone, Android) the cover sits beside the controls, so nothing is cut off. Mac and iPad have a close (✕) button in the corner, since only a phone swipes the sheet away; Windows closes it by clicking outside the sheet. |
-| Repeat (loop the hymn), remembered | ✅ | ✅ | ✅ | ✅ | |
+| Repeat (loop the hymn), remembered | ✅ | ✅ | ✅ | ✅ | On the mini player as well as Now Playing, so it doesn't take opening the player. |
 | Background audio | ✅ | ✅ | ✅ | ✅ | |
 | Lock-screen / notification / Control Center controls | 🔲 | 🔲 | ✅ | 🔲 | Planned on Apple. Android: Media3 notification, lock screen and headset buttons. Windows: planned (the media overlay and keyboard media keys). |
 | Double-click a hymn to play it | ◐ | ✅ | ◐ | ✅ | iPad: double-tap in the side-by-side list. Mac: reads macOS's click count. Android: double-tap in the side-by-side list. Windows: double-click. |
