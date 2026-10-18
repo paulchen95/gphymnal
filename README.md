@@ -1,4 +1,8 @@
 # gphymnal
+version 5.4.1:
+- Repeat button on the mini player, so you can loop a hymn without opening Now Playing
+- Chinese lyrics for At the Cross and Moment by Moment
+
 version 5.4.0:
 - Refreshed design in the Acts2 Network style, with dark mode support
 - Hymns grouped A-Z with a quick index, search by title or lyrics

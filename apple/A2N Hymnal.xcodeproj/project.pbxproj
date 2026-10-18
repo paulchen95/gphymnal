@@ -466,7 +466,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.4.0;
+				MARKETING_VERSION = 5.4.1;
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "A2N Hymnal/A2N Hymnal.entitlements";
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
@@ -494,7 +494,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.4.0;
+				MARKETING_VERSION = 5.4.1;
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = "A2N Hymnal/A2N Hymnal.entitlements";
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.gracepointonline.GP-Hymnal";
