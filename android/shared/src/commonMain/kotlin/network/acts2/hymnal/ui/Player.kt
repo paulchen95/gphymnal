@@ -168,6 +168,8 @@ private fun MiniPlayer(playback: Playback, hymn: Hymn, onShowLyrics: () -> Unit)
                         )
                     }
                 }
+                // Repeat right on the bar, so looping a hymn doesn't mean opening Now Playing.
+                RepeatButton(playback, diameter = 32.dp, iconSize = 20.dp)
                 PlayPauseButton(playback, 40.dp)
                 // Once paused, the mini player can be put away.
                 if (!playback.isPlaying) {
@@ -416,29 +418,36 @@ private fun NowPlayingFooter(playback: Playback, onShowLyrics: () -> Unit) {
             Text("Start Over", fontWeight = FontWeight.SemiBold)
         }
         Spacer(Modifier.weight(1f))
-        IconButton(
-            onClick = { playback.repeats = !playback.repeats },
-            modifier = Modifier.semantics { stateDescription = if (playback.repeats) "On" else "Off" },
-        ) {
-            Box(
-                Modifier
-                    .size(36.dp)
-                    .clip(CircleShape)
-                    .background(if (playback.repeats) Brand.colors.accent else Color.Transparent),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    Icons.Rounded.RepeatOne,
-                    contentDescription = "Repeat",
-                    tint = if (playback.repeats) Brand.colors.onAccent else Brand.colors.secondary,
-                )
-            }
-        }
+        RepeatButton(playback)
         Spacer(Modifier.weight(1f))
         TextButton(onClick = onShowLyrics) {
             Icon(Icons.Rounded.FormatQuote, null, Modifier.size(20.dp))
             Spacer(Modifier.size(6.dp))
             Text("View Lyrics", fontWeight = FontWeight.SemiBold)
+        }
+    }
+}
+
+/** Loops the hymn: gold when on. In the mini player and in Now Playing. */
+@Composable
+private fun RepeatButton(playback: Playback, diameter: Dp = 36.dp, iconSize: Dp = 24.dp) {
+    IconButton(
+        onClick = { playback.repeats = !playback.repeats },
+        modifier = Modifier.semantics { stateDescription = if (playback.repeats) "On" else "Off" },
+    ) {
+        Box(
+            Modifier
+                .size(diameter)
+                .clip(CircleShape)
+                .background(if (playback.repeats) Brand.colors.accent else Color.Transparent),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                Icons.Rounded.RepeatOne,
+                contentDescription = "Repeat",
+                modifier = Modifier.size(iconSize),
+                tint = if (playback.repeats) Brand.colors.onAccent else Brand.colors.secondary,
+            )
         }
     }
 }

@@ -53,6 +53,9 @@ struct AudioPlayerBar: View {
                 .frame(width: 140)
             #endif
 
+            // Repeat right on the bar, so looping a hymn doesn't mean opening Now Playing.
+            RepeatButton(player: player, diameter: 30, font: .subheadline.weight(.semibold))
+
             PlayPauseButton(player: player, size: 32)
 
             // Once paused, the mini player can be put away.
@@ -388,18 +391,7 @@ struct NowPlayingView: View {
 
             Spacer()
 
-            Button {
-                player.repeats.toggle()
-            } label: {
-                Label("Repeat", systemImage: "repeat.1")
-                    .labelStyle(.iconOnly)
-                    .font(.body.weight(.semibold))
-                    .foregroundColor(player.repeats ? .onAccent : .secondary)
-                    .frame(width: 36, height: 36)
-                    .background(Circle().fill(player.repeats ? Color.brandAccent : Color.clear))
-            }
-            .accessibilityValue(player.repeats ? "On" : "Off")
-            .help(player.repeats ? "Repeat is on (⌥⌘R)" : "Repeat (⌥⌘R)")
+            RepeatButton(player: player)
 
             Spacer()
 
@@ -600,6 +592,30 @@ private struct PlayPauseButton: View {
         // No bezel: the Mac otherwise draws a grey square behind the circle.
         .buttonStyle(.borderless)
         .help(isPlaying ? "Pause (Space)" : "Play (Space)")
+    }
+}
+
+/// Loops the hymn: gold when on. In the mini player and in Now Playing.
+private struct RepeatButton: View {
+    @ObservedObject var player: Mp3Player
+    var diameter: CGFloat = 36
+    var font: Font = .body.weight(.semibold)
+
+    var body: some View {
+        Button {
+            player.repeats.toggle()
+        } label: {
+            Label("Repeat", systemImage: "repeat.1")
+                .labelStyle(.iconOnly)
+                .font(font)
+                .foregroundColor(player.repeats ? .onAccent : .secondary)
+                .frame(width: diameter, height: diameter)
+                .background(Circle().fill(player.repeats ? Color.brandAccent : Color.clear))
+                .contentShape(Circle())
+        }
+        .buttonStyle(.borderless)
+        .accessibilityValue(player.repeats ? "On" : "Off")
+        .help(player.repeats ? "Repeat is on (⌥⌘R)" : "Repeat (⌥⌘R)")
     }
 }
 
